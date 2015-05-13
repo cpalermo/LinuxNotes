@@ -1,0 +1,100 @@
+# Debian GNU/Linux 8.0.0 (Jessie) - amd64
+# ws0
+
+#=========================================================================
+
+tasksel --list-task | grep "^i " | sed "s/^/# /"
+# i ssh-server	server SSH
+
+hostname
+dnsdomainname
+lsblk
+
+#=========================================================================
+# opt
+
+APTITUDE_OPT="-y"
+
+#=========================================================================
+# sources.list
+
+SRCLS_REP="http://mirror3.mirror.garr.it/mirrors/debian/"
+SRCLS_REL="jessie"
+SRCLS_COM="main contrib non-free"
+
+cp /etc/apt/sources.list /etc/apt/sources.list.keep.$(date +%y%m%d)
+
+echo "deb $SRCLS_REP $SRCLS_REL $SRCLS_COM" > /etc/apt/sources.list
+echo "deb-src $SRCLS_REP $SRCLS_REL $SRCLS_COM" >> /etc/apt/sources.list
+echo "" >> /etc/apt/sources.list
+echo "deb http://security.debian.org/ $SRCLS_REL/updates $SRCLS_COM" >> /etc/apt/sources.list
+echo "deb-src http://security.debian.org/ $SRCLS_REL/updates $SRCLS_COM" >> /etc/apt/sources.list
+echo "" >> /etc/apt/sources.list
+echo "deb $SRCLS_REP $SRCLS_REL-updates $SRCLS_COM" >> /etc/apt/sources.list
+echo "deb-src $SRCLS_REP $SRCLS_REL-updates $SRCLS_COM" >> /etc/apt/sources.list
+echo "" >> /etc/apt/sources.list
+echo "deb $SRCLS_REP $SRCLS_REL-backports $SRCLS_COM" >> /etc/apt/sources.list
+echo "deb-src $SRCLS_REP $SRCLS_REL-backports $SRCLS_COM" >> /etc/apt/sources.list
+
+echo "" >> /etc/apt/sources.list
+echo "# testing, unstable, experimental" >> /etc/apt/sources.list
+echo "# deb $SRCLS_REP testing $SRCLS_COM" >> /etc/apt/sources.list
+echo "# deb-src $SRCLS_REP testing $SRCLS_COM" >> /etc/apt/sources.list
+echo "# deb $SRCLS_REP unstable $SRCLS_COM" >> /etc/apt/sources.list
+echo "# deb-src $SRCLS_REP unstable $SRCLS_COM" >> /etc/apt/sources.list
+echo "# deb $SRCLS_REP experimental $SRCLS_COM" >> /etc/apt/sources.list
+echo "# deb-src $SRCLS_REP experimental $SRCLS_COM" >> /etc/apt/sources.list
+
+cat /etc/apt/sources.list | sed "s/^/# /"
+# deb http://mirror3.mirror.garr.it/mirrors/debian/ jessie main contrib non-free
+# deb-src http://mirror3.mirror.garr.it/mirrors/debian/ jessie main contrib non-free
+# 
+# deb http://security.debian.org/ jessie/updates main contrib non-free
+# deb-src http://security.debian.org/ jessie/updates main contrib non-free
+# 
+# deb http://mirror3.mirror.garr.it/mirrors/debian/ jessie-updates main contrib non-free
+# deb-src http://mirror3.mirror.garr.it/mirrors/debian/ jessie-updates main contrib non-free
+# 
+# deb http://mirror3.mirror.garr.it/mirrors/debian/ jessie-backports main contrib non-free
+# deb-src http://mirror3.mirror.garr.it/mirrors/debian/ jessie-backports main contrib non-free
+# 
+# # testing, unstable, experimental
+# # deb http://mirror3.mirror.garr.it/mirrors/debian/ testing main contrib non-free
+# # deb-src http://mirror3.mirror.garr.it/mirrors/debian/ testing main contrib non-free
+# # deb http://mirror3.mirror.garr.it/mirrors/debian/ unstable main contrib non-free
+# # deb-src http://mirror3.mirror.garr.it/mirrors/debian/ unstable main contrib non-free
+# # deb http://mirror3.mirror.garr.it/mirrors/debian/ experimental main contrib non-free
+# # deb-src http://mirror3.mirror.garr.it/mirrors/debian/ experimental main contrib non-free
+
+#=========================================================================
+# sources.list.d/
+
+apt-key list
+
+apt-key adv --recv-keys --keyserver keys.gnupg.net E1F958385BFE2B6E
+
+echo "deb http://packages.x2go.org/debian jessie main" > /etc/apt/sources.list.d/x2go.list
+echo "deb-src http://packages.x2go.org/debian jessie main" >> /etc/apt/sources.list.d/x2go.list
+
+#=========================================================================
+# arch i386
+
+dpkg --print-architecture
+dpkg --add-architecture i386
+dpkg --print-foreign-architectures
+
+#=========================================================================
+# update
+
+uname --all
+aptitude update
+aptitude $APTITUDE_OPT full-upgrade
+
+# update-grub
+# dpkg-reconfigure grub-pc
+# in /etc/default/grub
+# GRUB_CMDLINE_LINUX_DEFAULT="rootdelay=3 quiet"
+# GRUB_CMDLINE_LINUX="rootdelay=3"
+
+#=========================================================================
+

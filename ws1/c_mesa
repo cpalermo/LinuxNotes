@@ -1,0 +1,120 @@
+# mesa 3.5 - llvm 3.6
+#=========================================================================
+# opt
+
+APTITUDE_OPT="-s"
+BUILDJ="$(nproc)"
+
+TARG_REL="unstable"
+
+PB_SRC="/var/cache/pbuilder/src"
+PB_PKG="mesa"
+PB_PKGREL="$PB_PKG-10.5"
+
+LLVM_REL=3.6
+
+#=========================================================================
+
+GREP_REL="deb.*[ ]$TARG_REL[ ]main"
+
+# uncomment target release
+sed /"$GREP_REL"/s/'^# deb'/'deb'/ /etc/apt/sources.list
+sed /"$GREP_REL"/s/'^#deb'/'deb'/ /etc/apt/sources.list
+
+# comment target release
+sed /"$GREP_REL"/s/'^deb'/'# deb'/ /etc/apt/sources.list
+sed /"$GREP_REL"/s/'^ deb'/'# deb'/ /etc/apt/sources.list
+
+#=========================================================================
+
+if [ ! -d $PB_SRC ]; then 
+	mkdir $PB_SRC
+fi
+cd $PB_SRC
+
+if [ ! -d $PB_PKG ]; then 
+	mkdir $PB_PKG 
+fi
+cd $PB_PKG
+
+# uncomment target release
+sed -i /"$GREP_REL"/s/'^# deb'/'deb'/ /etc/apt/sources.list
+sed -i /"$GREP_REL"/s/'^#deb'/'deb'/ /etc/apt/sources.list
+cat /etc/apt/sources.list
+aptitude update
+
+# amd64 env
+if [ ! -e pb-amd64-$PB_PKG.tgz ]; then
+	pbuilder --create --basetgz pb-amd64-$PB_PKG.tgz --distribution $TARG_REL \
+	--architecture amd64 --debootstrap debootstrap
+else
+	pbuilder --update --basetgz pb-amd64-$PB_PKG.tgz --distribution $TARG_REL \
+	--architecture amd64 --debootstrap debootstrap
+fi
+
+# i386 env
+if [ ! -e pb-i386-$PB_PKG.tgz ]; then
+	pbuilder --create --basetgz pb-i386-$PB_PKG.tgz --distribution $TARG_REL \
+	--architecture i386 --debootstrap debootstrap
+else
+	pbuilder --update --basetgz pb-i386-$PB_PKG.tgz --distribution $TARG_REL \
+	--architecture i386 --debootstrap debootstrap
+fi
+
+apt-get source -t $TARG_REL $PB_PKG
+ls -lisa
+
+#=========================================================================
+# mod source
+
+# debian/control
+grep llvm $PB_PKGREL*/debian/control
+grep libclang $PB_PKGREL*/debian/control
+# debian/rules
+grep llvm-config $PB_PKGREL*/debian/rules
+
+LLVM_OLDREL=$(grep llvm-config $PB_PKGREL*/debian/rules | sed s/.*llvm-config-//)
+echo $LLVM_OLDREL
+
+# controllo
+sed /llvm/s/$LLVM_OLDREL/$LLVM_REL/ $PB_PKGREL*/debian/control | grep llvm
+sed /libclang/s/$LLVM_OLDREL/$LLVM_REL/ $PB_PKGREL*/debian/control | grep libclang
+sed /llvm-config/s/$LLVM_OLDREL/$LLVM_REL/ $PB_PKGREL*/debian/rules | grep llvm-config
+
+# modifica
+sed -i /llvm/s/$LLVM_OLDREL/$LLVM_REL/ $PB_PKGREL*/debian/control
+sed -i /libclang/s/$LLVM_OLDREL/$LLVM_REL/ $PB_PKGREL*/debian/control
+sed -i /llvm-config/s/$LLVM_OLDREL/$LLVM_REL/ $PB_PKGREL*/debian/rules
+
+# controllo
+grep llvm $PB_PKGREL*/debian/control
+grep libclang $PB_PKGREL*/debian/control
+grep llvm-config $PB_PKGREL*/debian/rules
+
+#=========================================================================
+# build
+
+cd  $PB_PKGREL*
+
+PB_RES="/var/cache/pbuilder/result/$PB_PKGREL"
+if [ ! -d $PB_RES ]; then 
+	mkdir $PB_RES
+fi
+ls -lisa $PB_RES
+
+pdebuild --architecture amd64 -- --basetgz ../pb-amd64-$PB_PKG.tgz \
+--buildresult $PB_RES --distribution $TARG_REL --debootstrap debootstrap
+
+pdebuild --architecture i386 -- --basetgz ../pb-i386-$PB_PKG.tgz \
+--buildresult $PB_RES --distribution $TARG_REL --debootstrap debootstrap
+
+ls -lisa $PB_RES
+
+# comment target release
+sed -i /"$GREP_REL"/s/'^deb'/'# deb'/ /etc/apt/sources.list
+sed -i /"$GREP_REL"/s/'^ deb'/'# deb'/ /etc/apt/sources.list
+cat /etc/apt/sources.list
+aptitude update
+
+#=========================================================================
+

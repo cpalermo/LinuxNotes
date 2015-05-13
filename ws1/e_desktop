@@ -1,0 +1,36 @@
+#=========================================================================
+# opt
+
+APTITUDE_OPT="-s"
+
+#=========================================================================
+# xinit + mate
+
+LSP_DESKTOP="
+xinit
+mate-desktop-environment
+caja-open-terminal
+network-manager-gnome
+"
+
+LSP_BROWSER="
+iceweasel
+iceweasel-l10n-it
+"
+
+aptitude $APTITUDE_OPT install $LSP_DESKTOP
+# startx
+aptitude $APTITUDE_OPT install $LSP_BROWSER
+
+#=========================================================================
+# x2go
+
+LSP_X2GO="
+x2goclient
+x2goserver
+x2goserver-xsession
+"
+
+aptitude $APTITUDE_OPT install $LSP_X2GO
+
+#=========================================================================
