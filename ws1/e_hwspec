@@ -19,14 +19,6 @@ aptitude $APTITUDE_OPT install $LSP_FIRMWARE
 #=========================================================================
 # accellerazione HW
 
-# Mesa Off Screen
-# LSP_MESAOS="
-# libgl1-mesa-swx11
-# libgl1-mesa-swx11-dev
-# libosmesa6
-# libosmesa6-dev
-# "
-
 # DRM ; pciaccess
 LSP_DRM="
 libdrm2
@@ -37,6 +29,16 @@ libdrm-radeon1:i386
 libpciaccess0
 libpciaccess-dev
 "
+
+aptitude $APTITUDE_OPT install $LSP_DRM
+
+# Mesa Off Screen
+# LSP_MESAOS="
+# libgl1-mesa-swx11
+# libgl1-mesa-swx11-dev
+# libosmesa6
+# libosmesa6-dev
+# "
 
 # Mesa OpenGL ; X
 LSP_OGL="
@@ -118,7 +120,7 @@ libasound2:i386
 libasound2-plugins:i386
 "
 
-aptitude $APTITUDE_OPT install $LSP_DRM $LSP_OGL $LSP_EGL
+aptitude $APTITUDE_OPT install $LSP_OGL $LSP_EGL
 
 #=========================================================================
 # accellerazione video:

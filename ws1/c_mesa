@@ -7,7 +7,8 @@ BUILDJ="$(nproc)"
 
 TARG_REL="unstable"
 
-PB_SRC="/var/cache/pbuilder/src"
+PB_DIR="/var/cache/pbuilder"
+PB_SRC="$PB_DIR/src"
 PB_PKG="mesa"
 PB_PKGREL="$PB_PKG-10.5"
 
@@ -96,7 +97,7 @@ grep llvm-config $PB_PKGREL*/debian/rules
 
 cd  $PB_PKGREL*
 
-PB_RES="/var/cache/pbuilder/result/$PB_PKGREL"
+PB_RES="$PB_DIR/result/$PB_PKGREL"
 if [ ! -d $PB_RES ]; then 
 	mkdir $PB_RES
 fi
@@ -115,6 +116,20 @@ sed -i /"$GREP_REL"/s/'^deb'/'# deb'/ /etc/apt/sources.list
 sed -i /"$GREP_REL"/s/'^ deb'/'# deb'/ /etc/apt/sources.list
 cat /etc/apt/sources.list
 aptitude update
+
+#=========================================================================
+# installation dep
+
+cd $PB_DIR/aptcache
+
+LLVM_DEP=$( ls | grep llvm )
+CLANG_DEP=$( ls | grep clang )
+echo $LLVM_DEP $CLANG_DEP
+
+cp $LLVM_DEP $CLANG_DEP $PB_RES
+
+ls -lisa $PB_RES | grep llvm
+ls -lisa $PB_RES | grep clang
 
 #=========================================================================
 
