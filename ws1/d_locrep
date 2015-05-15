@@ -2,13 +2,42 @@
 #=========================================================================
 # opt
 
-APTITUDE_OPT="-s"
-
 PB_DIR="/var/cache/pbuilder"
 PB_PKG="mesa"
 PB_PKGREL="$PB_PKG-10.5"
 
 PB_RES="$PB_DIR/result/$PB_PKGREL"
+
+PB_REPO="$PB_DIR/debian"
+PB_REPO_B64="$PB_DIR/debian/binary-amd64"
+PB_REPO_B32="$PB_DIR/debian/binary-i386"
+
+#=========================================================================
+
+# rm -R $PB_REPO
+mkdir $PB_REPO
+mkdir $PB_REPO_B64
+mkdir $PB_REPO_B32
+
+cd $PB_RES
+LSP_64=$( ls | grep amd64.deb )
+LSP_32=$( ls | grep i386.deb )
+
+cp $LSP_64 $PB_REPO_B64
+cp $LSP_32 $PB_REPO_B32
+
+cd $PB_REPO
+apt-ftparchive packages binary-amd64 | gzip > binary-amd64/Packages.gz
+apt-ftparchive packages binary-i386 | gzip > binary-i386/Packages.gz
+
+tree
+
+echo "deb file://$PB_REPO binary-amd64/" > /etc/apt/sources.list.d/local.list
+echo "deb file://$PB_REPO binary-i386/" >> /etc/apt/sources.list.d/local.list
+
+cat /etc/apt/sources.list.d/local.list
+
+aptitude update
 
 #=========================================================================
 
