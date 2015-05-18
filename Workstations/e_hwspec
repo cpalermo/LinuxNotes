@@ -103,7 +103,8 @@ xserver-xorg-input-mouse
 xserver-xorg-input-evdev
 xserver-xorg-input-void
 xserver-xorg-video-ati
-mesa-demos
+mesa-utils
+mesa-utils-extra
 "
 
 LSP_AUDIO="

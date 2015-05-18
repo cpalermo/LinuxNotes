@@ -1,13 +1,14 @@
 #=========================================================================
 # opt
 
-APTITUDE_OPT="-sV"
+APTITUDE_OPT="-yV"
 
 #=========================================================================
 # xinit + mate
 
 LSP_DESKTOP="
 xinit
+xserver-xorg
 mate-desktop-environment
 caja-open-terminal
 network-manager-gnome
@@ -18,9 +19,8 @@ iceweasel
 iceweasel-l10n-it
 "
 
-aptitude $APTITUDE_OPT install $LSP_DESKTOP
+aptitude $APTITUDE_OPT install $LSP_DESKTOP $LSP_BROWSER
 # startx
-aptitude $APTITUDE_OPT install $LSP_BROWSER
 
 #=========================================================================
 # x2go
@@ -34,3 +34,14 @@ x2goserver-xsession
 aptitude $APTITUDE_OPT install $LSP_X2GO
 
 #=========================================================================
+# virtualbox
+
+LSP_VIRTBX="
+virtualbox
+virtualbox-qt
+"
+
+aptitude $APTITUDE_OPT install $LSP_VIRTBX
+
+#=========================================================================
+
