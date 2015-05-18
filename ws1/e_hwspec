@@ -1,7 +1,7 @@
 #=========================================================================
 # opt
 
-APTITUDE_OPT="-sV"
+APTITUDE_OPT="-yV"
 
 #=========================================================================
 
@@ -30,14 +30,17 @@ libpciaccess0
 libpciaccess-dev
 "
 
-aptitude $APTITUDE_OPT install $LSP_DRM
-
 # Mesa Off Screen
 # LSP_MESAOS="
 # libgl1-mesa-swx11
 # libgl1-mesa-swx11-dev
 # libosmesa6
 # libosmesa6-dev
+# "
+
+# Mesa OpenCL ICD
+# LSP_OCLICD="
+# mesa-opencl-icd
 # "
 
 # Mesa OpenGL ; X
@@ -67,16 +70,10 @@ mesa-vdpau-drivers
 mesa-vdpau-drivers:i386
 "
 
-# Mesa OpenCL ICD
-LSP_OCLICD="
-mesa-opencl-icd
-"
-
 # Mesa i386
 LSP_MESA32="
 libgl1-mesa-glx:i386
 libgl1-mesa-dri:i386
-libgl1-mesa-swx11:i386
 libegl1-mesa:i386
 libglapi-mesa:i386
 libgles2-mesa:i386
@@ -120,7 +117,8 @@ libasound2:i386
 libasound2-plugins:i386
 "
 
-aptitude $APTITUDE_OPT install $LSP_OGL $LSP_EGL
+aptitude $APTITUDE_OPT install $LSP_DRM $LSP_OGL $LSP_EGL $LSP_OGLES $LSP_VDPAUDRI $LSP_MESA32 \
+$LSP_WAYLAND $LSP_XORG $LSP_AUDIO
 
 #=========================================================================
 # accellerazione video:
@@ -150,14 +148,17 @@ libva-wayland1:i386
 vainfo
 "
 
-/usr/bin/vdpauinfo
-/usr/bin/vainfo
+aptitude $APTITUDE_OPT install $LSP_LIBVDPAU $LSP_LIBVA
 
 # mpv
+# /usr/bin/vdpauinfo
+# /usr/bin/vainfo
 
 # glx-alternative-mesa
 # glx-diversions
 # update-alternatives --get-selections
 # update-alternatives --list glx
 # update-alternatives --display glx
+
+#=========================================================================
 
