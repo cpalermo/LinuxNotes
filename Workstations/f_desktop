@@ -44,4 +44,13 @@ virtualbox-qt
 aptitude $APTITUDE_OPT install $LSP_VIRTBX
 
 #=========================================================================
+# multimedia
+
+LSP_MEDIA="
+mpv
+"
+
+aptitude $APTITUDE_OPT install $LSP_MEDIA
+
+#=========================================================================
 
