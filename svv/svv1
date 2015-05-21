@@ -1,0 +1,49 @@
+# Ubuntu GNU/Linux 14.04 - amd64
+# svv1
+
+#=========================================================================
+
+tasksel --list-task | grep "^i " | sed "s/^/# /"
+# i ssh-server	server SSH
+
+#=========================================================================
+# change hostname and dnsdomainname without rebooting
+
+cat /etc/hostname
+hostname
+cat /proc/sys/kernel/hostname
+
+ls /etc/init | grep host
+cat /etc/init/hostname.conf
+
+sudo sh -c "echo 'svv1' > /etc/hostname"
+
+# NB change also /etc/hosts
+sudo nano /etc/hosts
+cat /etc/hosts
+# 127.0.0.1	localhost
+# 127.0.1.1	svv1.test.com	svv1
+# 		¯¯¯¯¯¯¯¯¯¯¯¯¯   ¯¯¯¯
+# # The following lines are desirable for IPv6 capable hosts
+# ::1     localhost ip6-localhost ip6-loopback
+# ff02::1 ip6-allnodes
+# ff02::2 ip6-allrouters
+
+sudo initctl list | grep host
+sudo initctl status hostname
+# hostname stop/waiting
+
+sudo initctl start hostname
+
+hostname
+dnsdomainname
+# hostname -d
+
+#=========================================================================
+
+lsblk
+sudo fdisk /dev/sda
+# p
+
+swapon -s
+
