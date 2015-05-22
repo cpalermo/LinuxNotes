@@ -12,6 +12,7 @@ xserver-xorg
 mate-desktop-environment
 caja-open-terminal
 network-manager-gnome
+xsensors
 "
 
 LSP_BROWSER="
