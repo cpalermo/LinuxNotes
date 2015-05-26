@@ -7,6 +7,25 @@ tasksel --list-task | grep "^i " | sed "s/^/# /"
 # i ssh-server	server SSH
 
 #=========================================================================
+# tools
+
+TOOLS="
+emacs24-nox
+mc
+tree
+htop
+vnstat
+atool
+gdebi-core
+smartmontools
+lm-sensors
+lshw
+memtest86+
+"
+
+sudo aptitude install $TOOLS
+
+#=========================================================================
 # change hostname and dnsdomainname without rebooting
 
 cat /etc/hostname
@@ -40,10 +59,118 @@ dnsdomainname
 # hostname -d
 
 #=========================================================================
+# Tabella partizioni
 
 lsblk
-sudo fdisk /dev/sda
-# p
+# NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+# sda      8:0    0    10G  0 disk 
+# └─sda1   8:1    0    10G  0 part /
+# sdb      8:16   0    10G  0 disk 
+# sdc      8:32   0    10G  0 disk 
+# sr0     11:0    1  1024M  0 rom  
+sudo fdisk -l
 
+# Nessuna partizione di swap
+cat /proc/swaps
+
+# partizione swap
+sudo fdisk /dev/sdb
+# n
+# p
+# +4G
+# n
+# e
+
+# p
+#    Device Boot      Start         End      Blocks   Id  System
+# /dev/sdb1            2048     8390655     4194304   83  Linux
+# /dev/sdb2         8390656    20971519     6290432    5  Extended
+
+# n
+# l
+# +4G
+# n
+# l
+
+# p
+#    Device Boot      Start         End      Blocks   Id  System
+# /dev/sdb1            2048     8390655     4194304   83  Linux
+# /dev/sdb2         8390656    20971519     6290432    5  Extended
+# /dev/sdb5         8392704    16781311     4194304   83  Linux
+# /dev/sdb6        16783360    20971519     2094080   83  Linux
+
+# w
+
+# IDEM /dev/sdc
+
+lsblk
+# NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+# sda      8:0    0    10G  0 disk 
+# └─sda1   8:1    0    10G  0 part /
+# sdb      8:16   0    10G  0 disk 
+# ├─sdb1   8:17   0     4G  0 part 
+# ├─sdb2   8:18   0     1K  0 part 
+# ├─sdb5   8:21   0     4G  0 part 
+# └─sdb6   8:22   0     2G  0 part 
+# sdc      8:32   0    10G  0 disk 
+# ├─sdc1   8:33   0     4G  0 part 
+# ├─sdc2   8:34   0     1K  0 part 
+# ├─sdc5   8:37   0     4G  0 part 
+# └─sdc6   8:38   0     2G  0 part 
+# sr0     11:0    1  1024M  0 rom  
+
+#=========================================================================
+# Formattazione
+
+ls /sbin/mk*
+
+cat /etc/fstab
+
+lsblk
+
+# swap
+sudo mkswap /dev/sdb6
+sudo blkid /dev/sdb6
+sudo nano /etc/fstab
+# UUID=<>	swap	swap	auto	0	0
+sudo swapon -a
 swapon -s
+cat /proc/swaps
+
+# /opt
+sudo mkfs.ext4 -j /dev/sdb1
+sudo blkid /dev/sdb1
+sudo nano /etc/fstab
+# UUID=<>	/opt	ext4	auto	0	1
+sudo mount -a
+df
+
+# backup /var
+cd /opt
+sudo atool -a var-$(date +%y%m%d).tar.gz /var
+# sudo adiff -d var-150525.tar.gz var-150526.tar.gz 
+
+# /var
+sudo mkfs.ext4 -j /dev/sdb5
+sudo mkdir /opt/var
+sudo mount /dev/sdb5 /opt/var
+sudo atool -X /opt /opt/var-150526.tar.gz
+df 
+sudo umount /dev/sdb5
+sudo blkid /dev/sdb5
+sudo nano /etc/fstab
+# UUID=<>	/var	ext4	auto	0	1
+
+# df
+# sudo rm -r /var
+# sudi mkdir /var
+sudo mount -a
+
+df
+lsblk
+
+#=========================================================================
+#
+
+# sudo fsck /dev/sdc
 
