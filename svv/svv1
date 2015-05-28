@@ -61,7 +61,7 @@ dnsdomainname
 #=========================================================================
 # Tabella partizioni
 
-lsblk
+sudo lsblk
 # NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
 # sda      8:0    0    10G  0 disk 
 # └─sda1   8:1    0    10G  0 part /
@@ -101,9 +101,7 @@ sudo fdisk /dev/sdb
 
 # w
 
-# IDEM /dev/sdc
-
-lsblk
+sudo lsblk
 # NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
 # sda      8:0    0    10G  0 disk 
 # └─sda1   8:1    0    10G  0 part /
@@ -126,7 +124,7 @@ ls /sbin/mk*
 
 cat /etc/fstab
 
-lsblk
+sudo lsblk
 
 # swap
 sudo mkswap /dev/sdb6
@@ -167,10 +165,77 @@ sudo nano /etc/fstab
 sudo mount -a
 
 df
-lsblk
+sudo lsblk
 
 #=========================================================================
-#
+# LVM
 
-# sudo fsck /dev/sdc
+sudo aptitude install lvm2
+
+# Preparing Disk Partitions
+
+sudo fdisk /dev/sdc
+# n
+# p
+# +2500M
+# t
+# 8e
+#
+# repeat 4 times
+
+# p
+#    Device Boot      Start         End      Blocks   Id  System
+# /dev/sdc1            2048     5122047     2560000   8e  Linux LVM
+# /dev/sdc2         5122048    10242047     2560000   8e  Linux LVM
+# /dev/sdc3        10242048    15362047     2560000   8e  Linux LVM
+# /dev/sdc4        15362048    20482047     2560000   8e  Linux LVM
+
+# w
+
+sudo lsblk
+# NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+# sda      8:0    0    10G  0 disk 
+# └─sda1   8:1    0    10G  0 part /
+# sdb      8:16   0    10G  0 disk 
+# ├─sdb1   8:17   0     4G  0 part /opt
+# ├─sdb2   8:18   0     1K  0 part 
+# ├─sdb5   8:21   0     4G  0 part /var
+# └─sdb6   8:22   0     2G  0 part [SWAP]
+# sdc      8:32   0    10G  0 disk 
+# ├─sdc1   8:33   0   2.5G  0 part 
+# ├─sdc2   8:34   0   2.5G  0 part 
+# ├─sdc3   8:35   0   2.5G  0 part 
+# └─sdc4   8:36   0   2.5G  0 part 
+# sr0     11:0    1  1024M  0 rom  
+
+# Preparing Physical Volumes
+
+sudo pvcreate /dev/sdc1
+sudo pvcreate /dev/sdc2
+sudo pvcreate /dev/sdc3
+sudo pvcreate /dev/sdc4
+# sudo pvremove
+
+# Preparing Volume Group
+
+sudo vgcreate vga /dev/sdc1 /dev/sdc2 /dev/sdc3 /dev/sdc4
+# sudo vgremove sdc-vg
+
+# Creating Logical Volumes
+
+sudo lvcreate -L 4.5G -n lv1 vga
+sudo lvcreate -L 4.5G -n lv2 vga
+# lvremove /dev/vga/lv1 
+
+sudo pvdisplay
+sudo vgdisplay
+sudo lvdisplay 
+
+sudo mkfs.ext4 -j /dev/vga/lv1
+sudo mkfs.ext4 -j /dev/vga/lv2
+
+# controllo
+sudo lsblk -f /dev/sdc
+sudo fsck /dev/vga/lv1
+sudo fsck /dev/vga/lv2
 
