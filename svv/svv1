@@ -235,7 +235,39 @@ sudo mkfs.ext4 -j /dev/vga/lv1
 sudo mkfs.ext4 -j /dev/vga/lv2
 
 # controllo
+sudo lvs
 sudo lsblk -f /dev/sdc
 sudo fsck /dev/vga/lv1
 sudo fsck /dev/vga/lv2
+
+sudo blkid /dev/vga/lv1
+sudo blkid /dev/vga/lv2
+sudo nano /etc/fstab
+# UUID=<>	/var/opt	ext4	auto	0	1
+# UUID=<>	/var/backups	ext4	auto	0	1
+
+sudo mount -a
+
+df
+sudo lsblk
+# NAME               MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+# sda                  8:0    0    10G  0 disk 
+# └─sda1               8:1    0    10G  0 part /
+# sdb                  8:16   0    10G  0 disk 
+# ├─sdb1               8:17   0     4G  0 part /opt
+# ├─sdb2               8:18   0     1K  0 part 
+# ├─sdb5               8:21   0     4G  0 part /var
+# └─sdb6               8:22   0     2G  0 part [SWAP]
+# sdc                  8:32   0    10G  0 disk 
+# ├─sdc1               8:33   0   2.5G  0 part 
+# │ └─vga-lv1 (dm-0) 252:0    0   4.5G  0 lvm  /var/opt
+# ├─sdc2               8:34   0   2.5G  0 part 
+# │ └─vga-lv1 (dm-0) 252:0    0   4.5G  0 lvm  /var/opt
+# ├─sdc3               8:35   0   2.5G  0 part 
+# │ └─vga-lv2 (dm-1) 252:1    0   4.5G  0 lvm  /var/backups
+# └─sdc4               8:36   0   2.5G  0 part 
+#   └─vga-lv2 (dm-1) 252:1    0   4.5G  0 lvm  /var/backups
+# sr0                 11:0    1  1024M  0 rom  
+
+#=========================================================================
 
