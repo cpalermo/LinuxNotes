@@ -2,7 +2,7 @@
 #=========================================================================
 # opt
 
-BUILDJ="$(nproc)"
+# BUILDJ="$(nproc)"
 
 TARG_REL="unstable"
 
@@ -12,6 +12,8 @@ PB_PKG="mesa"
 PB_PKGREL="$PB_PKG-10.5"
 
 LLVM_REL=3.6
+
+PB_PKGDIR="$PB_PKGREL-$(date +%y%m%d)"
 
 #=========================================================================
 
@@ -61,11 +63,14 @@ else
 	--architecture i386 --debootstrap debootstrap
 fi
 
-apt-get source -t $TARG_REL $PB_PKG
-ls -lisa
-
 #=========================================================================
 # mod source
+
+mkdir $PB_PKGDIR
+cd $PB_PKGDIR
+
+apt-get source -t $TARG_REL $PB_PKG
+ls -lisa
 
 # debian/control
 grep llvm $PB_PKGREL*/debian/control
@@ -94,18 +99,17 @@ grep llvm-config $PB_PKGREL*/debian/rules
 #=========================================================================
 # build
 
-cd  $PB_PKGREL*
+PB_RES="$PB_DIR/result/$PB_PKGDIR"
 
-PB_RES="$PB_DIR/result/$PB_PKGREL"
-if [ ! -d $PB_RES ]; then 
-	mkdir $PB_RES
-fi
+mkdir $PB_RES
 ls -lisa $PB_RES
 
-pdebuild --architecture amd64 -- --basetgz ../pb-amd64-$PB_PKG.tgz \
+cd  $PB_PKGREL*
+
+pdebuild --architecture amd64 -- --basetgz ../../pb-amd64-$PB_PKG.tgz \
 --buildresult $PB_RES --distribution $TARG_REL --debootstrap debootstrap
 
-pdebuild --architecture i386 -- --basetgz ../pb-i386-$PB_PKG.tgz \
+pdebuild --architecture i386 -- --basetgz ../../pb-i386-$PB_PKG.tgz \
 --buildresult $PB_RES --distribution $TARG_REL --debootstrap debootstrap
 
 ls -lisa $PB_RES
