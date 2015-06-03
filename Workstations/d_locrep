@@ -3,10 +3,16 @@
 # opt
 
 PB_DIR="/var/cache/pbuilder"
-PB_PKG="mesa"
-PB_PKGREL="$PB_PKG-10.5"
+PB_RES="$PB_DIR/result"
 
-PB_RES="$PB_DIR/result/$PB_PKGREL"
+# Seleziono la dir con la versione più recente dei pacchetti:
+ls -tl $PB_RES
+
+LSDIR=$( ls -t $PB_RES )
+PB_PKGDIR=$( echo $LSDIR | cut -d ' ' -f 1 )
+PB_RES="$PB_DIR/result/$PB_PKGDIR"
+
+echo $PB_RES
 
 PB_REPO="$PB_DIR/debian"
 PB_REPO_B64="$PB_DIR/debian/binary-amd64"
@@ -14,7 +20,7 @@ PB_REPO_B32="$PB_DIR/debian/binary-i386"
 
 #=========================================================================
 
-# rm -R $PB_REPO
+rm -R $PB_REPO
 mkdir $PB_REPO
 mkdir $PB_REPO_B64
 mkdir $PB_REPO_B32
@@ -26,16 +32,18 @@ LSP_32=$( ls | grep i386.deb )
 cp $LSP_64 $PB_REPO_B64
 cp $LSP_32 $PB_REPO_B32
 
+
 cd $PB_REPO
 apt-ftparchive packages binary-amd64 | gzip > binary-amd64/Packages.gz
 apt-ftparchive packages binary-i386 | gzip > binary-i386/Packages.gz
 
-tree
+tree $PB_REPO
 
-echo "deb file://$PB_REPO binary-amd64/" > /etc/apt/sources.list.d/local.list
-echo "deb file://$PB_REPO binary-i386/" >> /etc/apt/sources.list.d/local.list
-
+# echo "deb file://$PB_REPO binary-amd64/" > /etc/apt/sources.list.d/local.list
+# echo "deb file://$PB_REPO binary-i386/" >> /etc/apt/sources.list.d/local.list
 cat /etc/apt/sources.list.d/local.list
+# deb file:///var/cache/pbuilder/debian binary-amd64/
+# deb file:///var/cache/pbuilder/debian binary-i386/
 
 aptitude update
 

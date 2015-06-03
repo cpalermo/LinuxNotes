@@ -125,8 +125,16 @@ aptitude update
 
 cd $PB_DIR/aptcache
 
-LLVM_DEP=$( ls | grep llvm )
-CLANG_DEP=$( ls | grep clang )
+# estraggo il numero di versione dal pacchetto più recente di "llvm-x.x-runtime"
+LLVM_STR="llvm-"$LLVM_REL"-runtime_"
+LLVM_GREP=$( ls -t "$LLVM_STR"* )
+LLVM_SUBV=$( echo $LLVM_GREP | sed "s/$LLVM_STR//;s/_i386.deb.*//" )
+
+# Copio solo la versione più recente:
+echo $LLVM_SUBV
+
+LLVM_DEP=$( ls | grep llvm | grep $LLVM_SUBV )
+CLANG_DEP=$( ls | grep clang | grep $LLVM_SUBV )
 echo $LLVM_DEP $CLANG_DEP
 
 cp $LLVM_DEP $CLANG_DEP $PB_RES
