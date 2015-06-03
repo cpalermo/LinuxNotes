@@ -4,7 +4,8 @@
 #=========================================================================
 
 tasksel --list-task | grep "^i " | sed "s/^/# /"
-# i ssh-server	server SSH
+# i server	Basic Ubuntu server
+# i openssh-server	OpenSSH server
 
 #=========================================================================
 # tools
@@ -18,9 +19,6 @@ vnstat
 atool
 gdebi-core
 smartmontools
-lm-sensors
-lshw
-memtest86+
 "
 
 sudo aptitude install $TOOLS
@@ -28,11 +26,15 @@ sudo aptitude install $TOOLS
 #=========================================================================
 # change hostname and dnsdomainname without rebooting
 
+man hostname
+man hosts
 cat /etc/hostname
+cat /etc/hosts
+
 hostname
 cat /proc/sys/kernel/hostname
 
-ls /etc/init | grep host
+ls /etc/init/*host*
 cat /etc/init/hostname.conf
 
 sudo sh -c "echo 'svv1' > /etc/hostname"

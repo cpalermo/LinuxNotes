@@ -1,0 +1,67 @@
+# Ubuntu GNU/Linux 14.04 - amd64
+# svv1
+
+#=========================================================================
+
+tasksel --list-task | grep "^i " | sed "s/^/# /"
+# i server	Basic Ubuntu server
+# i openssh-server	OpenSSH server
+
+#=========================================================================
+# tools
+
+TOOLS="
+emacs24-nox
+mc
+tree
+htop
+vnstat
+atool
+gdebi-core
+smartmontools
+"
+
+sudo aptitude install $TOOLS
+
+#=========================================================================
+# change hostname and dnsdomainname without rebooting
+
+man hostname
+man hosts
+cat /etc/hostname
+cat /etc/hosts
+
+hostname
+cat /proc/sys/kernel/hostname
+
+ls /etc/init/*host*
+cat /etc/init/hostname.conf
+
+sudo sh -c "echo 'svv2' > /etc/hostname"
+
+# NB change also /etc/hosts
+sudo nano /etc/hosts
+cat /etc/hosts
+# 127.0.0.1	localhost
+# 127.0.1.1	svv2.test.com	svv2
+# 		¯¯¯¯¯¯¯¯¯¯¯¯¯   ¯¯¯¯
+# # The following lines are desirable for IPv6 capable hosts
+# ::1     localhost ip6-localhost ip6-loopback
+# ff02::1 ip6-allnodes
+# ff02::2 ip6-allrouters
+
+sudo initctl list | grep host
+sudo initctl status hostname
+# hostname stop/waiting
+
+sudo initctl start hostname
+
+hostname
+dnsdomainname
+# hostname -d
+
+#=========================================================================
+# Tabella partizioni
+
+sudo lsblk
+
