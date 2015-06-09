@@ -64,4 +64,14 @@ dnsdomainname
 # Tabella partizioni
 
 sudo lsblk
+sudo pvdisplay
+sudo vgdisplay
+sudo lvdisplay
+sudo lvs
+df -t ext4
+# Filesystem          1K-blocks   Used Available Use% Mounted on
+# /dev/mapper/vga-lv1   2337328 848916   1349968  39% /
+# /dev/mapper/vga-lv2   2337328   3596   2195288   1% /home
+# /dev/mapper/vga-lv4   2337328 293144   1905740  14% /var
+# /dev/mapper/vga-lv3   2337328   3576   2195308   1% /opt
 
