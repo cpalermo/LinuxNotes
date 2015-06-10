@@ -75,3 +75,5 @@ df -t ext4
 # /dev/mapper/vga-lv4   2337328 293144   1905740  14% /var
 # /dev/mapper/vga-lv3   2337328   3576   2195308   1% /opt
 
+# add lvm physical volumes
+
