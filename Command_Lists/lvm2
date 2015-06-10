@@ -1,0 +1,144 @@
+Command list of package "lvm2":
+
+fsadm
+# utility to resize or check filesystem on a device
+
+lvchange
+# change attributes of a logical volume
+
+lvconvert
+# convert a logical volume from linear to mirror or snapshot
+
+lvcreate
+# create a logical volume in an existing volume group
+
+lvdisplay
+# display attributes of a logical volume
+
+lvextend
+# extend the size of a logical volume
+
+lvm
+# LVM2 tools
+
+lvmchange
+# change attributes of the logical volume manager
+
+lvmconf
+# LVM configuration modifier
+
+lvmdiskscan
+# scan for all devices visible to LVM2
+
+lvmdump
+# create lvm2 information dumps for diagnostic purposes
+
+lvmsadc
+# LVM system activity data collector
+
+lvmsar
+# LVM system activity reporter
+
+lvreduce
+# reduce the size of a logical volume
+
+lvremove
+# remove a logical volume
+
+lvrename
+# rename a logical volume
+
+lvresize
+# resize a logical volume
+
+lvs
+# report information about logical volumes
+
+lvscan
+# scan (all disks) for Logical Volumes
+
+pvchange
+# change attributes of a physical volume
+
+pvck
+# check physical volume metadata
+
+pvcreate
+# initialize a disk or partition for use by LVM
+
+pvdisplay
+# display attributes of a physical volume
+
+pvmove
+# move physical extents
+
+pvremove
+# remove a physical volume
+
+pvresize
+# resize a disk or partition in use by LVM2
+
+pvs
+# report information about physical volumes
+
+pvscan
+# scan all disks for physical volumes
+
+vgcfgbackup
+# backup volume group descriptor area
+
+vgcfgrestore
+# restore volume group descriptor area
+
+vgchange
+# change attributes of a volume group
+
+vgck
+# check volume group metadata
+
+vgconvert
+# convert volume group metadata format
+
+vgcreate
+# create a volume group
+
+vgdisplay
+# display attributes of volume groups
+
+vgexport
+# make volume groups unknown to the system
+
+vgextend
+# add physical volumes to a volume group
+
+vgimport
+# make exported volume groups known to the system
+
+vgimportclone
+# import and rename duplicated volume group (e.g. a hardware snapshot)
+
+vgmerge
+# merge two volume groups
+
+vgmknodes
+# recreate volume group directory and logical volume special files
+
+vgreduce
+# reduce a volume group
+
+vgremove
+# remove a volume group
+
+vgrename
+# rename a volume group
+
+vgs
+# report information about volume groups
+
+vgscan
+# scan all disks for volume groups and rebuild caches
+
+vgsplit
+# split a volume group into two
+
+
