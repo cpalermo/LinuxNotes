@@ -1,0 +1,215 @@
+Command list of package "util-linux":
+
+dmesg
+# print or control the kernel ring buffer
+
+lsblk
+# list block devices
+
+more
+# file perusal filter for crt viewing
+
+tailf
+# follow the growth of a log file
+
+wdctl
+# show hardware watchdog status
+
+agetty
+# alternative Linux getty
+
+blkdiscard
+# discard sectors on a device
+
+blkid
+# locate/print block device attributes
+
+blockdev
+# call block device ioctls from the command line
+
+cfdisk
+# display or manipulate a disk partition table
+
+chcpu
+# configure CPUs
+
+ctrlaltdel
+# set the function of the Ctrl-Alt-Del combination
+
+fdisk
+# manipulate disk partition table
+
+findfs
+# find a filesystem by label or UUID
+
+fsck
+# check and repair a Linux filesystem
+
+fsck.cramfs
+# fsck compressed ROM file system
+
+fsck.minix
+# check consistency of Minix filesystem
+
+fsfreeze
+# suspend access to a filesystem (Ext3/4, ReiserFS, JFS, XFS)
+
+fstrim
+# discard unused blocks on a mounted filesystem
+
+agetty
+# alternative Linux getty
+
+hwclock
+# query or set the hardware clock (RTC)
+
+isosize
+# output the length of an iso9660 filesystem
+
+mkfs
+# build a Linux filesystem
+
+mkfs.bfs
+# make an SCO bfs filesystem
+
+mkfs.cramfs
+# make compressed ROM file system
+
+mkfs.minix
+# make a Minix filesystem
+
+mkswap
+# set up a Linux swap area
+
+pivot_root
+# change the root filesystem
+
+raw
+# bind a Linux raw character device
+
+runuser
+# run a command with substitute user and group ID
+
+sfdisk
+# partition table manipulator for Linux
+
+swaplabel
+# print or change the label or UUID of a swap area
+
+switch_root
+# switch to another filesystem as the root of the mount tree
+
+wipefs
+# wipe a signature from a device
+
+addpart
+# a simple wrapper around the "add partition" ioctl
+
+chrt
+# manipulate the real-time attributes of a process
+
+delpart
+# simple wrapper around the "del partition" ioctl
+
+fallocate
+# preallocate or deallocate space to a file
+
+flock
+# manage locks from shell scripts
+
+getopt
+# parse command options (enhanced)
+
+setarch
+# change reported architecture in new program environment and set personality flags
+
+ionice
+# set or get process I/O scheduling class and priority
+
+ipcmk
+# make various IPC resources
+
+ipcrm
+# remove certain IPC resources
+
+ipcs
+# show information on IPC facilities
+
+line
+# read one line
+
+setarch
+# change reported architecture in new program environment and set personality flags
+
+setarch
+# change reported architecture in new program environment and set personality flags
+
+lscpu
+# display information about the CPU architecture
+
+lslocks
+# list local system locks
+
+mcookie
+# generate magic cookies for xauth
+
+namei
+# follow a pathname until a terminal point is found
+
+nsenter
+# run program with namespaces of other processes
+
+partx
+# tell the Linux kernel about the presence and numbering of on-disk partitions
+
+pg
+# browse pagewise through text files
+
+prlimit
+# get and set process resource limits
+
+resizepart
+# simple wrapper around the "resize partition" ioctl
+
+rev
+# reverse lines characterwise
+
+setarch
+# change reported architecture in new program environment and set personality flags
+
+setsid
+# run a program in a new session
+
+setterm
+# set terminal attributes
+
+taskset
+# retrieve or set a process's CPU affinity
+
+unshare
+# run program with some namespaces unshared from parent
+
+utmpdump
+# dump UTMP and WTMP files in raw format
+
+whereis
+# locate the binary, source, and manual page files for a command
+
+setarch
+# change reported architecture in new program environment and set personality flags
+
+fdformat
+# low-level format a floppy disk
+
+ldattach
+# attach a line discipline to a serial line
+
+readprofile
+# read kernel profiling information
+
+rtcwake
+# enter a system sleep state until specified wakeup time
+
+tunelp
+# set various parameters for the lp device
+
