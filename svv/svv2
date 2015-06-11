@@ -67,6 +67,8 @@ sudo lsblk
 sudo pvdisplay
 sudo vgdisplay
 sudo lvdisplay
+sudo pvs
+sudo vgs
 sudo lvs
 df -t ext4
 # Filesystem          1K-blocks   Used Available Use% Mounted on
