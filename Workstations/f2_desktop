@@ -4,14 +4,15 @@
 APTITUDE_OPT="-yV"
 
 #=========================================================================
-# xinit + mate
+# gdm3 + gnome3
 
 LSP_DESKTOP="
-xinit
 xserver-xorg
-mate-desktop-environment
-caja-open-terminal
+gdm3
+gnome-core
 network-manager-gnome
+gedit
+gedit-plugins
 xsensors
 "
 
@@ -21,37 +22,37 @@ iceweasel-l10n-it
 "
 
 aptitude $APTITUDE_OPT install $LSP_DESKTOP $LSP_BROWSER
-# startx
+
+LSP_LOCAL="
+aspell-it
+myspell-it
+"
+
+LSP_EXTRA="
+alacarte
+bijiben
+desktop-base
+file-roller
+gitg
+gnome-color-manager
+gnome-maps
+gnome-nettool
+gnome-shell-extensions
+gnome-sound-recorder
+gnome-tweak-tool
+transmission-gtk
+"
+
+aptitude $APTITUDE_OPT install $LSP_LOCAL $LSP_EXTRA
 
 #=========================================================================
 # x2go
 
 LSP_X2GO="
 x2goclient
-x2goserver
-x2goserver-xsession
 "
 
 aptitude $APTITUDE_OPT install $LSP_X2GO
-
-#=========================================================================
-# virtualbox
-
-LSP_VIRTBX="
-virtualbox
-virtualbox-qt
-"
-
-aptitude $APTITUDE_OPT install $LSP_VIRTBX
-
-#=========================================================================
-# multimedia
-
-LSP_MEDIA="
-mpv
-"
-
-aptitude $APTITUDE_OPT install $LSP_MEDIA
 
 #=========================================================================
 

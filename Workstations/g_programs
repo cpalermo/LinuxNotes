@@ -1,0 +1,33 @@
+#=========================================================================
+# opt
+
+APTITUDE_OPT="-yV"
+
+#=========================================================================
+# virtualbox
+
+LSP_VIRTBX="
+virtualbox
+virtualbox-qt
+"
+
+aptitude $APTITUDE_OPT install $LSP_VIRTBX
+
+# Per abilitare le porte usb nelle macchine virtuali
+# controllare se il vostro utente sia nel gruppo vboxusers:
+getent group
+getent group vboxusers
+# gpasswd -a <USER> vboxusers
+# getent group vboxusers
+
+#=========================================================================
+# multimedia
+
+LSP_MEDIA="
+mpv
+"
+
+aptitude $APTITUDE_OPT install $LSP_MEDIA
+
+#=========================================================================
+
