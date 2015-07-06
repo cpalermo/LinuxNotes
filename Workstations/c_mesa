@@ -70,7 +70,7 @@ mkdir $PB_PKGDIR
 cd $PB_PKGDIR
 
 apt-get source -t $TARG_REL $PB_PKG
-ls -lisa
+ls -lh
 
 # debian/control
 grep llvm $PB_PKGREL*/debian/control
@@ -102,7 +102,7 @@ grep llvm-config $PB_PKGREL*/debian/rules
 PB_RES="$PB_DIR/result/$PB_PKGDIR"
 
 mkdir $PB_RES
-ls -lisa $PB_RES
+ls -lh $PB_RES
 
 cd  $PB_PKGREL*
 
@@ -112,7 +112,7 @@ pdebuild --architecture amd64 -- --basetgz ../../pb-amd64-$PB_PKG.tgz \
 pdebuild --architecture i386 -- --basetgz ../../pb-i386-$PB_PKG.tgz \
 --buildresult $PB_RES --distribution $TARG_REL --debootstrap debootstrap
 
-ls -lisa $PB_RES
+ls -lh $PB_RES
 
 # comment target release
 sed -i /"$GREP_REL"/s/'^deb'/'# deb'/ /etc/apt/sources.list
@@ -139,8 +139,8 @@ echo $LLVM_DEP $CLANG_DEP
 
 cp $LLVM_DEP $CLANG_DEP $PB_RES
 
-ls -lisa $PB_RES | grep llvm
-ls -lisa $PB_RES | grep clang
+ls -lh $PB_RES | grep llvm
+ls -lh $PB_RES | grep clang
 
 #=========================================================================
 

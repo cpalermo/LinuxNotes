@@ -6,7 +6,7 @@ PB_DIR="/var/cache/pbuilder"
 PB_RES="$PB_DIR/result"
 
 # Seleziono la dir con la versione più recente dei pacchetti:
-ls -tl $PB_RES
+ls -tlF $PB_RES
 
 LSDIR=$( ls -t $PB_RES )
 PB_PKGDIR=$( echo $LSDIR | cut -d ' ' -f 1 )
