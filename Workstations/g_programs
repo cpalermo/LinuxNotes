@@ -30,4 +30,17 @@ mpv
 aptitude $APTITUDE_OPT install $LSP_MEDIA
 
 #=========================================================================
+# office
+
+LSP_OFFICE="
+libreoffice
+libreoffice-help-it
+libreoffice-l10n-it
+hyphen-it
+mythes-it
+"
+
+aptitude $APTITUDE_OPT install $LSP_OFFICE
+
+#=========================================================================
 
