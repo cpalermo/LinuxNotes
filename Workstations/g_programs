@@ -25,6 +25,7 @@ getent group vboxusers
 
 LSP_MEDIA="
 mpv
+brasero
 "
 
 aptitude $APTITUDE_OPT install $LSP_MEDIA
@@ -38,6 +39,7 @@ libreoffice-help-it
 libreoffice-l10n-it
 hyphen-it
 mythes-it
+ttf-mscorefonts-installer
 "
 
 aptitude $APTITUDE_OPT install $LSP_OFFICE
