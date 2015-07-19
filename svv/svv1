@@ -73,6 +73,7 @@ sudo lsblk
 sudo fdisk -l
 
 # Nessuna partizione di swap
+free
 cat /proc/swaps
 
 # partizione swap
