@@ -43,7 +43,7 @@ sudo sh -c "echo 'svv1' > /etc/hostname"
 sudo nano /etc/hosts
 cat /etc/hosts
 # 127.0.0.1	localhost
-# 127.0.1.1	svv1.test.com	svv1
+# 127.0.1.1	svv1.test.lan	svv1
 # 		¯¯¯¯¯¯¯¯¯¯¯¯¯   ¯¯¯¯
 # # The following lines are desirable for IPv6 capable hosts
 # ::1     localhost ip6-localhost ip6-loopback
@@ -133,18 +133,19 @@ sudo lsblk
 sudo mkswap /dev/sdb6
 sudo blkid /dev/sdb6
 sudo nano /etc/fstab
-# UUID=<>	swap	swap	auto	0	0
+# UUID=<>	swap	swap	defaults	0	0
 sudo swapon -a
 swapon -s
+free
 cat /proc/swaps
 
 # /opt
 sudo mkfs.ext4 -j /dev/sdb1
 sudo blkid /dev/sdb1
 sudo nano /etc/fstab
-# UUID=<>	/opt	ext4	auto	0	1
+# UUID=<>	/opt	ext4	defaults	0	2
 sudo mount -a
-df
+df -h
 
 # backup /var
 cd /opt
@@ -155,19 +156,18 @@ sudo atool -a var-$(date +%y%m%d).tar.gz /var
 sudo mkfs.ext4 -j /dev/sdb5
 sudo mkdir /opt/var
 sudo mount /dev/sdb5 /opt/var
-sudo atool -X /opt /opt/var-150526.tar.gz
-df 
+sudo atool -X /opt/ /opt/var-150526.tar.gz
+df -h
 sudo umount /dev/sdb5
 sudo blkid /dev/sdb5
 sudo nano /etc/fstab
-# UUID=<>	/var	ext4	auto	0	1
+# UUID=<>	/var	ext4	auto	0	2
 
-# df
-# sudo rm -r /var
-# sudi mkdir /var
+df -h
+sudo rm -r /var
+sudo mkdir /var
 sudo mount -a
-
-df
+df -h
 sudo lsblk
 
 #=========================================================================
@@ -222,7 +222,7 @@ sudo pvcreate /dev/sdc4
 # Preparing Volume Group
 
 sudo vgcreate vga /dev/sdc1 /dev/sdc2 /dev/sdc3 /dev/sdc4
-# sudo vgremove sdc-vg
+# sudo vgremove vga
 
 # Creating Logical Volumes
 

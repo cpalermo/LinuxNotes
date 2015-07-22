@@ -43,7 +43,7 @@ sudo sh -c "echo 'svv2' > /etc/hostname"
 sudo nano /etc/hosts
 cat /etc/hosts
 # 127.0.0.1	localhost
-# 127.0.1.1	svv2.test.com	svv2
+# 127.0.1.1	svv2.test.lan	svv2
 # 		¯¯¯¯¯¯¯¯¯¯¯¯¯   ¯¯¯¯
 # # The following lines are desirable for IPv6 capable hosts
 # ::1     localhost ip6-localhost ip6-loopback
