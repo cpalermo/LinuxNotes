@@ -69,6 +69,7 @@ sudo lsblk
 # └─sda1   8:1    0    10G  0 part /
 # sdb      8:16   0    10G  0 disk 
 # sdc      8:32   0    10G  0 disk 
+# sdd      8:48   0    10G  0 disk 
 # sr0     11:0    1  1024M  0 rom  
 sudo fdisk -l
 
@@ -114,10 +115,7 @@ sudo lsblk
 # ├─sdb5   8:21   0     4G  0 part 
 # └─sdb6   8:22   0     2G  0 part 
 # sdc      8:32   0    10G  0 disk 
-# ├─sdc1   8:33   0     4G  0 part 
-# ├─sdc2   8:34   0     1K  0 part 
-# ├─sdc5   8:37   0     4G  0 part 
-# └─sdc6   8:38   0     2G  0 part 
+# sdd      8:48   0    10G  0 disk 
 # sr0     11:0    1  1024M  0 rom  
 
 #=========================================================================
@@ -209,6 +207,7 @@ sudo lsblk
 # ├─sdc2   8:34   0   2.5G  0 part 
 # ├─sdc3   8:35   0   2.5G  0 part 
 # └─sdc4   8:36   0   2.5G  0 part 
+# sdd      8:48   0    10G  0 disk 
 # sr0     11:0    1  1024M  0 rom  
 
 # Preparing Physical Volumes
@@ -270,7 +269,113 @@ sudo lsblk
 # │ └─vga-lv2 (dm-1) 252:1    0   4.5G  0 lvm  /var/backups
 # └─sdc4               8:36   0   2.5G  0 part 
 #   └─vga-lv2 (dm-1) 252:1    0   4.5G  0 lvm  /var/backups
+# sdd                  8:48   0    10G  0 disk 
 # sr0                 11:0    1  1024M  0 rom  
 
 #=========================================================================
+
+sudo fdisk /dev/sdd
+
+# n
+# p
+# +2500M
+# t
+# 8e
+#
+# repeat 4 times
+
+# p
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sdd1            2048     5122047     2560000   8e  Linux LVM
+/dev/sdd2         5122048    10242047     2560000   8e  Linux LVM
+/dev/sdd3        10242048    15362047     2560000   8e  Linux LVM
+/dev/sdd4        15362048    20482047     2560000   8e  Linux LVM
+
+# w
+
+sudo lsblk
+# NAME               MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+# sda                  8:0    0    10G  0 disk 
+# └─sda1               8:1    0    10G  0 part /
+# sdb                  8:16   0    10G  0 disk 
+# ├─sdb1               8:17   0     4G  0 part /opt
+# ├─sdb2               8:18   0     1K  0 part 
+# ├─sdb5               8:21   0     4G  0 part /var
+# └─sdb6               8:22   0     2G  0 part [SWAP]
+# sdc                  8:32   0    10G  0 disk 
+# ├─sdc1               8:33   0   2.5G  0 part 
+# │ └─vga-lv1 (dm-0) 252:0    0   4.5G  0 lvm  /var/opt
+# ├─sdc2               8:34   0   2.5G  0 part 
+# │ └─vga-lv2 (dm-1) 252:1    0   4.5G  0 lvm  /var/backups
+# ├─sdc3               8:35   0   2.5G  0 part 
+# │ └─vga-lv2 (dm-1) 252:1    0   4.5G  0 lvm  /var/backups
+# └─sdc4               8:36   0   2.7G  0 part 
+#   └─vga-lv1 (dm-0) 252:0    0   4.5G  0 lvm  /var/opt
+# sdd                  8:48   0    10G  0 disk 
+# ├─sdd1               8:49   0   2.5G  0 part 
+# ├─sdd2               8:50   0   2.5G  0 part 
+# ├─sdd3               8:51   0   2.5G  0 part 
+# └─sdd4               8:52   0   2.5G  0 part 
+# sr0                 11:0    1  1024M  0 rom  
+
+# Preparing Physical Volumes
+
+sudo pvcreate /dev/sdd1
+sudo pvcreate /dev/sdd2
+sudo pvcreate /dev/sdd3
+sudo pvcreate /dev/sdd4
+# sudo pvremove
+
+sudo pvs
+#   PV         VG   Fmt  Attr PSize PFree  
+#   /dev/sdc1  vga  lvm2 a--  2.44g 624.00m
+#   /dev/sdc2  vga  lvm2 a--  2.44g      0 
+#   /dev/sdc3  vga  lvm2 a--  2.44g 384.00m
+#   /dev/sdc4  vga  lvm2 a--  2.67g      0 
+#   /dev/sdd1       lvm2 a--  2.44g   2.44g
+#   /dev/sdd2       lvm2 a--  2.44g   2.44g
+#   /dev/sdd3       lvm2 a--  2.44g   2.44g
+#   /dev/sdd4       lvm2 a--  2.44g   2.44g
+sudo vgs
+#   VG   #PV #LV #SN Attr   VSize VFree   
+#   vga    4   2   0 wz--n- 9.98g 1008.00m
+sudo lvs
+#   LV   VG   Attr      LSize Pool Origin Data%  Move Log Copy%  Convert
+#   lv1  vga  -wi-ao--- 4.50g                                           
+#   lv2  vga  -wi-ao--- 4.50g                                           
+
+# Add Physical Volumes to Volume Group
+
+sudo vgextend /dev/vga /dev/sdd1 /dev/sdd2 /dev/sdd3 /dev/sdd4
+
+# Convert /var/opt  from linear to mirror (level 1)
+
+sudo lvconvert -m 1 /dev/vga/lv1
+
+# Extend the size of /var/opt/backups
+
+sudo lvextend -L +4G /dev/vga/lv2
+
+sudo pvs | sed 's/^/# /'
+#   PV         VG   Fmt  Attr PSize PFree  
+#   /dev/sdc1  vga  lvm2 a--  2.44g 380.00m
+#   /dev/sdc2  vga  lvm2 a--  2.44g      0 
+#   /dev/sdc3  vga  lvm2 a--  2.44g      0 
+#   /dev/sdc4  vga  lvm2 a--  2.67g      0 
+#   /dev/sdd1  vga  lvm2 a--  2.44g      0 
+#   /dev/sdd2  vga  lvm2 a--  2.44g 256.00m
+#   /dev/sdd3  vga  lvm2 a--  2.44g      0 
+#   /dev/sdd4  vga  lvm2 a--  2.44g 624.00m
+sudo vgs
+#  VG   #PV #LV #SN Attr   VSize  VFree
+#  vga    8   2   0 wz--n- 19.73g 1.23g
+sudo lvs
+#  LV   VG   Attr      LSize Pool Origin Data%  Move Log      Copy%  Convert
+#  lv1  vga  mwi-aom-- 4.50g                         lv1_mlog 100.00        
+#  lv2  vga  -wi-ao--- 9.50g                                                
+
+#=========================================================================
+# esempio backup
+
+sudo rsync --archive --verbose --delete /home/ /var/backups/
 
