@@ -1,4 +1,4 @@
-# Debian GNU/Linux 8.0.0 (Jessie) - amd64
+# Debian GNU/Linux 8 (Jessie) - amd64
 # ws0
 
 #=========================================================================
@@ -92,9 +92,26 @@ aptitude $APTITUDE_OPT full-upgrade
 
 # update-grub
 # dpkg-reconfigure grub-pc
+# install-grub /dev/
+#
 # in /etc/default/grub
 # GRUB_CMDLINE_LINUX_DEFAULT="rootdelay=3 quiet"
 # GRUB_CMDLINE_LINUX="rootdelay=3"
+
+#=========================================================================
+
+APTITUDE_OPT="-yV"
+
+LSP_FIRMWARE="
+firmware-linux
+ firmware-linux-nonfree
+ firmware-linux-free
+ amd64-microcode
+ intel-microcode
+firmware-realtek
+"
+
+aptitude $APTITUDE_OPT install $LSP_FIRMWARE
 
 #=========================================================================
 

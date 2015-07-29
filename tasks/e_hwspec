@@ -4,19 +4,6 @@
 APTITUDE_OPT="-yV"
 
 #=========================================================================
-
-LSP_FIRMWARE="
-firmware-linux
- firmware-linux-nonfree
- firmware-linux-free
- amd64-microcode
- intel-microcode
-firmware-realtek
-"
-
-aptitude $APTITUDE_OPT install $LSP_FIRMWARE
-
-#=========================================================================
 # accellerazione HW
 
 # DRM ; pciaccess
