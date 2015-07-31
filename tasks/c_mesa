@@ -1,4 +1,4 @@
-# mesa 3.5 - llvm 3.6
+# mesa 3.6 - llvm 3.6
 #=========================================================================
 # opt
 
@@ -9,7 +9,7 @@ TARG_REL="unstable"
 PB_DIR="/var/cache/pbuilder"
 PB_SRC="$PB_DIR/src"
 PB_PKG="mesa"
-PB_PKGREL="$PB_PKG-10.5"
+PB_PKGREL="$PB_PKG-10.6"
 
 LLVM_REL=3.6
 
@@ -45,6 +45,15 @@ sed -i /"$GREP_REL"/s/'^#deb'/'deb'/ /etc/apt/sources.list
 cat /etc/apt/sources.list
 aptitude update
 
+# i386 env
+if [ ! -e pb-i386-$PB_PKG.tgz ]; then
+	pbuilder --create --basetgz pb-i386-$PB_PKG.tgz --distribution $TARG_REL \
+	--architecture i386 --debootstrap debootstrap
+else
+	pbuilder --update --basetgz pb-i386-$PB_PKG.tgz --distribution $TARG_REL \
+	--architecture i386 --debootstrap debootstrap
+fi
+
 # amd64 env
 if [ ! -e pb-amd64-$PB_PKG.tgz ]; then
 	pbuilder --create --basetgz pb-amd64-$PB_PKG.tgz --distribution $TARG_REL \
@@ -54,14 +63,17 @@ else
 	--architecture amd64 --debootstrap debootstrap
 fi
 
-# i386 env
-if [ ! -e pb-i386-$PB_PKG.tgz ]; then
-	pbuilder --create --basetgz pb-i386-$PB_PKG.tgz --distribution $TARG_REL \
-	--architecture i386 --debootstrap debootstrap
-else
-	pbuilder --update --basetgz pb-i386-$PB_PKG.tgz --distribution $TARG_REL \
-	--architecture i386 --debootstrap debootstrap
-fi
+# controllo
+
+pbuilder --login --basetgz pb-i386-$PB_PKG.tgz
+ls /lib | grep linux-gnu | sed "s/^/# /"
+# i386-linux-gnu
+exit
+
+pbuilder --login --basetgz pb-amd64-$PB_PKG.tgz
+ls /lib | grep linux-gnu | sed "s/^/# /"
+# x86_64-linux-gnu
+exit
 
 #=========================================================================
 # mod source
@@ -106,10 +118,10 @@ ls -lh $PB_RES
 
 cd  $PB_PKGREL*
 
-pdebuild --architecture amd64 -- --basetgz ../../pb-amd64-$PB_PKG.tgz \
+pdebuild --architecture i386 -- --basetgz ../../pb-i386-$PB_PKG.tgz \
 --buildresult $PB_RES --distribution $TARG_REL --debootstrap debootstrap
 
-pdebuild --architecture i386 -- --basetgz ../../pb-i386-$PB_PKG.tgz \
+pdebuild --architecture amd64 -- --basetgz ../../pb-amd64-$PB_PKG.tgz \
 --buildresult $PB_RES --distribution $TARG_REL --debootstrap debootstrap
 
 ls -lh $PB_RES

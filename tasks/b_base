@@ -1,7 +1,7 @@
 #=========================================================================
 # opt
 
-APTITUDE_OPT="-y"
+APTITUDE_OPT="-yV"
 
 #=========================================================================
 # selezione pacchetti utili
@@ -21,10 +21,13 @@ memtest86+
 
 aptitude $APTITUDE_OPT install $LSP_TOOLS
 
-sensors-detect
+modinfo it87
 cat /etc/modules
 # it87
-modinfo it87
+
+# reboot needed
+
+# sensors-detect
 
 # moduli cpufreq
 # caricati:
@@ -37,6 +40,8 @@ modinfo cpufreq_stats
 echo "cpufreq_stats" >> /etc/modules
 cat /etc/modules
 # cpufreq_stats
+
+# reboot nedeed
 
 update-alternatives --get-selections
 update-alternatives --list editor
