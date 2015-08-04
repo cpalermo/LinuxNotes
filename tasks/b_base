@@ -17,6 +17,7 @@ smartmontools
 lm-sensors
 lshw
 memtest86+
+rsync
 "
 
 aptitude $APTITUDE_OPT install $LSP_TOOLS

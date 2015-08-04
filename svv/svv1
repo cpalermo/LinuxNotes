@@ -377,5 +377,31 @@ sudo lvs
 #=========================================================================
 # esempio backup
 
-sudo rsync --archive --verbose --delete /home/ /var/backups/
+sudo rsync --archive --delete --compress -vh /home/ /var/backups/
+
+#=========================================================================
+# esempi useradd
+
+sudo useradd -s "/bin/bash" -d "/srv/sv1" -mU sv1
+sudo usermod --groups sv1,sudo sv1
+sudo passwd sv1
+# sv1
+
+sudo groups sv1
+# sv1 : sv1 sudo
+
+cat /etc/group | grep sv1
+# sudo:x:27:ubuntu,sv1
+# sv1:x:1001:sv1
+
+sudo passwd -S sv1
+# sv1 P 08/04/2015 0 99999 7 -1
+
+ls -la /srv/sv1/ | sed 's/^/# /'
+# total 20
+# drwxr-xr-x 2 sv1  sv1  4096 Aug  4 17:49 .
+# drwxr-xr-x 3 root root 4096 Aug  4 17:49 ..
+# -rw-r--r-- 1 sv1  sv1   220 Apr  9  2014 .bash_logout
+# -rw-r--r-- 1 sv1  sv1  3637 Apr  9  2014 .bashrc
+# -rw-r--r-- 1 sv1  sv1   675 Apr  9  2014 .profile
 
