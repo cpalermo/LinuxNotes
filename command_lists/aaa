@@ -1,0 +1,8 @@
+coreutils
+util-linux
+e2fsprogs
+mount
+procps
+passwd
+lvm2
+upstart
