@@ -1,143 +1,146 @@
 Command list of package "lvm2":
 
 fsadm
-# utility to resize or check filesystem on a device
+# (8) - utility to resize or check filesystem on a device
 
 lvchange
-# change attributes of a logical volume
+# (8) - change attributes of a logical volume
 
 lvconvert
-# convert a logical volume from linear to mirror or snapshot
+# (8) - convert a logical volume from linear to mirror or snapshot
 
 lvcreate
-# create a logical volume in an existing volume group
+# (8) - create a logical volume in an existing volume group
 
 lvdisplay
-# display attributes of a logical volume
+# (8) - display attributes of a logical volume
 
 lvextend
-# extend the size of a logical volume
+# (8) - extend the size of a logical volume
 
 lvm
-# LVM2 tools
+# (8) - LVM2 tools
 
 lvmchange
-# change attributes of the logical volume manager
+# (8) - change attributes of the logical volume manager
 
 lvmconf
-# LVM configuration modifier
+# (8) - LVM configuration modifier
 
 lvmdiskscan
-# scan for all devices visible to LVM2
+# (8) - scan for all devices visible to LVM2
 
 lvmdump
-# create lvm2 information dumps for diagnostic purposes
+# (8) - create lvm2 information dumps for diagnostic purposes
+
+lvmetad
+# (8) - LVM metadata cache daemon
 
 lvmsadc
-# LVM system activity data collector
+# (8) - LVM system activity data collector
 
 lvmsar
-# LVM system activity reporter
+# (8) - LVM system activity reporter
 
 lvreduce
-# reduce the size of a logical volume
+# (8) - reduce the size of a logical volume
 
 lvremove
-# remove a logical volume
+# (8) - remove a logical volume
 
 lvrename
-# rename a logical volume
+# (8) - rename a logical volume
 
 lvresize
-# resize a logical volume
+# (8) - resize a logical volume
 
 lvs
-# report information about logical volumes
+# (8) - report information about logical volumes
 
 lvscan
-# scan (all disks) for Logical Volumes
+# (8) - scan (all disks) for Logical Volumes
 
 pvchange
-# change attributes of a physical volume
+# (8) - change attributes of a physical volume
 
 pvck
-# check physical volume metadata
+# (8) - check physical volume metadata
 
 pvcreate
-# initialize a disk or partition for use by LVM
+# (8) - initialize a disk or partition for use by LVM
 
 pvdisplay
-# display attributes of a physical volume
+# (8) - display attributes of a physical volume
 
 pvmove
-# move physical extents
+# (8) - move physical extents
 
 pvremove
-# remove a physical volume
+# (8) - remove a physical volume
 
 pvresize
-# resize a disk or partition in use by LVM2
+# (8) - resize a disk or partition in use by LVM2
 
 pvs
-# report information about physical volumes
+# (8) - report information about physical volumes
 
 pvscan
-# scan all disks for physical volumes
+# (8) - scan all disks for physical volumes
 
 vgcfgbackup
-# backup volume group descriptor area
+# (8) - backup volume group descriptor area
 
 vgcfgrestore
-# restore volume group descriptor area
+# (8) - restore volume group descriptor area
 
 vgchange
-# change attributes of a volume group
+# (8) - change attributes of a volume group
 
 vgck
-# check volume group metadata
+# (8) - check volume group metadata
 
 vgconvert
-# convert volume group metadata format
+# (8) - convert volume group metadata format
 
 vgcreate
-# create a volume group
+# (8) - create a volume group
 
 vgdisplay
-# display attributes of volume groups
+# (8) - display attributes of volume groups
 
 vgexport
-# make volume groups unknown to the system
+# (8) - make volume groups unknown to the system
 
 vgextend
-# add physical volumes to a volume group
+# (8) - add physical volumes to a volume group
 
 vgimport
-# make exported volume groups known to the system
+# (8) - make exported volume groups known to the system
 
 vgimportclone
-# import and rename duplicated volume group (e.g. a hardware snapshot)
+# (8) - import and rename duplicated volume group (e.g. a hardware snapshot)
 
 vgmerge
-# merge two volume groups
+# (8) - merge two volume groups
 
 vgmknodes
-# recreate volume group directory and logical volume special files
+# (8) - recreate volume group directory and logical volume special files
 
 vgreduce
-# reduce a volume group
+# (8) - reduce a volume group
 
 vgremove
-# remove a volume group
+# (8) - remove a volume group
 
 vgrename
-# rename a volume group
+# (8) - rename a volume group
 
 vgs
-# report information about volume groups
+# (8) - report information about volume groups
 
 vgscan
-# scan all disks for volume groups and rebuild caches
+# (8) - scan all disks for volume groups and rebuild caches
 
 vgsplit
-# split a volume group into two
+# (8) - split a volume group into two
 
