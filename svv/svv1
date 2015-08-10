@@ -405,3 +405,23 @@ ls -la /srv/sv1/ | sed 's/^/# /'
 # -rw-r--r-- 1 sv1  sv1  3637 Apr  9  2014 .bashrc
 # -rw-r--r-- 1 sv1  sv1   675 Apr  9  2014 .profile
 
+#=========================================================================
+
+su sv1
+cd ~
+
+# N.B.
+# Variabili di ambiente, file di configurazione globali:
+# /etc/login.defs	# letto all'avvio del sistema
+# /etc/profile		# letto all'avvio della sessione, ma se si esegue 'su'
+			# le variabili vengono reimpostate su /etc/login.defs
+			# si deve quindi eseguire 'source /etc/profile'
+# /etc/environment	# file di configurazione per le variabili ambientali
+#
+#			su	ssh	source
+# /etc/login.defs	OK	-	-	[SU]*PATH
+# /etc/profile		-	OK	OK	[SU]*PATH
+# /etc/environment	OK	OK	OK	PATH
+#
+# https://wiki.debian.org/it/EnvironmentVariables
+
