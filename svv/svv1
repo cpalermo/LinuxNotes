@@ -407,10 +407,34 @@ ls -la /srv/sv1/ | sed 's/^/# /'
 
 #=========================================================================
 
+# VARIBILI UTENTE
+# NB per mantenere le variabili ambientali anche dopo il login con 'su':
+
 su sv1
 cd ~
 
-# N.B.
+nano .profile
+# commentare:
+# #if [ -d "$HOME/bin" ] ; then
+# #    PATH="$HOME/bin:$PATH"
+# #fi
+
+touch .environment
+nano .environment
+# if [ -d "$HOME/bin" ] ; then
+#     PATH="$HOME/bin:$PATH"
+# fi
+
+nano .bashrc
+# if [ -f ~/.environment ]; then
+#     . ~/.environment
+# fi
+
+source .bashrc
+# per ripristinare l'ambiente di default
+# source /etc/environment
+
+# N.B. VARIABILI GLOBALI
 # Variabili di ambiente, file di configurazione globali:
 # /etc/login.defs	# letto all'avvio del sistema
 # /etc/profile		# letto all'avvio della sessione, ma se si esegue 'su'
@@ -424,4 +448,15 @@ cd ~
 # /etc/environment	OK	OK	OK	PATH
 #
 # https://wiki.debian.org/it/EnvironmentVariables
+
+#=========================================================================
+
+su sv1
+cd ~
+mkdir bin/
+
+# scp ../scripts/lscm.sh sv1@192.168.1.71:~/bin/
+# scp ../scripts/my_lscm.sh sv1@192.168.1.71:~/bin/
+
+source .bashrc
 
