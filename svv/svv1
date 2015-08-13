@@ -460,3 +460,28 @@ mkdir bin/
 
 source .bashrc
 
+#=========================================================================
+
+mkdir commands
+cd commands
+
+my_lscm.sh
+
+cd ..
+
+tree | sed 's/^/# /'
+ ├── bin
+# │   ├── lscm.sh
+# │   └── my_lscm.sh
+# └── commands
+#     ├── coreutils.txt
+#     ├── e2fsprogs.txt
+#     ├── lvm2.txt
+#     ├── mount.txt
+#     ├── passwd.txt
+#     ├── procps.txt
+#     ├── upstart.txt
+#     └── util-linux.txt
+# 
+# 2 directories, 10 files
+
