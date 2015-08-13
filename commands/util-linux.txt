@@ -1,0 +1,206 @@
+# Command list of package "util-linux":
+
+dmesg
+# (1) - print or control the kernel ring buffer
+
+lsblk
+# (8) - list block devices
+
+more
+# (1) - file perusal filter for crt viewing
+
+tailf
+# (1) - follow the growth of a log file
+
+agetty
+# (8) - alternative Linux getty
+
+blkid
+# (8) - locate/print block device attributes
+
+blockdev
+# (8) - call block device ioctls from the command line
+
+cfdisk
+# (8) - display or manipulate disk partition table
+
+ctrlaltdel
+# (8) - set the function of the Ctrl-Alt-Del combination
+
+fdisk
+# (8) - manipulate disk partition table
+
+findfs
+# (8) - find a filesystem by label or UUID
+
+fsck
+# (8) - check and repair a Linux filesystem
+
+fsck.minix
+# (8) - check consistency of Minix filesystem
+
+fsfreeze
+# (8) - suspend access to a filesystem (Linux Ext3/4, ReiserFS, JFS, XFS)
+
+fstrim
+# (8) - discard unused blocks on a mounted filesystem
+
+fstrim-all
+# (8) - call fstrim on all mounted file systems which support it
+
+getty
+# (8) - alternative Linux getty
+
+hwclock
+# (8) - query or set the hardware clock (RTC)
+
+isosize
+# (8) - output the length of an iso9660 filesystem
+
+mkfs
+# (8) - build a Linux filesystem
+
+mkfs.bfs
+# (8) - make an SCO bfs filesystem
+
+mkfs.minix
+# (8) - make a Minix filesystem
+
+mkswap
+# (8) - set up a Linux swap area
+
+pivot_root
+# (8) - change the root filesystem
+
+raw
+# (8) - bind a Linux raw character device
+
+raw
+# (7) - Linux IPv4 raw sockets
+
+sfdisk
+# (8) - partition table manipulator for Linux
+
+swaplabel
+# (8) - print or change the label or UUID of a swap area
+
+switch_root
+# (8) - switch to another filesystem as the root of the mount tree
+
+wipefs
+# (8) - wipe a filesystem signature from a device
+
+addpart
+# (8) - simple wrapper around the "add partition" ioctl
+
+chkdupexe
+# (1) - find duplicate executables
+
+chrt
+# (1) - manipulate the real-time attributes of a process
+
+ddate
+# (1) - convert Gregorian dates to Discordian dates
+
+delpart
+# (8) - simple wrapper around the "del partition" ioctl
+
+fallocate
+# (1) - preallocate space to a file
+
+flock
+# (1) - manage locks from shell scripts
+
+getopt
+# (1) - parse command options (enhanced)
+
+i386
+# (8) - change reported architecture in new program environment and set personality flags
+
+ionice
+# (1) - set or get process I/O scheduling class and priority
+
+ipcmk
+# (1) - create various ipc resources
+
+ipcrm
+# (1) - remove a message queue, semaphore set or shared memory id
+
+ipcs
+# (1) - provide information on ipc facilities
+
+line
+# (1) - read one line
+
+linux32
+# (1) - change reported architecture in new program environment and set personality flags
+
+linux64
+# (1) - change reported architecture in new program environment and set personality flags
+
+lscpu
+# (1) - display information on CPU architecture
+
+mcookie
+# (1) - generate magic cookies for xauth
+
+namei
+# (1) - follow a pathname until a terminal point is found
+
+partx
+# (8) - tell the Linux kernel about the presence and numbering of on-disk partitions
+
+pg
+# (1) - browse pagewise through text files
+
+rename.ul
+# (1) - rename files
+
+resizepart
+# (8) - simple wrapper around the "resize partition" ioctl
+
+rev
+# (1) - reverse lines of a file or files
+
+setarch
+# (1) - change reported architecture in new program environment and set personality flags
+
+setarch
+# (8) - change reported architecture in new program environment and set personality flags
+
+setsid
+# (1) - run a program in a new session
+
+setterm
+# (1) - set terminal attributes
+
+taskset
+# (1) - retrieve or set a process's CPU affinity
+
+unshare
+# (1) - run program with some namespaces unshared from parent
+
+whereis
+# (1) - locate the binary, source, and manual page files for a command
+
+x86_64
+# (8) - change reported architecture in new program environment and set personality flags
+
+cytune
+# (8) - tune driver parameters for Cyclades-Z multiport serial card
+
+fdformat
+# (8) - low-level format a floppy disk
+
+ldattach
+# (8) - attach a line discipline to a serial line
+
+readprofile
+# (1) - read kernel profiling information
+
+rtcwake
+# (8) - enter a system sleep state until specified wakeup time
+
+tunelp
+# (8) - set various parameters for the lp device
+

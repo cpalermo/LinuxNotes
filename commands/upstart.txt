@@ -1,0 +1,80 @@
+# Command list of package "upstart":
+
+halt
+# (5) - variables that affect the behavior of the shutdown scripts
+
+halt
+# (8) - reboot or stop the system
+
+init
+# (5) - Upstart init daemon job configuration
+
+init
+# (8) - Upstart process management daemon
+
+init
+# (7) - Upstart process management daemon
+
+initctl
+# (8) - init daemon control tool
+
+poweroff
+# (8) - reboot or stop the system
+
+reboot
+# (8) - reboot or stop the system
+
+reload
+# (8) - init daemon control tool
+
+restart
+# (8) - init daemon control tool
+
+runlevel
+# (8) - output previous and current runlevel
+
+runlevel
+# (7) - event signalling change of system runlevel
+
+shutdown
+# (8) - bring the system down
+
+start
+# (8) - init daemon control tool
+
+status
+# (8) - init daemon control tool
+
+stop
+# (8) - init daemon control tool
+
+telinit
+# (8) - change system runlevel
+
+upstart-dbus-bridge
+# (8) - Bridge between Upstart and D-Bus
+
+upstart-event-bridge
+# (8) - Bridge between system Upstart and session Upstart
+
+upstart-file-bridge
+# (8) - Bridge between Upstart and inotify
+
+upstart-local-bridge
+# (8) - Bridge between Upstart and a local client socket connection.
+
+upstart-socket-bridge
+# (8) - Bridge between Upstart and sockets
+
+upstart-udev-bridge
+# (8) - Bridge between Upstart and udev
+
+upstart-udev-bridge
+# (7) - Bridge between Upstart and udev
+
+init-checkconf
+# (8) - manual page for init-checkconf
+
+initctl2dot
+# (8) - manual page for initctl2dot
+

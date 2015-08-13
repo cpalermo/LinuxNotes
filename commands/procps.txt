@@ -1,0 +1,53 @@
+# Command list of package "procps":
+
+kill
+# (1) - send a signal to a process
+
+ps
+# (1) - report a snapshot of the current processes.
+
+sysctl
+# (8) - configure kernel parameters at runtime
+
+free
+# (1) - Display amount of free and used memory in the system
+
+pgrep
+# (1) - look up or signal processes based on name and other attributes
+
+pkill
+# (1) - look up or signal processes based on name and other attributes
+
+pmap
+# (1) - report memory map of a process
+
+pwdx
+# (1) - report current working directory of a process
+
+skill
+# (1) - send a signal or report process status
+
+slabtop
+# (1) - display kernel slab cache information in real time
+
+snice
+# (1) - send a signal or report process status
+
+tload
+# (1) - graphic representation of system load average
+
+top
+# (1) - display Linux processes
+
+uptime
+# (1) - Tell how long the system has been running.
+
+vmstat
+# (8) - Report virtual memory statistics
+
+watch
+# (1) - execute a program periodically, showing output fullscreen
+
+w.procps
+# (1) - Show who is logged on and what they are doing.
+

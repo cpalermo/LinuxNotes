@@ -1,0 +1,77 @@
+# Command list of package "e2fsprogs":
+
+badblocks
+# (8) - search a device for bad blocks
+
+debugfs
+# (8) - ext2/ext3/ext4 file system debugger
+
+dumpe2fs
+# (8) - dump ext2/ext3/ext4 filesystem information
+
+e2fsck
+# (8) - check a Linux ext2/ext3/ext4 file system
+
+e2image
+# (8) - Save critical ext2/ext3/ext4 filesystem metadata to a file
+
+e2label
+# (8) - Change the label on an ext2/ext3/ext4 filesystem
+
+e2undo
+# (8) - Replay an undo log for an ext2/ext3/ext4 filesystem
+
+fsck.ext2
+# (8) - check a Linux ext2/ext3/ext4 file system
+
+fsck.ext3
+# (8) - check a Linux ext2/ext3/ext4 file system
+
+fsck.ext4
+# (8) - check a Linux ext2/ext3/ext4 file system
+
+fsck.ext4dev
+# (8) - check a Linux ext2/ext3/ext4 file system
+
+logsave
+# (8) - save the output of a command in a logfile
+
+mke2fs
+# (8) - create an ext2/ext3/ext4 filesystem
+
+mkfs.ext2
+# (8) - create an ext2/ext3/ext4 filesystem
+
+mkfs.ext3
+# (8) - create an ext2/ext3/ext4 filesystem
+
+mkfs.ext4
+# (8) - create an ext2/ext3/ext4 filesystem
+
+mkfs.ext4dev
+# (8) - create an ext2/ext3/ext4 filesystem
+
+resize2fs
+# (8) - ext2/ext3/ext4 file system resizer
+
+tune2fs
+# (8) - adjust tunable filesystem parameters on ext2/ext3/ext4 filesystems
+
+chattr
+# (1) - change file attributes on a Linux file system
+
+lsattr
+# (1) - list file attributes on a Linux second extended file system
+
+e2freefrag
+# (8) - report free space fragmentation information
+
+e4defrag
+# (8) - online defragmenter for ext4 filesystem
+
+filefrag
+# (8) - report on file fragmentation
+
+mklost+found
+# (8) - create a lost+found directory on a mounted Linux second extended file system
+

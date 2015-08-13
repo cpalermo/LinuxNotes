@@ -1,0 +1,20 @@
+# Command list of package "mount":
+
+findmnt
+# (8) - find a filesystem
+
+mount
+# (8) - mount a filesystem
+
+umount
+# (8) - unmount file systems
+
+losetup
+# (8) - set up and control loop devices
+
+swapoff
+# (8) - enable/disable devices and files for paging and swapping
+
+swapon
+# (8) - enable/disable devices and files for paging and swapping
+

@@ -1,0 +1,86 @@
+# Command list of package "passwd":
+
+shadowconfig
+# (8) - toggle shadow passwords on and off
+
+chage
+# (1) - change user password expiry information
+
+chfn
+# (1) - change real user name and information
+
+chsh
+# (1) - change login shell
+
+expiry
+# (1) - check and enforce password expiration policy
+
+gpasswd
+# (1) - administer /etc/group and /etc/gshadow
+
+passwd
+# (1ssl) - compute password hashes
+
+passwd
+# (1) - change user password
+
+passwd
+# (5) - the password file
+
+chgpasswd
+# (8) - update group passwords in batch mode
+
+chpasswd
+# (8) - update passwords in batch mode
+
+cpgr
+# (8) - copy with locking the given file to the password or group file
+
+cppw
+# (8) - copy with locking the given file to the password or group file
+
+groupadd
+# (8) - create a new group
+
+groupdel
+# (8) - delete a group
+
+groupmod
+# (8) - modify a group definition on the system
+
+grpck
+# (8) - verify integrity of group files
+
+grpconv
+# (8) - convert to and from shadow passwords and groups
+
+grpunconv
+# (8) - convert to and from shadow passwords and groups
+
+newusers
+# (8) - update and create new users in batch
+
+pwck
+# (8) - verify integrity of password files
+
+pwconv
+# (8) - convert to and from shadow passwords and groups
+
+pwunconv
+# (8) - convert to and from shadow passwords and groups
+
+useradd
+# (8) - create a new user or update default new user information
+
+userdel
+# (8) - delete a user account and related files
+
+usermod
+# (8) - modify a user account
+
+vigr
+# (8) - edit the password, group, shadow-password or shadow-group file
+
+vipw
+# (8) - edit the password, group, shadow-password or shadow-group file
+

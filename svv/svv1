@@ -470,7 +470,8 @@ my_lscm.sh
 cd ..
 
 tree | sed 's/^/# /'
- ├── bin
+# .
+# ├── bin
 # │   ├── lscm.sh
 # │   └── my_lscm.sh
 # └── commands
@@ -484,4 +485,16 @@ tree | sed 's/^/# /'
 #     └── util-linux.txt
 # 
 # 2 directories, 10 files
+
+#=========================================================================
+
+cd commands
+
+cat * | grep "list of package"
+
+
+
+
+
+
 
