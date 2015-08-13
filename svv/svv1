@@ -490,11 +490,27 @@ tree | sed 's/^/# /'
 
 cd commands
 
-cat * | grep "list of package"
+cat -n * | grep "list of package"
 
+cat * > all.txt
 
+sudo aptitude -R install emacs24-nox r-base-core ess
 
+emacs all.txt
+# C-x 2
+# C-x o
+# C-u M-x R
 
+ aa <- readLines( "all.txt" )
 
+ ab <- aa[ grep( "#" , aa , invert=T ) ]
+ command <- ab[ ab != "" ]
 
+ ac <- aa[ grep( "# [(]" , aa ) ]
+ ad <- gsub( "# [(]" , "" , ac )
+ ae <- strsplit( ad , ") - " )
+ type <- sapply( ae , "[" , 1 )
+ desc <- sapply( ae , "[" , 2 )
+
+ dd <- data.frame( type , command , desc )
 
