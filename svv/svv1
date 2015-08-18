@@ -34,9 +34,6 @@ cat /etc/hosts
 hostname
 cat /proc/sys/kernel/hostname
 
-ls /etc/init/*host*
-cat /etc/init/hostname.conf
-
 sudo sh -c "echo 'svv1' > /etc/hostname"
 
 # NB change also /etc/hosts
@@ -49,6 +46,24 @@ cat /etc/hosts
 # ::1     localhost ip6-localhost ip6-loopback
 # ff02::1 ip6-allnodes
 # ff02::2 ip6-allrouters
+
+# upstart
+
+ls /etc/init/host*
+# hostname.conf
+cat /etc/init/hostname.conf
+# #
+# # This task is run on startup to set the system hostname from /etc/hostname,
+# # falling back to "localhost" if that file is not readable or is empty and
+# # no hostname has yet been set.
+# 
+# description     "set system hostname"
+# 
+# start on startup
+# 
+# task
+# exec hostname -b -F /etc/hostname
+# 
 
 sudo initctl list | grep host
 sudo initctl status hostname
@@ -455,8 +470,8 @@ su sv1
 cd ~
 mkdir bin/
 
-# scp ../scripts/lscm.sh sv1@192.168.1.71:~/bin/
-# scp ../scripts/my_lscm.sh sv1@192.168.1.71:~/bin/
+# scp ../scripts/lscm.sh sv1@_._._._:~/bin/
+# scp ../scripts/my_lscm.sh sv1@_._._._:~/bin/
 
 source .bashrc
 
@@ -513,4 +528,83 @@ emacs all.txt
  desc <- sapply( ae , "[" , 2 )
 
  dd <- data.frame( type , command , desc )
+
+ ii <- order( type , command )
+ stype <- type[ ii ]
+ scommand <- command[ ii ]
+ sdesc <- desc[ ii ]
+
+ table( stype )
+# stype
+#    1 1ssl    4    5    7    8
+#  153    1    1    3    4  159
+
+ q()
+
+#=========================================================================
+
+nano bin/bootlog.sh
+# #!/bin/bash
+# date
+# date "+%y%m%d"
+# ip route show | grep default | sed 's/.*via //;s/ dev.*//'
+
+chmod u+x bin/bootlog.sh
+
+cd /etc/init
+sudo nano bootlog.conf
+# description     "boot log"
+# start on runlevel [2345]
+# task
+# exec /srv/sv1/bin/bootlog.sh >> /srv/sv1/boot.log
+
+sudo initctl check-config bootlog 
+# NB!
+sudo initctl reload-configuration
+
+# test
+sudo initctl status bootlog
+# bootlog stop/waiting
+sudo initctl start bootlog
+cat boot.log
+sudo rm boot.log
+
+sudo reboot
+
+#=========================================================================
+
+nano bin/userslog.sh
+# #!/bin/bash
+# echo "$(date +%y%m%d-%H:%M:%S) - $(users)"
+
+sudo chmod u+x bin/userslog.sh
+
+sudo nano /etc/crontab
+# 01 *    * * *   sv1     ~/bin/userslog.sh >> ~/users.log
+
+# NB!
+# la variabile PATH viene ridefinita nel file crontab
+
+#=========================================================================
+# gestione processi utente
+
+man limits.conf
+
+sudo nano /etc/security/limits.conf 
+# sv1     hard    nproc   100
+
+# logout
+# login
+
+ulimit -u 
+
+ps auxf | grep "^sv1" | sed 's/^/# /'
+# sv1       1979  0.0  0.8 105636  4032 ?        S    17:57   0:00      \_ sshd: sv1@pts/0     
+# sv1       1980  0.0  1.0  22508  5156 pts/0    Ss   17:57   0:00          \_ -bash
+# sv1       2020  0.0  0.5  18612  2640 pts/0    R+   18:03   0:00              \_ ps auxf
+# sv1       2021  0.0  0.4  11748  2084 pts/0    S+   18:03   0:00              \_ grep --color=auto ^sv1
+# sv1       2022  0.0  0.3  13860  1508 pts/0    S+   18:03   0:00              \_ sed s/^/# /
+
+#=========================================================================
+
 
