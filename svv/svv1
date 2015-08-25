@@ -89,7 +89,7 @@ sudo lsblk
 sudo fdisk -l
 
 # Nessuna partizione di swap
-free
+free -h
 cat /proc/swaps
 
 # partizione swap
@@ -158,7 +158,7 @@ sudo blkid /dev/sdb1
 sudo nano /etc/fstab
 # UUID=<>	/opt	ext4	defaults	0	2
 sudo mount -a
-df -h
+df -h -t ext4
 
 # backup /var
 cd /opt
@@ -170,7 +170,7 @@ sudo mkfs.ext4 -j /dev/sdb5
 sudo mkdir /opt/var
 sudo mount /dev/sdb5 /opt/var
 sudo atool -X /opt/ /opt/var-150526.tar.gz
-df -h
+df -h -t ext4
 sudo umount /dev/sdb5
 sudo blkid /dev/sdb5
 sudo nano /etc/fstab
@@ -180,7 +180,7 @@ df -h
 sudo rm -r /var
 sudo mkdir /var
 sudo mount -a
-df -h
+df -h -t ext4
 sudo lsblk
 
 #=========================================================================
@@ -265,7 +265,6 @@ sudo nano /etc/fstab
 
 sudo mount -a
 
-df
 sudo lsblk
 # NAME               MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
 # sda                  8:0    0    10G  0 disk 
@@ -286,6 +285,14 @@ sudo lsblk
 #   └─vga-lv2 (dm-1) 252:1    0   4.5G  0 lvm  /var/backups
 # sdd                  8:48   0    10G  0 disk 
 # sr0                 11:0    1  1024M  0 rom  
+
+df -h -t ext4
+# Filesystem           Size  Used Avail Use% Mounted on
+# /dev/sda1            9.8G  1.3G  8.0G  14% /
+# /dev/sdb1            3.9G  232M  3.4G   7% /opt
+# /dev/sdb5            3.9G  458M  3.2G  13% /var
+# /dev/mapper/vga-lv1  4.4G  9.0M  4.1G   1% /var/opt
+# /dev/mapper/vga-lv2  4.4G  9.0M  4.1G   1% /var/backups
 
 #=========================================================================
 
@@ -361,7 +368,7 @@ sudo lvs
 
 # Add Physical Volumes to Volume Group
 
-sudo vgextend /dev/vga /dev/sdd1 /dev/sdd2 /dev/sdd3 /dev/sdd4
+sudo vgextend vga /dev/sdd1 /dev/sdd2 /dev/sdd3 /dev/sdd4
 
 # Convert /var/opt  from linear to mirror (level 1)
 
@@ -371,7 +378,7 @@ sudo lvconvert -m 1 /dev/vga/lv1
 
 sudo lvextend -L +4G /dev/vga/lv2
 
-sudo pvs | sed 's/^/# /'
+sudo pvs
 #   PV         VG   Fmt  Attr PSize PFree  
 #   /dev/sdc1  vga  lvm2 a--  2.44g 380.00m
 #   /dev/sdc2  vga  lvm2 a--  2.44g      0 
@@ -392,7 +399,7 @@ sudo lvs
 #=========================================================================
 # esempio backup
 
-sudo rsync --archive --delete --compress -vh /home/ /var/backups/
+sudo rsync --archive --delete --compress -vh /home /var/backups
 
 #=========================================================================
 # esempi useradd
@@ -473,7 +480,13 @@ mkdir bin/
 # scp ../scripts/lscm.sh sv1@_._._._:~/bin/
 # scp ../scripts/my_lscm.sh sv1@_._._._:~/bin/
 
+cd bin
+chmod u+x *
+cd ~
+
 source .bashrc
+
+export | grep "PATH"
 
 #=========================================================================
 
@@ -543,7 +556,8 @@ emacs all.txt
 
 #=========================================================================
 
-nano bin/bootlog.sh
+cd ~/bin
+nano bootlog.sh
 # #!/bin/bash
 # date
 # date "+%y%m%d"
@@ -566,6 +580,8 @@ sudo initctl reload-configuration
 sudo initctl status bootlog
 # bootlog stop/waiting
 sudo initctl start bootlog
+
+cd ~
 cat boot.log
 sudo rm boot.log
 
@@ -576,6 +592,7 @@ sudo reboot
 nano bin/userslog.sh
 # #!/bin/bash
 # echo "$(date +%y%m%d-%H:%M:%S) - $(users)"
+# exit
 
 sudo chmod u+x bin/userslog.sh
 
@@ -606,5 +623,4 @@ ps auxf | grep "^sv1" | sed 's/^/# /'
 # sv1       2022  0.0  0.3  13860  1508 pts/0    S+   18:03   0:00              \_ sed s/^/# /
 
 #=========================================================================
-
 
