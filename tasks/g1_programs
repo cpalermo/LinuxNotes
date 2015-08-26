@@ -13,4 +13,16 @@ apache2
 aptitude $APTITUDE_OPT install $LSP_APACHE
 
 #=========================================================================
+# lxc
+
+LSP_LXC="
+lxc
+libapparmor1
+libseccomp2
+bridge-utils
+"
+
+aptitude $APTITUDE_OPT install $LSP_LXC
+
+#=========================================================================
 
