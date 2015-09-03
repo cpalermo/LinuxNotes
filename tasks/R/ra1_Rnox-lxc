@@ -1,0 +1,388 @@
+# Rnox 3.2.2
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+BUILDJ="$(nproc)"
+
+TARG_REL="jessie"
+
+PB_DIR="/var/cache/pbuilder"
+PB_SRC="$PB_DIR/src"
+PB_RES="$PB_DIR/result"
+
+PB_PKG="Rnox"
+PB_REL="3.2.2"
+PB_PKGREL="$PB_PKG-$PB_REL"
+
+# GCC_REL=
+
+# PB_PKGDIR="$PB_PKGREL-$(date +%y%m%d)"
+
+#=========================================================================
+
+GREP_REL="deb.*[ ]$TARG_REL[ ]main"
+
+LXCP=$(lxc-config lxc.lxcpath)
+LXCN="lxc-amd64-$TARG_REL-$PB_PKG"
+
+# uncomment target release
+# sed /"$GREP_REL"/s/'^# deb'/'deb'/ /etc/apt/sources.list
+# sed /"$GREP_REL"/s/'^#deb'/'deb'/ /etc/apt/sources.list
+
+# comment target release
+# sed /"$GREP_REL"/s/'^deb'/'# deb'/ /etc/apt/sources.list
+# sed /"$GREP_REL"/s/'^ deb'/'# deb'/ /etc/apt/sources.list
+
+#=========================================================================
+
+# ls /usr/share/lxc/templates
+# lxc-create -h
+# lxc-create -t debian -h
+
+if [ ! -d $LXCP/$LXCN ]; then
+	lxc-create -t debian -n $LXCN -- -r jessie -a amd64
+	# host network access:
+	sed -i 's/empty$/none/' $LXCP/$LXCN/config
+	# set sources.list:
+	cp /etc/apt/sources.list $LXCP/$LXCN/rootfs/etc/apt/sources.list
+	# uncomment target release
+	sed -i /"$GREP_REL"/s/'^# deb'/'deb'/ $LXCP/$LXCN/rootfs/etc/apt/sources.list
+	sed -i /"$GREP_REL"/s/'^#deb'/'deb'/ $LXCP/$LXCN/rootfs/etc/apt/sources.list
+	lxc-start -n $LXCN -d
+	lxc-attach -n $LXCN -- passwd root
+	# 123
+else
+	lxc-start -n $LXCN -d
+fi
+
+# lxc-console -n $LXCN
+# root
+# 123
+#
+# logout | exit
+# <Ctrl+a q>
+#
+# lxc-stop -n $LXCN
+#
+# lxc-destroy -n $LXCN
+
+tree -L 3 $LXCP
+lxc-ls --fancy
+
+#=========================================================================
+# installazione dipendenze
+
+# NB
+# pacchetti installati:
+lxc-attach -n $LXCN -- dpkg -l
+# cache dei pacchetti del container debian di default
+ls /var/cache/lxc/debian/rootfs-jessie-amd64/var/cache/apt/archives/
+
+# cache dei pacchetti del container appena creato
+# NB per velocizzare l'installazione dei pacchetti
+# si possono copiare i file .deb in questa dir:
+ls $LXCP/$LXCN/rootfs/var/cache/apt/archives/
+
+# ( rimuovendo --dry-run )
+# rsync --archive -vh --dry-run \
+# $PB_SRC/$PB_PKG/archives/ \
+# $LXCP/$LXCN/rootfs/var/cache/apt/archives
+
+# aptitude
+lxc-attach -n $LXCN -- apt-get update
+#
+lxc-attach -n $LXCN -- apt-get $APT_OPT install aptitude
+#
+lxc-attach -n $LXCN -- aptitude update
+lxc-attach -n $LXCN -- aptitude $APT_OPT full-upgrade
+#
+
+# R
+#
+# dipendenze generiche  R
+lxc-attach -n $LXCN -- aptitude $APT_OPT -R install r-base-core
+#
+lxc-attach -n $LXCN -- aptitude $APT_OPT install r-base-dev
+
+# dipendenze R packages:
+lxc-attach -n $LXCN -- aptitude $APT_OPT install libxml2-dev
+# RCurl:
+lxc-attach -n $LXCN -- aptitude $APT_OPT install libcurl4-gnutls-dev
+# git2r
+lxc-attach -n $LXCN -- aptitude $APT_OPT install libssl-dev
+
+# dipendenze per la documentazione di R:
+#
+# html:
+#texlive-binaries		/usr/bin/makeindex
+#texinfo			/usr/bin/makeinfo
+# pdf:
+#texlive-latex-base		/usr/bin/pdflatex
+#texlive-latex-extra		/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
+#texlive-fonts-recommended
+#texlive-fonts-extra		/usr/share/texlive/texmf-dist/tex/latex/inconsolata/inconsolata.sty
+
+LSV_RDOC="
+texlive-binaries
+texinfo
+texlive-latex-base
+texlive-latex-extra
+texlive-fonts-recommended
+texlive-fonts-extra
+"
+
+lxc-attach -n $LXCN -- aptitude $APT_OPT install $LSV_RDOC
+#
+
+# support graphical output capabilities:
+#
+lxc-attach -n $LXCN -- aptitude search libjpeg[0-9.]*-dev
+lxc-attach -n $LXCN -- aptitude search libpng[0-9.]*-dev
+lxc-attach -n $LXCN -- aptitude search libtiff[0-9.]*-dev
+lxc-attach -n $LXCN -- aptitude search libcairo[0-9.]*-dev
+lxc-attach -n $LXCN -- aptitude search libpango[0-9.]*-dev
+# CONTROLLA bene e seleziona le versioni !
+
+# Debian jessie:
+#
+#libjpeg-dev *		--with-jpeglib=yes
+#libpng12-dev *		--with-libpng=yes
+#libtiff5-dev		--with-libtiff=yes
+#libcairo2-dev		--with-cairo=yes
+#libpango1.0-dev	NB necessario
+# * già installati con altre dipendenze
+
+LSV_RGR="
+libjpeg-dev
+libpng12-dev
+libtiff5-dev
+libcairo2-dev
+libpango1.0-dev
+"
+
+lxc-attach -n $LXCN -- aptitude $APT_OPT install $LSV_RGR
+#
+
+# interprete java tramite gcc:
+#
+# versione gcc
+GCC_VER=$( lxc-attach -n $LXCN -- gcc --version | \
+	grep "^gcc" | sed 's/.* //;s/\.[0-9]$//' )
+echo $GCC_VER
+# controlla!
+
+LSV_GCJ="
+gcj-$GCC_VER-jre-headless
+gcj-$GCC_VER-jdk
+"
+
+lxc-attach -n $LXCN -- aptitude $APT_OPT install $LSV_GCJ
+#
+
+#=========================================================================
+
+if [ ! -d $PB_SRC ]; then 
+	mkdir $PB_SRC
+fi
+cd $PB_SRC
+
+if [ ! -d $PB_PKG ]; then 
+	mkdir $PB_PKG 
+fi
+cd $PB_PKG
+
+if [ ! -d $PB_PKGREL ]; then 
+	mkdir $PB_PKGREL 
+else
+	echo "### ATTENZIONE: questa versione di R è probabilmente già stata compilata! ###"
+fi
+cd $PB_PKGREL
+
+# per spostare i pacchetti scaricati, nella cache di default
+# per renderli disponibili nelle prossime installazioni
+# (cancellare '--dri-run' ):
+if [ ! -d archives ]; then 
+	mkdir archives 
+fi
+rsync --archive -vh --dry-run \
+$LXCP/$LXCN/rootfs/var/cache/apt/archives/ \
+$PB_SRC/$PB_PKG/$PB_PKGREL/archives
+
+#=========================================================================
+# dir /opt in lxc:
+
+LXC_OPT=$LXCP/$LXCN/rootfs/opt/$PB_PKGREL
+mkdir $LXC_OPT
+mkdir $LXC_OPT/etc $LXC_OPT/src $LXC_OPT/var
+mkdir $LXC_OPT/local $LXC_OPT/local/bin $LXC_OPT/local/lib
+# /opt/Rnox-
+# ├── etc
+# ├── local
+# │   ├── bin
+# │   └── lib
+# ├── src
+# └── var
+
+#=========================================================================
+# dowload src R
+
+cd $PB_SRC/$PB_PKG/$PB_PKGREL
+
+if [ ! -f R-$PB_REL.tar.gz ]; then 
+	wget -c http://cran.rstudio.com/src/base/R-3/R-$PB_REL.tar.gz
+	md5sum R-$PB_REL.tar.gz
+else
+	md5sum R-$PB_REL.tar.gz
+fi
+# 57cef5c2e210a5454da1979562a10e5b  R-3.2.2.tar.gz
+
+# estraggo i sorgenti in /opt/src
+atool -X $LXC_OPT/src R-$PB_REL.tar.gz
+
+cd $LXC_OPT/src/R-$PB_REL
+
+# Variabili di compilazione:
+echo "CC="gcc-$GCC_VER"" >> config.site
+echo "CFLAGS="-m64 -g -O2 -mtune=generic"" >> config.site
+echo "F77="gfortran-$GCC_VER"" >> config.site
+echo "FFLAGS="-m64 -g -O2 -mtune=generic"" >> config.site
+echo "CXX="g++-$GCC_VER"" >> config.site
+echo "CXXFLAGS="-m64 -g -O2 -mtune=generic"" >> config.site
+echo "FC="gfortran-$GCC_VER"" >> config.site
+echo "FCFLAGS="-m64 -g -O2 -mtune=generic"" >> config.site
+
+
+
+
+#=========================================================================
+#=========================================================================
+# entro nella console lxc
+
+lxc-console -n $LXCN
+# root
+# 123
+ 
+# Viene selezionata la dir più recente in /opt:
+cd /opt
+TSORT=$(ls -t)
+LAST=$(echo $TSORT | cut -d ' ' -f 1)
+OPTD="/opt/$LAST"
+# Prefisso di installazione
+OPT_PREFIX=$OPTD/local
+echo $OPT_PREFIX
+# srcdir
+OPT_SRCDIR=$(ls -d $OPTD/src/R*)
+echo $OPT_SRCDIR
+
+cd $OPT_SRCDIR
+
+# 
+./configure --prefix=$OPT_PREFIX --srcdir=$OPT_SRCDIR \
+--enable-R-shlib=yes --enable-BLAS-shlib=yes \
+--with-x=no --with-tcltk=no \
+--with-cairo=yes --with-libpng=yes --with-jpeglib=yes --with-libtiff=yes
+
+make -j 4
+
+make install
+
+# $OPT_PREFIX/bin/R
+# q()
+# n
+
+logout
+# <Ctrl+a q>
+
+#R is now configured for x86_64-pc-linux-gnu
+#
+#  Source directory:          .
+#  Installation directory:    /opt/Rnox-3.2.2/local
+#
+#  C compiler:                gcc-4.9 -std=gnu99  -g -O2
+#  Fortran 77 compiler:       gfortran-4.9  -g -O2
+#
+#  C++ compiler:              g++-4.9  -g -O2
+#  C++ 11 compiler:           g++-4.9  -std=c++11 -g -O2
+#  Fortran 90/95 compiler:    gfortran-4.9 -g -O2
+#  Obj-C compiler:	      
+#
+#  Interfaces supported:      
+#  External libraries:        readline, zlib, bzlib, lzma, PCRE, curl
+#  Additional capabilities:   PNG, JPEG, TIFF, NLS, cairo
+#  Options enabled:           shared R library, shared BLAS, R profiling
+#
+#  Capabilities skipped:      ICU
+#  Options not enabled:       memory profiling
+#
+#  Recommended packages:      yes
+
+#=========================================================================
+#=========================================================================
+
+cd $LXCP/$LXCN/rootfs/opt
+tree -L 4
+
+# copio il risultato in /opt
+
+tree -L 3 $LXCP/$LXCN/rootfs/opt/$PB_PKGREL
+
+cp -a $LXCP/$LXCN/rootfs/opt/$PB_PKGREL /opt
+
+tree -L 3 /opt/$PB_PKGREL | sed 's/^/# /'
+#
+# ├── etc
+# ├── local
+# │   ├── bin
+# │   │   ├── R
+# │   │   └── Rscript
+# │   ├── lib
+# │   │   ├── pkgconfig
+# │   │   └── R
+# │   └── share
+# │       └── man
+# ├── src
+# │   └── R-3.2.2
+# │       ├── bin
+# │       ├── ChangeLog
+# │       ├── config.log
+# │       ├── config.site
+# │       ├── config.status
+# │       ├── configure
+# │       ├── configure.ac
+# │       ├── COPYING
+# │       ├── doc
+# │       ├── etc
+# │       ├── include
+# │       ├── INSTALL
+# │       ├── lib
+# │       ├── library
+# │       ├── libtool
+# │       ├── m4
+# │       ├── Makeconf
+# │       ├── Makeconf.in
+# │       ├── Makefile
+# │       ├── Makefile.fw
+# │       ├── Makefile.in
+# │       ├── Makefrag.cc
+# │       ├── Makefrag.cc_lo
+# │       ├── Makefrag.cxx
+# │       ├── Makefrag.m
+# │       ├── modules
+# │       ├── po
+# │       ├── README
+# │       ├── share
+# │       ├── src
+# │       ├── stamp-java
+# │       ├── SVN-REVISION
+# │       ├── tests
+# │       ├── tools
+# │       ├── VERSION
+# │       └── VERSION-NICK
+# └── var
+# 
+# 24 directories, 25 files
+
+#=========================================================================
+

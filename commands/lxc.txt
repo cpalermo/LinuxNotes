@@ -1,0 +1,72 @@
+# Command list of package "lxc":
+
+lxc-attach
+# (1) - start a process inside a running container.
+
+lxc-autostart
+# (1) - start/stop/kill auto-started containers
+
+lxc-cgroup
+# (1) - manage the control group associated with a container
+
+lxc-checkconfig
+# (1) - check the current kernel for lxc support
+
+lxc-clone
+# (1) - clone a new container from an existing one.
+
+lxc-config
+# (1) - query LXC system configuration
+
+lxc-console
+# (1) - Launch a console for the specified container
+
+lxc-create
+# (1) - creates a container
+
+lxc-destroy
+# (1) - destroy a container.
+
+lxc-device
+# (1) - manage devices of running containers
+
+lxc-execute
+# (1) - run an application inside a container.
+
+lxc-freeze
+# (1) - freeze all the container's processes
+
+lxc-info
+# (1) - query information about a container
+
+lxc-ls
+# (1) - list the containers existing on the system
+
+lxc-monitor
+# (1) - monitor the container state
+
+lxc-snapshot
+# (1) - Snapshot an existing container.
+
+lxc-start
+# (1) - run an application inside a container.
+
+lxc-start-ephemeral
+# (1) - start an ephemeral copy of an existing container
+
+lxc-stop
+# (1) - stop the application running inside a container
+
+lxc-unfreeze
+# (1) - thaw all the container's processes
+
+lxc-unshare
+# (1) - Run a task in a new set of namespaces.
+
+lxc-usernsexec
+# (1) - Run a task as root in a new user namespace.
+
+lxc-wait
+# (1) - wait for a specific container state
+
+

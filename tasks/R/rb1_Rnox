@@ -1,0 +1,157 @@
+# Rnox 3.2.2
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+BUILDJ="$(nproc)"
+
+TARG_REL="jessie"
+
+PB_DIR="/var/cache/pbuilder"
+PB_SRC="$PB_DIR/src"
+PB_RES="$PB_DIR/result"
+
+PB_PKG="Rnox"
+PB_REL="3.2.2"
+PB_PKGREL="$PB_PKG-$PB_REL"
+
+# prova
+# /opt/$PB_PKGREL/local/bin/R
+
+#=========================================================================
+# R
+
+# dipendenze generiche  R
+aptitude $APT_OPT -R install r-base-core
+#
+aptitude $APT_OPT install r-base-dev
+
+# dipendenze R packages:
+aptitude $APT_OPT install libxml2-dev
+# RCurl:
+aptitude $APT_OPT install libcurl4-gnutls-dev
+# git2r
+aptitude $APT_OPT install libssl-dev
+
+#=========================================================================
+# creazione pacchetto fittizio di R con equivs
+
+mkdir $PB_SRC/$PB_PKG/$PB_PKGREL/deb && mkdir $PB_SRC/$PB_PKG/$PB_PKGREL/deb/equivs
+
+RDEBD="$PB_SRC/$PB_PKG/$PB_PKGREL/deb"
+ARCHD="$PB_SRC/$PB_PKG/$PB_PKGREL/archives"
+
+cp $ARCHD/r-base-core*.deb $RDEBD
+cp $ARCHD/r-base-dev*.deb $RDEBD
+
+cd $RDEBD
+mkdir r-base-core && mkdir r-base-core/DEBIAN && mkdir equivs/r-base-core
+mkdir r-base-dev && mkdir r-base-dev/DEBIAN && mkdir equivs/r-base-dev
+
+tree $RDEBD | sed 's/^/# /'
+#
+# ├── equivs
+# │   ├── r-base-core
+# │   └── r-base-dev
+# ├── r-base-core
+# │   └── DEBIAN
+# ├── r-base-core_3.1.1-1+b2_amd64.deb
+# ├── r-base-dev
+# │   └── DEBIAN
+# └── r-base-dev_3.1.1-1_all.deb
+# 
+# 7 directories, 2 files
+
+dpkg-deb -e r-base-core*.deb r-base-core/DEBIAN
+dpkg-deb -e r-base-dev*.deb r-base-dev/DEBIAN
+
+# sovrascrivo la versione
+#
+sed s/'^Version[[:alnum:][:punct:][:space:]]*'/"Version: $PB_REL-equivs"/ \
+r-base-core/DEBIAN/control > equivs/r-base-core/control
+
+sed s/'^Version[[:alnum:][:punct:][:space:]]*'/"Version: $PB_REL-equivs"/ \
+r-base-dev/DEBIAN/control > equivs/r-base-dev/control
+
+#
+sed -i s/'^Source[[:alnum:][:punct:][:space:]]*'/'Source: r-base'/ equivs/r-base-core/control
+sed -i s/'^Source[[:alnum:][:punct:][:space:]]*'/'Source: r-base'/ equivs/r-base-dev/control
+
+# controllo:
+cat equivs/r-base-core/control | grep "^Version"
+cat equivs/r-base-dev/control | grep "^Version"
+cat equivs/r-base-core/control | grep "^Source"
+cat equivs/r-base-dev/control | grep "^Source"
+
+cd $RDEBD/equivs
+equivs-build r-base-core/control
+equivs-build r-base-dev/control
+
+# copio i deb fittizi in results
+mkdir $PB_RES/$PB_PKGREL
+cp -a $RDEBD/equivs/r-base*.deb $PB_RES/$PB_PKGREL
+
+#=========================================================================
+# installo i pacchetti fittizi
+
+cd $PB_RES/$PB_PKGREL
+
+apt-get $APT_OPT purge r-base-dev
+apt-get $APT_OPT purge r-base-core
+gdebi -n r-base-core*.deb
+gdebi -n r-base-dev*.deb
+
+#=========================================================================
+
+ln -s /opt/$PB_PKGREL/ /opt/R
+
+# prova
+/opt/R/local/bin/R
+
+# compatibilità con shiny-server??:
+# ls -lahF /usr/local/bin
+# rm -d /usr/local/bin
+# ln -s /opt/stable/local/bin /usr/local/bin
+
+#=========================================================================
+
+updatedb
+locate /.bashrc | grep -v "/lxc/" | grep -v "/etc/"
+
+cd ~
+ls -lhaF
+
+touch .environment
+nano .environment
+# if [ -d "/opt/R/local/bin" ] ; then
+#     PATH="/opt/R/local/bin:$PATH"
+# fi
+
+nano .bashrc
+# if [ -f ~/.environment ]; then
+#     . ~/.environment
+# fi
+
+source .bashrc
+
+# per ripristinare l'ambiente di default
+# source /etc/environment
+
+# N.B. VARIABILI GLOBALI
+# Variabili di ambiente, file di configurazione globali:
+# /etc/login.defs	# letto all'avvio del sistema
+# /etc/profile		# letto all'avvio della sessione, ma se si esegue 'su'
+			# le variabili vengono reimpostate su /etc/login.defs
+			# si deve quindi eseguire 'source /etc/profile'
+# /etc/environment	# file di configurazione per le variabili ambientali
+#
+#			su	ssh	source
+# /etc/login.defs	OK	-	-	[SU]*PATH
+# /etc/profile		-	OK	OK	[SU]*PATH
+# /etc/environment	OK	OK	OK	PATH
+#
+# https://wiki.debian.org/it/EnvironmentVariables
+
+#=========================================================================
+
