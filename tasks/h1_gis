@@ -1,0 +1,52 @@
+#=========================================================================
+# opt
+
+APTITUDE_OPT="-syV"
+
+#=========================================================================
+
+LSP_PROJ="
+proj-bin
+proj-data
+libproj0
+libproj-dev
+libproj-java
+"
+# libproj0/jessie	--->	libproj9/stretch
+
+aptitude $APTITUDE_OPT install $LSP_PROJ
+
+LSP_GEOS="
+libgeos-3.4.2
+libgeos-dev
+libgeos-dbg
+libgeos-doc
+libgeos++-dev
+libgeos-c1
+php5-geos
+ruby-geos
+libgeos-ruby1.8
+"
+# libgeos-3.4.2/jessie	--->	libgeos-3.5.0/stretch
+# libgeos-c1/jessie	--->	libgeos-c1v5/stretch
+# libgeos-ruby1.8/jessie--->	NA/stretch
+
+aptitude $APTITUDE_OPT install $LSP_GEOS
+
+LSP_GDAL="
+gdal-bin
+libgdal-dev
+libgdal-doc
+libgdal1h
+libgdal1-dev
+libgdal-java
+libgdal-perl
+python-gdal
+python3-gdal
+"
+# NA/jessie	--->	libgdal1i/stretch
+
+aptitude $APTITUDE_OPT install $LSP_GDAL
+
+#=========================================================================
+
