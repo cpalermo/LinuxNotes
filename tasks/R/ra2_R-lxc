@@ -2,7 +2,7 @@
 #=========================================================================
 # opt
 
-APT_OPT="-yV"
+APT_OPT="-ysV"
 
 BUILDJ="$(nproc)"
 
@@ -12,7 +12,7 @@ PB_DIR="/var/cache/pbuilder"
 PB_SRC="$PB_DIR/src"
 PB_RES="$PB_DIR/result"
 
-PB_PKG="Rnox"
+PB_PKG="R"
 PB_REL="3.2.2"
 PB_PKGREL="$PB_PKG-$PB_REL"
 
@@ -179,6 +179,15 @@ gcj-$GCC_VER-jdk
 lxc-attach -n $LXCN -- aptitude $APT_OPT install $LSV_GCJ
 #
 
+# Supporto a X
+lxc-attach -n $LXCN -- aptitude $APT_OPT build-dep r-base
+#
+
+
+
+
+
+
 #=========================================================================
 
 if [ ! -d $PB_SRC ]; then 
@@ -277,7 +286,7 @@ cd $OPT_SRCDIR
 # 
 ./configure --prefix=$OPT_PREFIX --srcdir=$OPT_SRCDIR \
 --enable-R-shlib=yes --enable-BLAS-shlib=yes \
---with-x=no --with-tcltk=no \
+--with-x=yes --with-tcltk=yes \
 --with-cairo=yes --with-libpng=yes --with-jpeglib=yes --with-libtiff=yes
 
 make -j 4
@@ -295,7 +304,7 @@ logout
 #R is now configured for x86_64-pc-linux-gnu
 #
 #  Source directory:          .
-#  Installation directory:    /opt/Rnox-3.2.2/local
+#  Installation directory:    /opt/R-3.2.2/local
 #
 #  C compiler:                gcc-4.9 -std=gnu99  -g -O2
 #  Fortran 77 compiler:       gfortran-4.9  -g -O2
@@ -305,7 +314,7 @@ logout
 #  Fortran 90/95 compiler:    gfortran-4.9 -g -O2
 #  Obj-C compiler:	      
 #
-#  Interfaces supported:      
+#  Interfaces supported:      X11, tcltk
 #  External libraries:        readline, zlib, bzlib, lzma, PCRE, curl
 #  Additional capabilities:   PNG, JPEG, TIFF, NLS, cairo
 #  Options enabled:           shared R library, shared BLAS, R profiling
