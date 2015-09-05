@@ -3,7 +3,11 @@
 
 APT_OPT="-syV"
 
+RSREL="rstudio-0.99.483-amd64.deb"
+RSMD5="1d5cab14ebe9424d121c44456f8ff9dd"
+
 #=========================================================================
+# Emacs Speaks Statistics
 
 LSP_ESS="
 emacs24
@@ -13,4 +17,15 @@ ess
 aptitude $APT_OPT install $LSP_ESS
 
 #=========================================================================
+# Rstudio IDE
 
+cd /var/cache/apt
+mkdir -p locales
+cd locales
+
+wget -c https://download1.rstudio.org/$RSREL
+md5sum $RSREL | grep $RSMD5
+
+gdebi $RSREL
+
+#=========================================================================
