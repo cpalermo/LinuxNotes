@@ -7,7 +7,6 @@ APT_OPT="-syV"
 
 LSP_ESS="
 emacs24
-emacs24-nox
 ess
 "
 
