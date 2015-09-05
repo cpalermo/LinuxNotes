@@ -105,14 +105,14 @@ gdebi -n r-base-dev*.deb
 #=========================================================================
 
 ln -s /opt/$PB_PKGREL/ /opt/R
+ln -s /opt/$PB_PKGREL/local/bin/* /usr/local/bin/
 
-# prova
-/opt/R/local/bin/R
+ls -lahF /opt/$PB_PKGREL/local/bin/
+ls -lahF /opt/R/local/bin/
+ls -lahF /usr/local/bin
 
-# compatibilità con shiny-server??:
-# ls -lahF /usr/local/bin
-# rm -d /usr/local/bin
-# ln -s /opt/stable/local/bin /usr/local/bin
+# rm /usr/local/bin/R
+# rm /usr/local/bin/Rscript
 
 #=========================================================================
 
@@ -153,5 +153,9 @@ source .bashrc
 #
 # https://wiki.debian.org/it/EnvironmentVariables
 
+whereis R
+which R
+
 #=========================================================================
+
 
