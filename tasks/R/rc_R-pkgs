@@ -1,0 +1,48 @@
+# Rnox 3.2.2
+#=========================================================================
+# root@sv1:~# R
+
+data.frame( capabilities() )
+
+update.packages( repos="http://cran.rstudio.com/" )
+
+# Data managment
+install.packages( "reshape2" , repos="http://cran.rstudio.com/" )
+install.packages( "dplyr" , repos="http://cran.rstudio.com/" )
+install.packages( "tidyr" , repos="http://cran.rstudio.com/" )
+install.packages( "data.table" , repos="http://cran.rstudio.com/" )
+
+# Low level web scraping
+install.packages( "httr" , repos="http://cran.rstudio.com/" )
+install.packages( "xml2" , repos="http://cran.rstudio.com/" )
+# legacy:
+# install.packages( "XML" , repos="http://cran.rstudio.com/" )
+# install.packages( "rjson" , repos="http://cran.rstudio.com/" )
+# install.packages( "RJSONIO" , repos="http://cran.rstudio.com/" )
+
+# Dev tools
+install.packages( "devtools" , repos="http://cran.rstudio.com/" )
+install.packages( "packrat" , repos="http://cran.rstudio.com/" )
+
+# Graphics
+install.packages( "gridSVG" , repos="http://cran.rstudio.com/" )
+install.packages( "ggplot2" , repos="http://cran.rstudio.com/" )
+install.packages( "dygraphs" , repos="http://cran.rstudio.com/" )
+
+# Spatial data
+install.packages( "sp" , repos="http://cran.rstudio.com/" )
+install.packages( "rgeos" , repos="http://cran.rstudio.com/" )
+install.packages( "rgdal" , repos="http://cran.rstudio.com/" )
+#
+# install.packages( "maptools" , repos="http://cran.rstudio.com/" )
+# install.packages( "osmar" , repos="http://cran.rstudio.com/" )
+# install.packages( "maps" , repos="http://cran.rstudio.com/" )
+# install.packages( "mapdata" , repos="http://cran.rstudio.com/" )
+# install.packages( "mapproj" , repos="http://cran.rstudio.com/" )
+
+# High level web visualization
+install.packages( "rmarkdown" , repos="http://cran.rstudio.com/" )
+install.packages( "shiny" , repos="http://cran.rstudio.com/" )
+
+#=========================================================================
+
