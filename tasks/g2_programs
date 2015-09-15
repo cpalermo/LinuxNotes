@@ -1,7 +1,7 @@
 #=========================================================================
 # opt
 
-APTITUDE_OPT="-yV"
+APTITUDE_OPT="-syV"
 
 #=========================================================================
 # virtualbox
@@ -31,7 +31,7 @@ brasero
 aptitude $APTITUDE_OPT install $LSP_MEDIA
 
 #=========================================================================
-# office
+# documents
 
 LSP_OFFICE="
 libreoffice
@@ -43,6 +43,12 @@ ttf-mscorefonts-installer
 "
 
 aptitude $APTITUDE_OPT install $LSP_OFFICE
+
+LSP_PANDOC="
+pandoc
+"
+
+aptitude $APTITUDE_OPT install $LSP_PANDOC
 
 #=========================================================================
 
