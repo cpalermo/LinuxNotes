@@ -52,6 +52,32 @@ aptitude $APT_OPT install libcurl4-gnutls-dev
 # git2r
 aptitude $APT_OPT install libssl-dev
 
+# pacchetti raster data
+# support graphical output capabilities:
+#
+aptitude search libjpeg[0-9.]*-dev
+aptitude search libpng[0-9.]*-dev
+aptitude search libtiff[0-9.]*-dev
+aptitude search libcairo[0-9.]*-dev
+aptitude search libpango[0-9.]*-dev
+# CONTROLLA bene e seleziona le versioni !
+# Debian jessie:
+#
+#libjpeg-dev
+#libpng12-dev
+#libtiff5-dev
+#libcairo2-dev
+#libpango1.0-dev
+
+LSV_RGR="
+libjpeg-dev
+libpng12-dev
+libtiff5-dev
+libcairo2-dev
+libpango1.0-dev
+"
+aptitude $APT_OPT install $LSV_RGR
+
 #=========================================================================
 # installo i pacchetti fittizi
 
