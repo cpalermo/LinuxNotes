@@ -48,6 +48,15 @@ python3-gdal
 
 aptitude $APTITUDE_OPT install $LSP_GDAL
 
+LSP_GEOTIFF="
+geotiff-bin
+libgeotiff-dev
+libgeotiff2
+"
+
+aptitude $APTITUDE_OPT install $LSP_GEOTIFF
+
+
 #=========================================================================
 # qgis
 
