@@ -1,4 +1,4 @@
-# mesa 3.6 - llvm 3.6
+# mesa 10.6 - llvm 3.6
 #=========================================================================
 # opt
 
@@ -137,10 +137,12 @@ aptitude update
 
 cd $PB_DIR/aptcache
 
+### llvm ###
+
 # estraggo il numero di versione dal pacchetto più recente di "llvm-x.x-runtime"
 LLVM_STR="llvm-"$LLVM_REL"-runtime_"
 LLVM_GREP=$( ls -t "$LLVM_STR"* )
-LLVM_SUBV=$( echo $LLVM_GREP | sed "s/$LLVM_STR//;s/_i386.deb.*//" )
+LLVM_SUBV=$( echo $LLVM_GREP | sed "s/$LLVM_STR//;s/_.*.deb.*//" )
 
 # Copio solo la versione più recente:
 echo $LLVM_SUBV
@@ -153,6 +155,58 @@ cp $LLVM_DEP $CLANG_DEP $PB_RES
 
 ls -lh $PB_RES | grep llvm
 ls -lh $PB_RES | grep clang
+
+### libdrm ###
+
+LIBDRM_STR="libdrm2_"
+LIBDRM_GREP=$( ls -t "$LIBDRM_STR"* )
+LIBDRM_SUBV=$( echo $LIBDRM_GREP | sed "s/$LIBDRM_STR//;s/_.*.deb.*//" )
+
+# Copio solo la versione più recente:
+echo $LIBDRM_SUBV
+
+LIBDRM_DEP=$( ls | grep libdrm | grep $LIBDRM_SUBV )
+echo $LIBDRM_DEP
+
+cp $LIBDRM_DEP $PB_RES
+
+ls -lh $PB_RES | grep libdrm
+
+### gcc ###
+
+GCC_STR="gcc-5-base_"
+GCC_GREP=$( ls -t "$GCC_STR"* )
+GCC_SUBV=$( echo $GCC_GREP | sed "s/$GCC_STR//;s/_.*.deb.*//" )
+
+# Copio solo la versione più recente:
+echo $GCC_SUBV
+
+GCC_DEP=$( ls | grep gcc | grep $GCC_SUBV )
+STD_DEP=$( ls | grep stdc | grep $GCC_SUBV )
+echo $GCC_DEP $STD_DEP
+
+cp $GCC_DEP $STD_DEP $PB_RES
+
+ls -lh $PB_RES | grep gcc
+ls -lh $PB_RES | grep stdc
+
+### ncurses ###
+
+CUR_STR="ncurses-base_"
+CUR_GREP=$( ls -t "$CUR_STR"* )
+CUR_SUBV=$( echo $CUR_GREP | sed "s/$CUR_STR//;s/_.*.deb.*//" )
+
+# Copio solo la versione più recente:
+echo $CUR_SUBV
+
+CUR_DEP=$( ls | grep ncurses | grep $CUR_SUBV )
+INF_DEP=$( ls | grep tinfo | grep $CUR_SUBV )
+echo $CUR_DEP $INF_DEP
+
+cp $CUR_DEP $INF_DEP $PB_RES
+
+ls -lh $PB_RES | grep ncurses
+ls -lh $PB_RES | grep tinfo
 
 #=========================================================================
 
