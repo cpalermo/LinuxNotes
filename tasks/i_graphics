@@ -8,6 +8,7 @@ APT_OPT="-sV"
 
 LSP_IMGM="
 imagemagick
+potrace
 "
 
 aptitude $APT_OPT install $LSP_IMGM
@@ -29,6 +30,26 @@ gimp
 "
 
 aptitude $APT_OPT install $LSP_GIMP
+
+#=========================================================================
+# frog
+
+LSP_RACKET="
+racket/jessie-backports
+"
+
+aptitude $APT_OPT --target="jessie-backports" install $LSP_RACKET
+
+LSP_TOOLS="
+emacs-goodies-el
+python-pygments
+python3-pygments
+"
+
+aptitude $APT_OPT install $LSP_TOOLS
+
+raco pkg install frog
+# raco pkg update --update-deps frog
 
 #=========================================================================
 
