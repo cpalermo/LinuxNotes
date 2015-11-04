@@ -56,7 +56,6 @@ libgeotiff2
 
 aptitude $APTITUDE_OPT install $LSP_GEOTIFF
 
-
 #=========================================================================
 # qgis
 

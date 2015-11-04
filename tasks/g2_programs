@@ -1,22 +1,22 @@
 #=========================================================================
 # opt
 
-APTITUDE_OPT="-syV"
+APTITUDE_OPT="-yV"
 
 #=========================================================================
 # virtualbox
 
-LSP_VIRTBX="
-virtualbox
-virtualbox-qt
-"
+#LSP_VIRTBX="
+#virtualbox
+#virtualbox-qt
+#"
 
-aptitude $APTITUDE_OPT install $LSP_VIRTBX
+#aptitude $APTITUDE_OPT install $LSP_VIRTBX
 
 # Per abilitare le porte usb nelle macchine virtuali
 # controllare se il vostro utente sia nel gruppo vboxusers:
-getent group
-getent group vboxusers
+#getent group
+#getent group vboxusers
 # gpasswd -a <USER> vboxusers
 # getent group vboxusers
 
