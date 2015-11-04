@@ -6,9 +6,9 @@ PB_DIR="/var/cache/pbuilder"
 PB_RES="$PB_DIR/result"
 
 # Seleziono la dir con la versione più recente dei pacchetti:
-ls -tlF $PB_RES
+ls -tlF $PB_RES | grep mesa*
 
-LSDIR=$( ls -t $PB_RES )
+LSDIR=$( ls -t $PB_RES | grep mesa* )
 PB_PKGDIR=$( echo $LSDIR | cut -d ' ' -f 1 )
 PB_RES="$PB_DIR/result/$PB_PKGDIR"
 
