@@ -1,0 +1,216 @@
+# mesa 11.0 - llvm 3.7
+#=========================================================================
+# opt
+
+# BUILDJ="$(nproc)"
+
+TARG_REL="unstable"
+
+PB_DIR="/var/cache/pbuilder"
+PB_SRC="$PB_DIR/src"
+PB_PKG="mesa"
+PB_PKGREL="$PB_PKG-11.0"
+
+LLVM_REL=3.7
+
+PB_PKGDIR="$PB_PKGREL-$(date +%y%m%d)"
+
+#=========================================================================
+
+GREP_REL="deb.*[ ]$TARG_REL[ ]main"
+
+# uncomment target release
+sed /"$GREP_REL"/s/'^# deb'/'deb'/ /etc/apt/sources.list
+sed /"$GREP_REL"/s/'^#deb'/'deb'/ /etc/apt/sources.list
+
+# comment target release
+sed /"$GREP_REL"/s/'^deb'/'# deb'/ /etc/apt/sources.list
+sed /"$GREP_REL"/s/'^ deb'/'# deb'/ /etc/apt/sources.list
+
+#=========================================================================
+
+if [ ! -d $PB_SRC ]; then 
+	mkdir $PB_SRC
+fi
+cd $PB_SRC
+
+if [ ! -d $PB_PKG ]; then 
+	mkdir $PB_PKG 
+fi
+cd $PB_PKG
+
+# uncomment target release
+sed -i /"$GREP_REL"/s/'^# deb'/'deb'/ /etc/apt/sources.list
+sed -i /"$GREP_REL"/s/'^#deb'/'deb'/ /etc/apt/sources.list
+cat /etc/apt/sources.list
+aptitude update
+
+# i386 env
+if [ ! -e pb-i386-$PB_PKG.tgz ]; then
+	pbuilder --create --basetgz pb-i386-$PB_PKG.tgz --distribution $TARG_REL \
+	--architecture i386 --debootstrap debootstrap
+else
+	pbuilder --update --basetgz pb-i386-$PB_PKG.tgz --distribution $TARG_REL \
+	--architecture i386 --debootstrap debootstrap
+fi
+
+# amd64 env
+if [ ! -e pb-amd64-$PB_PKG.tgz ]; then
+	pbuilder --create --basetgz pb-amd64-$PB_PKG.tgz --distribution $TARG_REL \
+	--architecture amd64 --debootstrap debootstrap
+else
+	pbuilder --update --basetgz pb-amd64-$PB_PKG.tgz --distribution $TARG_REL \
+	--architecture amd64 --debootstrap debootstrap
+fi
+
+# controllo
+
+pbuilder --login --basetgz pb-i386-$PB_PKG.tgz
+ls /lib | grep linux-gnu | sed "s/^/# /"
+# i386-linux-gnu
+exit
+
+pbuilder --login --basetgz pb-amd64-$PB_PKG.tgz
+ls /lib | grep linux-gnu | sed "s/^/# /"
+# x86_64-linux-gnu
+exit
+
+#=========================================================================
+# mod source
+
+mkdir $PB_PKGDIR
+cd $PB_PKGDIR
+
+apt-get source -t $TARG_REL $PB_PKG
+ls -lh
+
+# debian/control
+grep llvm $PB_PKGREL*/debian/control
+grep libclang $PB_PKGREL*/debian/control
+# debian/rules
+grep llvm-config $PB_PKGREL*/debian/rules
+
+LLVM_OLDREL=$(grep llvm-config $PB_PKGREL*/debian/rules | sed s/.*llvm-config-//)
+echo $LLVM_OLDREL
+
+# controllo
+sed /llvm/s/$LLVM_OLDREL/$LLVM_REL/ $PB_PKGREL*/debian/control | grep llvm
+sed /libclang/s/$LLVM_OLDREL/$LLVM_REL/ $PB_PKGREL*/debian/control | grep libclang
+sed /llvm-config/s/$LLVM_OLDREL/$LLVM_REL/ $PB_PKGREL*/debian/rules | grep llvm-config
+
+# modifica
+sed -i /llvm/s/$LLVM_OLDREL/$LLVM_REL/ $PB_PKGREL*/debian/control
+sed -i /libclang/s/$LLVM_OLDREL/$LLVM_REL/ $PB_PKGREL*/debian/control
+sed -i /llvm-config/s/$LLVM_OLDREL/$LLVM_REL/ $PB_PKGREL*/debian/rules
+
+# controllo
+grep llvm $PB_PKGREL*/debian/control
+grep libclang $PB_PKGREL*/debian/control
+grep llvm-config $PB_PKGREL*/debian/rules
+
+#=========================================================================
+# build
+
+PB_RES="$PB_DIR/result/$PB_PKGDIR"
+
+mkdir $PB_RES
+ls -lh $PB_RES
+
+cd  $PB_PKGREL*
+
+pdebuild --architecture i386 -- --basetgz ../../pb-i386-$PB_PKG.tgz \
+--buildresult $PB_RES --distribution $TARG_REL --debootstrap debootstrap
+
+pdebuild --architecture amd64 -- --basetgz ../../pb-amd64-$PB_PKG.tgz \
+--buildresult $PB_RES --distribution $TARG_REL --debootstrap debootstrap
+
+ls -lh $PB_RES
+
+# comment target release
+sed -i /"$GREP_REL"/s/'^deb'/'# deb'/ /etc/apt/sources.list
+sed -i /"$GREP_REL"/s/'^ deb'/'# deb'/ /etc/apt/sources.list
+cat /etc/apt/sources.list
+aptitude update
+
+#=========================================================================
+# installation dep
+
+cd $PB_DIR/aptcache
+
+### llvm ###
+
+# estraggo il numero di versione dal pacchetto più recente di "llvm-x.x-runtime"
+LLVM_STR="llvm-"$LLVM_REL"-runtime_"
+LLVM_GREP=$( ls -t "$LLVM_STR"* )
+LLVM_SUBV=$( echo $LLVM_GREP | sed "s/$LLVM_STR//;s/_.*.deb.*//" )
+
+# Copio solo la versione più recente:
+echo $LLVM_SUBV
+
+LLVM_DEP=$( ls | grep llvm | grep $LLVM_SUBV )
+CLANG_DEP=$( ls | grep clang | grep $LLVM_SUBV )
+echo $LLVM_DEP $CLANG_DEP
+
+cp $LLVM_DEP $CLANG_DEP $PB_RES
+
+ls -lh $PB_RES | grep llvm
+ls -lh $PB_RES | grep clang
+
+### libdrm ###
+
+LIBDRM_STR="libdrm2_"
+LIBDRM_GREP=$( ls -t "$LIBDRM_STR"* )
+LIBDRM_SUBV=$( echo $LIBDRM_GREP | sed "s/$LIBDRM_STR//;s/_.*.deb.*//" )
+
+# Copio solo la versione più recente:
+echo $LIBDRM_SUBV
+
+LIBDRM_DEP=$( ls | grep libdrm | grep $LIBDRM_SUBV )
+echo $LIBDRM_DEP
+
+cp $LIBDRM_DEP $PB_RES
+
+ls -lh $PB_RES | grep libdrm
+
+#=========================================================================
+
+### gcc ### ?????
+
+GCC_STR="gcc-5-base_"
+GCC_GREP=$( ls -t "$GCC_STR"* )
+GCC_SUBV=$( echo $GCC_GREP | sed "s/$GCC_STR//;s/_.*.deb.*//" )
+
+# Copio solo la versione più recente:
+echo $GCC_SUBV
+
+GCC_DEP=$( ls | grep gcc | grep $GCC_SUBV )
+STD_DEP=$( ls | grep stdc | grep $GCC_SUBV )
+echo $GCC_DEP $STD_DEP
+
+cp $GCC_DEP $STD_DEP $PB_RES
+
+ls -lh $PB_RES | grep gcc
+ls -lh $PB_RES | grep stdc
+
+#=========================================================================
+
+### ncurses ### ?????
+
+CUR_STR="ncurses-base_"
+CUR_GREP=$( ls -t "$CUR_STR"* )
+CUR_SUBV=$( echo $CUR_GREP | sed "s/$CUR_STR//;s/_.*.deb.*//" )
+
+# Copio solo la versione più recente:
+echo $CUR_SUBV
+
+CUR_DEP=$( ls | grep ncurses | grep $CUR_SUBV )
+INF_DEP=$( ls | grep tinfo | grep $CUR_SUBV )
+echo $CUR_DEP $INF_DEP
+
+cp $CUR_DEP $INF_DEP $PB_RES
+
+ls -lh $PB_RES | grep ncurses
+ls -lh $PB_RES | grep tinfo
+
+#=========================================================================
+

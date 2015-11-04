@@ -1,0 +1,118 @@
+# Debian GNU/Linux 8 (Jessie) - amd64
+# sv1 ; ws1
+
+#=========================================================================
+
+tasksel --list-task | grep "^i " | sed "s/^/# /"
+# i ssh-server	server SSH
+
+hostname
+dnsdomainname
+lsblk
+
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+# sources.list
+
+SRCLS_REP="http://mirror3.mirror.garr.it/mirrors/debian/"
+SRCLS_REL="stretch"
+SRCLS_COM="main contrib non-free"
+
+cp /etc/apt/sources.list /etc/apt/sources.list.keep.$(date +%y%m%d)
+
+echo "deb $SRCLS_REP $SRCLS_REL $SRCLS_COM" > /etc/apt/sources.list
+echo "deb-src $SRCLS_REP $SRCLS_REL $SRCLS_COM" >> /etc/apt/sources.list
+echo "" >> /etc/apt/sources.list
+echo "deb http://security.debian.org/ $SRCLS_REL/updates $SRCLS_COM" >> /etc/apt/sources.list
+echo "deb-src http://security.debian.org/ $SRCLS_REL/updates $SRCLS_COM" >> /etc/apt/sources.list
+echo "" >> /etc/apt/sources.list
+echo "deb $SRCLS_REP $SRCLS_REL-updates $SRCLS_COM" >> /etc/apt/sources.list
+echo "deb-src $SRCLS_REP $SRCLS_REL-updates $SRCLS_COM" >> /etc/apt/sources.list
+echo "" >> /etc/apt/sources.list
+echo "# deb $SRCLS_REP $SRCLS_REL-backports $SRCLS_COM" >> /etc/apt/sources.list
+echo "# deb-src $SRCLS_REP $SRCLS_REL-backports $SRCLS_COM" >> /etc/apt/sources.list
+
+echo "" >> /etc/apt/sources.list
+echo "# testing, unstable, experimental" >> /etc/apt/sources.list
+echo "# deb $SRCLS_REP testing $SRCLS_COM" >> /etc/apt/sources.list
+echo "# deb-src $SRCLS_REP testing $SRCLS_COM" >> /etc/apt/sources.list
+echo "# deb $SRCLS_REP unstable $SRCLS_COM" >> /etc/apt/sources.list
+echo "# deb-src $SRCLS_REP unstable $SRCLS_COM" >> /etc/apt/sources.list
+echo "# deb $SRCLS_REP experimental $SRCLS_COM" >> /etc/apt/sources.list
+echo "# deb-src $SRCLS_REP experimental $SRCLS_COM" >> /etc/apt/sources.list
+
+cat /etc/apt/sources.list | sed "s/^/# /"
+# deb http://mirror3.mirror.garr.it/mirrors/debian/ stretch main contrib non-free
+# deb-src http://mirror3.mirror.garr.it/mirrors/debian/ stretch main contrib non-free
+# 
+# deb http://security.debian.org/ stretch/updates main contrib non-free
+# deb-src http://security.debian.org/ stretch/updates main contrib non-free
+# 
+# deb http://mirror3.mirror.garr.it/mirrors/debian/ stretch-updates main contrib non-free
+# deb-src http://mirror3.mirror.garr.it/mirrors/debian/ stretch-updates main contrib non-free
+# 
+# # deb http://mirror3.mirror.garr.it/mirrors/debian/ stretch-backports main contrib non-free
+# # deb-src http://mirror3.mirror.garr.it/mirrors/debian/ stretch-backports main contrib non-free
+# 
+# # testing, unstable, experimental
+# # deb http://mirror3.mirror.garr.it/mirrors/debian/ testing main contrib non-free
+# # deb-src http://mirror3.mirror.garr.it/mirrors/debian/ testing main contrib non-free
+# # deb http://mirror3.mirror.garr.it/mirrors/debian/ unstable main contrib non-free
+# # deb-src http://mirror3.mirror.garr.it/mirrors/debian/ unstable main contrib non-free
+# # deb http://mirror3.mirror.garr.it/mirrors/debian/ experimental main contrib non-free
+# # deb-src http://mirror3.mirror.garr.it/mirrors/debian/ experimental main contrib non-free
+
+#=========================================================================
+# sources.list.d/
+
+apt-key list
+
+apt-key adv --recv-keys --keyserver keys.gnupg.net E1F958385BFE2B6E
+
+echo "deb http://packages.x2go.org/debian $SRCLS_REL main" > /etc/apt/sources.list.d/x2go.list
+echo "deb-src http://packages.x2go.org/debian $SRCLS_REL main" >> /etc/apt/sources.list.d/x2go.list
+
+#=========================================================================
+# arch i386
+
+dpkg --print-architecture
+dpkg --add-architecture i386
+dpkg --print-foreign-architectures
+
+#=========================================================================
+# update
+
+uname --all
+aptitude update
+aptitude $APT_OPT safe-upgrade
+aptitude $APT_OPT full-upgrade
+
+# update-grub
+# dpkg-reconfigure grub-pc
+# install-grub /dev/
+#
+# in /etc/default/grub
+# GRUB_CMDLINE_LINUX_DEFAULT="rootdelay=3 quiet"
+# GRUB_CMDLINE_LINUX="rootdelay=3"
+
+#=========================================================================
+
+LSP_FIRMWARE="
+firmware-linux
+ firmware-linux-nonfree
+ firmware-linux-free
+ amd64-microcode
+ intel-microcode
+firmware-realtek
+"
+
+aptitude $APT_OPT install $LSP_FIRMWARE
+
+# reboot
+
+#=========================================================================
+
