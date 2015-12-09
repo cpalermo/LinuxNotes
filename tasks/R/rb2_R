@@ -46,7 +46,7 @@ aptitude $APT_OPT -R install r-base-core
 aptitude $APT_OPT install r-base-dev
 
 # dipendenze R packages:
-aptitude $APT_OPT install libxml2-dev
+aptitude $APT_OPT install libxml2-utils libxml2-dev
 # RCurl:
 aptitude $APT_OPT install libcurl4-gnutls-dev
 # git2r

@@ -35,10 +35,12 @@ aptitude $APT_OPT install $LSP_GIMP
 # frog
 
 LSP_RACKET="
-racket/jessie-backports
+racket
 "
+#racket/jessie-backports
 
-aptitude $APT_OPT --target="jessie-backports" install $LSP_RACKET
+aptitude $APT_OPT install $LSP_RACKET
+#aptitude $APT_OPT --target="jessie-backports" install $LSP_RACKET
 
 LSP_TOOLS="
 emacs-goodies-el
