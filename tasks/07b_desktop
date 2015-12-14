@@ -1,7 +1,7 @@
 #=========================================================================
 # opt
 
-APTITUDE_OPT="-yV"
+APT_OPT="-yV"
 
 #=========================================================================
 # gdm3 + gnome3
@@ -21,7 +21,7 @@ iceweasel
 iceweasel-l10n-it
 "
 
-aptitude $APTITUDE_OPT install $LSP_DESKTOP $LSP_BROWSER
+aptitude $APT_OPT install $LSP_DESKTOP $LSP_BROWSER
 
 LSP_LOCAL="
 aspell-it
@@ -41,10 +41,9 @@ gnome-shell-extensions
 gnome-sound-recorder
 gnome-tweak-tool
 transmission-gtk
-viewnior
 "
 
-aptitude $APTITUDE_OPT install $LSP_LOCAL $LSP_EXTRA
+aptitude $APT_OPT install $LSP_LOCAL $LSP_EXTRA
 
 #=========================================================================
 # x2go
@@ -53,7 +52,7 @@ LSP_X2GO="
 x2goclient
 "
 
-aptitude $APTITUDE_OPT install $LSP_X2GO
+aptitude $APT_OPT install $LSP_X2GO
 
 #=========================================================================
 

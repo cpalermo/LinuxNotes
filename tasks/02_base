@@ -1,7 +1,7 @@
 #=========================================================================
 # opt
 
-APTITUDE_OPT="-yV"
+APT_OPT="-yV"
 
 #=========================================================================
 # selezione pacchetti utili
@@ -20,7 +20,7 @@ memtest86+
 rsync
 "
 
-aptitude $APTITUDE_OPT install $LSP_TOOLS
+aptitude $APT_OPT install $LSP_TOOLS
 
 modinfo it87
 cat /etc/modules
@@ -74,8 +74,8 @@ libcupsfilters1:i386
 libfontembed1:i386
 "
 
-aptitude $APTITUDE_OPT install $LSP_LIBC
-aptitude $APTITUDE_OPT install $LSP_CUPS
+aptitude $APT_OPT install $LSP_LIBC
+aptitude $APT_OPT install $LSP_CUPS
 
 #=========================================================================
 # build tools
@@ -90,7 +90,7 @@ equivs
 quilt
 "
 
-aptitude $APTITUDE_OPT install $LSP_BUILD
+aptitude $APT_OPT install $LSP_BUILD
 
 # reboot
 #=========================================================================

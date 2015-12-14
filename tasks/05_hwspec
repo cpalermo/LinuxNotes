@@ -1,7 +1,7 @@
 #=========================================================================
 # opt
 
-APTITUDE_OPT="-yV"
+APT_OPT="-yV"
 
 #=========================================================================
 # accellerazione HW
@@ -107,7 +107,7 @@ libasound2:i386
 libasound2-plugins:i386
 "
 
-aptitude $APTITUDE_OPT install $LSP_DRM $LSP_OGL $LSP_EGL $LSP_OGLES $LSP_VDPAUDRI $LSP_MESA32 \
+aptitude $APT_OPT install $LSP_DRM $LSP_OGL $LSP_EGL $LSP_OGLES $LSP_VDPAUDRI $LSP_MESA32 \
 $LSP_WAYLAND $LSP_XORG $LSP_AUDIO
 
 #=========================================================================
@@ -138,7 +138,7 @@ libva-wayland1:i386
 vainfo
 "
 
-aptitude $APTITUDE_OPT install $LSP_LIBVDPAU $LSP_LIBVA
+aptitude $APT_OPT install $LSP_LIBVDPAU $LSP_LIBVA
 
 /usr/bin/vdpauinfo
 /usr/bin/vainfo

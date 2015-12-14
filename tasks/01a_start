@@ -1,10 +1,65 @@
 # Debian GNU/Linux 8 (Jessie) - amd64
-# sv1 ; ws1
 
 #=========================================================================
 
 tasksel --list-task | grep "^i " | sed "s/^/# /"
 # i ssh-server	server SSH
+
+# Utilità standard NON installate:
+
+tasksel --test install standard | \
+sed 's/^.* install //;s/ /\n/g' | \
+sort | sed "s/^/# /"
+# aptitude
+# aptitude-common
+# apt-listchanges
+# at
+# bash-completion
+# bc
+# bind9-host
+# bsd-mailx
+# bzip2
+# dbus
+# dc
+# debian-faq
+# dnsutils
+# doc-debian
+# exim4
+# exim4-base
+# exim4-config
+# exim4-daemon-light
+# file
+# ftp
+# host
+# info
+# install-info
+# libclass-isa-perl
+# liblockfile-bin
+# libswitch-perl
+# lsof
+# m4
+# mime-support
+# mlocate
+# mutt
+# nfs-common
+# patch
+# procmail
+# python
+# python2.7
+# python-apt
+# python-minimal
+# python-reportbug
+# python-support
+# reportbug
+# rpcbind
+# telnet
+# texinfo
+# time
+# w3m
+# whois
+# xz-utils
+
+# dpkg -l
 
 hostname
 dnsdomainname
@@ -13,7 +68,7 @@ lsblk
 #=========================================================================
 # opt
 
-APTITUDE_OPT="-yV"
+APT_OPT="-y"
 
 #=========================================================================
 # sources.list
@@ -67,28 +122,11 @@ cat /etc/apt/sources.list | sed "s/^/# /"
 # # deb-src http://mirror3.mirror.garr.it/mirrors/debian/ experimental main contrib non-free
 
 #=========================================================================
-# sources.list.d/
-
-apt-key list
-
-apt-key adv --recv-keys --keyserver keys.gnupg.net E1F958385BFE2B6E
-
-echo "deb http://packages.x2go.org/debian jessie main" > /etc/apt/sources.list.d/x2go.list
-echo "deb-src http://packages.x2go.org/debian jessie main" >> /etc/apt/sources.list.d/x2go.list
-
-#=========================================================================
-# arch i386
-
-dpkg --print-architecture
-dpkg --add-architecture i386
-dpkg --print-foreign-architectures
-
-#=========================================================================
 # update
 
 uname --all
-aptitude update
-aptitude $APTITUDE_OPT full-upgrade
+apt-get update
+apt-get $APT_OPT upgrade
 
 # update-grub
 # dpkg-reconfigure grub-pc
@@ -109,7 +147,13 @@ firmware-linux
 firmware-realtek
 "
 
-aptitude $APTITUDE_OPT install $LSP_FIRMWARE
+apt-get $APT_OPT install $LSP_FIRMWARE
+
+LSP_LVM="
+lvm2
+"
+
+apt-get $APT_OPT install $LSP_LVM
 
 # reboot
 

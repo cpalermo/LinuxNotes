@@ -1,7 +1,7 @@
 #=========================================================================
 # opt
 
-APTITUDE_OPT="-yV"
+APT_OPT="-yV"
 
 #=========================================================================
 # apache
@@ -10,7 +10,7 @@ LSP_APACHE="
 apache2
 "
 
-aptitude $APTITUDE_OPT install $LSP_APACHE
+aptitude $APT_OPT install $LSP_APACHE
 
 #=========================================================================
 # lxc
@@ -22,7 +22,7 @@ libseccomp2
 bridge-utils
 "
 
-aptitude $APTITUDE_OPT install $LSP_LXC
+aptitude $APT_OPT install $LSP_LXC
 
 #=========================================================================
 

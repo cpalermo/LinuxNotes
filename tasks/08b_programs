@@ -1,34 +1,35 @@
 #=========================================================================
 # opt
 
-APTITUDE_OPT="-yV"
+APT_OPT="-yV"
 
 #=========================================================================
-# virtualbox
+# virt
 
 #LSP_VIRTBX="
 #virtualbox
 #virtualbox-qt
 #"
 
-#aptitude $APTITUDE_OPT install $LSP_VIRTBX
+#aptitude $APT_OPT install $LSP_VIRTBX
 
 # Per abilitare le porte usb nelle macchine virtuali
 # controllare se il vostro utente sia nel gruppo vboxusers:
 #getent group
 #getent group vboxusers
-# gpasswd -a <USER> vboxusers
-# getent group vboxusers
+#gpasswd -a <USER> vboxusers
+#getent group vboxusers
 
 #=========================================================================
 # multimedia
 
 LSP_MEDIA="
 mpv
+viewnior
 brasero
 "
 
-aptitude $APTITUDE_OPT install $LSP_MEDIA
+aptitude $APT_OPT install $LSP_MEDIA
 
 #=========================================================================
 # documents
@@ -42,13 +43,13 @@ mythes-it
 ttf-mscorefonts-installer
 "
 
-aptitude $APTITUDE_OPT install $LSP_OFFICE
+aptitude $APT_OPT install $LSP_OFFICE
 
 LSP_PANDOC="
 pandoc
 "
 
-aptitude $APTITUDE_OPT install $LSP_PANDOC
+aptitude $APT_OPT install $LSP_PANDOC
 
 #=========================================================================
 

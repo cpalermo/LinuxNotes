@@ -38,8 +38,8 @@ apt-ftparchive packages binary-i386 | gzip > binary-i386/Packages.gz
 
 tree $PB_REPO
 
-# echo "deb file://$PB_REPO binary-amd64/" > /etc/apt/sources.list.d/local.list
-# echo "deb file://$PB_REPO binary-i386/" >> /etc/apt/sources.list.d/local.list
+#echo "deb file://$PB_REPO binary-amd64/" > /etc/apt/sources.list.d/local.list
+#echo "deb file://$PB_REPO binary-i386/" >> /etc/apt/sources.list.d/local.list
 cat /etc/apt/sources.list.d/local.list
 # deb file:///var/cache/pbuilder/debian binary-amd64/
 # deb file:///var/cache/pbuilder/debian binary-i386/
