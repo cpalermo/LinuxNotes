@@ -85,7 +85,6 @@ ls /var/cache/lxc/debian/rootfs-jessie-amd64/var/cache/apt/archives/
 # si possono copiare i file .deb in questa dir:
 ls $LXCP/$LXCN/rootfs/var/cache/apt/archives/
 
-# ( rimuovendo --dry-run )
 # rsync --archive -vh --dry-run archives/ $LXCP/$LXCN/rootfs/var/cache/apt/archives
 
 # aptitude
@@ -177,16 +176,10 @@ gcj-$GCC_VER-jdk
 "
 
 lxc-attach -n $LXCN -- aptitude $APT_OPT install $LSV_GCJ
-#
 
 # Supporto a X
 lxc-attach -n $LXCN -- aptitude $APT_OPT build-dep r-base
 #
-
-
-
-
-
 
 #=========================================================================
 
@@ -244,7 +237,7 @@ if [ ! -f R-$PB_REL.tar.gz ]; then
 else
 	md5sum R-$PB_REL.tar.gz
 fi
-# 57cef5c2e210a5454da1979562a10e5b  R-3.2.2.tar.gz
+# 1ba3dac113efab69e706902810cc2970  R-3.2.3.tar.gz
 
 # estraggo i sorgenti in /opt/src
 atool -X $LXC_OPT/src R-$PB_REL.tar.gz
@@ -304,7 +297,7 @@ logout
 #R is now configured for x86_64-pc-linux-gnu
 #
 #  Source directory:          .
-#  Installation directory:    /opt/R-3.2.2/local
+#  Installation directory:    /opt/R-3.2.3/local
 #
 #  C compiler:                gcc-4.9 -std=gnu99  -g -O2
 #  Fortran 77 compiler:       gfortran-4.9  -g -O2

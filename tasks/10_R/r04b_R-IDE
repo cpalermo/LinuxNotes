@@ -1,10 +1,10 @@
 #=========================================================================
 # opt
 
-APT_OPT="-syV"
+APT_OPT="-yV"
 
-RSREL="rstudio-0.99.483-amd64.deb"
-RSMD5="1d5cab14ebe9424d121c44456f8ff9dd"
+RSREL="rstudio-0.99.489-amd64.deb"
+RSMD5="ed089d88cc2e5901e311c66f7b1ada8b"
 
 #=========================================================================
 # Emacs Speaks Statistics
@@ -19,8 +19,8 @@ aptitude $APT_OPT install $LSP_ESS
 #=========================================================================
 # Rstudio IDE
 
-cd /var/cache/apt
-mkdir -p locales
+cd /opt/app/_proj/admin/snapshot
+mkdir -p rstudio
 cd locales
 
 wget -c https://download1.rstudio.org/$RSREL

@@ -1,6 +1,6 @@
 # R packages
 #=========================================================================
-# root@sv1:~# R
+# root@ws0:~# R
 
 data.frame( capabilities() )
 
@@ -14,10 +14,11 @@ install.packages( "data.table" , repos="http://cran.rstudio.com/" )
 
 # Low level web scraping
 install.packages( "httr" , repos="http://cran.rstudio.com/" )
+install.packages( "jsonlite" , repos="http://cran.rstudio.com/" )
 install.packages( "xml2" , repos="http://cran.rstudio.com/" )
 install.packages( "rvest" , repos="http://cran.rstudio.com/" )
 # legacy:
-# install.packages( "XML" , repos="http://cran.rstudio.com/" )
+install.packages( "XML" , repos="http://cran.rstudio.com/" )
 # install.packages( "rjson" , repos="http://cran.rstudio.com/" )
 # install.packages( "RJSONIO" , repos="http://cran.rstudio.com/" )
 

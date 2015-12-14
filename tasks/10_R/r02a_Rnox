@@ -28,7 +28,7 @@ aptitude $APT_OPT -R install r-base-core
 aptitude $APT_OPT install r-base-dev
 
 # dipendenze R packages:
-aptitude $APT_OPT install libxml2-dev
+aptitude $APT_OPT install libxml2-utils libxml2-dev
 # RCurl:
 aptitude $APT_OPT install libcurl4-gnutls-dev
 # git2r
@@ -59,7 +59,6 @@ libcairo2-dev
 libpango1.0-dev
 "
 aptitude $APT_OPT install $LSV_RGR
-
 
 #=========================================================================
 # creazione pacchetto fittizio di R con equivs
@@ -116,13 +115,14 @@ equivs-build r-base-core/control
 equivs-build r-base-dev/control
 
 # copio i deb fittizi in results
-mkdir $PB_RES/$PB_PKGREL
-cp -a $RDEBD/equivs/r-base*.deb $PB_RES/$PB_PKGREL
+mkdir /opt/$PB_PKGREL/var/deb
+mkdir /opt/$PB_PKGREL/var/deb/equivs
+cp -a $RDEBD/equivs/r-base*.deb /opt/$PB_PKGREL/var/deb/equivs
 
 #=========================================================================
 # installo i pacchetti fittizi
 
-cd $PB_RES/$PB_PKGREL
+cd /opt/$PB_PKGREL/var/deb/equivs
 
 apt-get $APT_OPT purge r-base-dev
 apt-get $APT_OPT purge r-base-core
@@ -145,6 +145,8 @@ ls -lahF /usr/local/bin
 
 updatedb
 locate /.bashrc | grep -v "/lxc/" | grep -v "/etc/"
+
+## login ##
 
 cd ~
 ls -lhaF
