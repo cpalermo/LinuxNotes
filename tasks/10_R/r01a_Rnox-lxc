@@ -1,4 +1,4 @@
-# Rnox 3.2.2
+# R
 #=========================================================================
 # opt
 
@@ -13,7 +13,7 @@ PB_SRC="$PB_DIR/src"
 PB_RES="$PB_DIR/result"
 
 PB_PKG="Rnox"
-PB_REL="3.2.2"
+PB_REL="3.2.3"
 PB_PKGREL="$PB_PKG-$PB_REL"
 
 # GCC_REL=

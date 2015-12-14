@@ -1,7 +1,7 @@
 #=========================================================================
 # opt
 
-APTITUDE_OPT="-yV"
+APT_OPT="-yV"
 
 #=========================================================================
 # xinit + mate
@@ -20,7 +20,7 @@ iceweasel
 iceweasel-l10n-it
 "
 
-aptitude $APTITUDE_OPT install $LSP_DESKTOP $LSP_BROWSER
+aptitude $APT_OPT install $LSP_DESKTOP $LSP_BROWSER
 # startx
 
 #=========================================================================
@@ -32,7 +32,7 @@ x2goserver
 x2goserver-xsession
 "
 
-aptitude $APTITUDE_OPT install $LSP_X2GO
+aptitude $APT_OPT install $LSP_X2GO
 
 #=========================================================================
 

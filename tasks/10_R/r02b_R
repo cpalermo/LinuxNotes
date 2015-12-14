@@ -1,4 +1,4 @@
-# Rnox 3.2.2
+# R
 #=========================================================================
 # opt
 
@@ -12,13 +12,31 @@ PB_DIR="/var/cache/pbuilder"
 PB_SRC="$PB_DIR/src"
 PB_RES="$PB_DIR/result"
 
-PB_PKG="Rnox"
-PB_REL="3.2.2"
+PB_PKG="R"
+PB_REL="3.2.3"
 PB_PKGREL="$PB_PKG-$PB_REL"
 
 # prova
 # /opt/$PB_PKGREL/local/bin/R
 
+#=========================================================================
+#=========================================================================
+# COPIARE A MANO I FILE
+
+tree -L 2 /opt/$PB_PKGREL
+
+# ├── etc
+# ├── local
+# │   ├── bin
+# │   ├── lib
+# │   └── share
+# ├── src
+# │   └── R-3.2.2
+# └── var
+#     ├── r-base-core_3.2.2-equivs_amd64.deb
+#     └── r-base-dev_3.2.2-equivs_all.deb 
+
+#=========================================================================
 #=========================================================================
 # R
 
@@ -28,7 +46,7 @@ aptitude $APT_OPT -R install r-base-core
 aptitude $APT_OPT install r-base-dev
 
 # dipendenze R packages:
-aptitude $APT_OPT install libxml2-dev
+aptitude $APT_OPT install libxml2-utils libxml2-dev
 # RCurl:
 aptitude $APT_OPT install libcurl4-gnutls-dev
 # git2r
@@ -60,69 +78,10 @@ libpango1.0-dev
 "
 aptitude $APT_OPT install $LSV_RGR
 
-
-#=========================================================================
-# creazione pacchetto fittizio di R con equivs
-
-mkdir $PB_SRC/$PB_PKG/$PB_PKGREL/deb && mkdir $PB_SRC/$PB_PKG/$PB_PKGREL/deb/equivs
-
-RDEBD="$PB_SRC/$PB_PKG/$PB_PKGREL/deb"
-ARCHD="$PB_SRC/$PB_PKG/$PB_PKGREL/archives"
-
-cp $ARCHD/r-base-core*.deb $RDEBD
-cp $ARCHD/r-base-dev*.deb $RDEBD
-
-cd $RDEBD
-mkdir r-base-core && mkdir r-base-core/DEBIAN && mkdir equivs/r-base-core
-mkdir r-base-dev && mkdir r-base-dev/DEBIAN && mkdir equivs/r-base-dev
-
-tree $RDEBD | sed 's/^/# /'
-#
-# ├── equivs
-# │   ├── r-base-core
-# │   └── r-base-dev
-# ├── r-base-core
-# │   └── DEBIAN
-# ├── r-base-core_3.1.1-1+b2_amd64.deb
-# ├── r-base-dev
-# │   └── DEBIAN
-# └── r-base-dev_3.1.1-1_all.deb
-# 
-# 7 directories, 2 files
-
-dpkg-deb -e r-base-core*.deb r-base-core/DEBIAN
-dpkg-deb -e r-base-dev*.deb r-base-dev/DEBIAN
-
-# sovrascrivo la versione
-#
-sed s/'^Version[[:alnum:][:punct:][:space:]]*'/"Version: $PB_REL-equivs"/ \
-r-base-core/DEBIAN/control > equivs/r-base-core/control
-
-sed s/'^Version[[:alnum:][:punct:][:space:]]*'/"Version: $PB_REL-equivs"/ \
-r-base-dev/DEBIAN/control > equivs/r-base-dev/control
-
-#
-sed -i s/'^Source[[:alnum:][:punct:][:space:]]*'/'Source: r-base'/ equivs/r-base-core/control
-sed -i s/'^Source[[:alnum:][:punct:][:space:]]*'/'Source: r-base'/ equivs/r-base-dev/control
-
-# controllo:
-cat equivs/r-base-core/control | grep "^Version"
-cat equivs/r-base-dev/control | grep "^Version"
-cat equivs/r-base-core/control | grep "^Source"
-cat equivs/r-base-dev/control | grep "^Source"
-
-cd $RDEBD/equivs
-equivs-build r-base-core/control
-equivs-build r-base-dev/control
-
-# copio i deb fittizi in results
-mkdir $PB_RES/$PB_PKGREL
-cp -a $RDEBD/equivs/r-base*.deb $PB_RES/$PB_PKGREL
-
 #=========================================================================
 # installo i pacchetti fittizi
 
-cd $PB_RES/$PB_PKGREL
+cd /opt/$PB_PKGREL/var
 
 apt-get $APT_OPT purge r-base-dev
 apt-get $APT_OPT purge r-base-core
@@ -184,5 +143,4 @@ whereis R
 which R
 
 #=========================================================================
-
 

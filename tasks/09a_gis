@@ -1,7 +1,7 @@
 #=========================================================================
 # opt
 
-APTITUDE_OPT="-yV"
+APT_OPT="-yV"
 
 #=========================================================================
 
@@ -14,7 +14,7 @@ libproj-java
 "
 # libproj0/jessie	--->	libproj9/stretch
 
-aptitude $APTITUDE_OPT install $LSP_PROJ
+aptitude $APT_OPT install $LSP_PROJ
 
 LSP_GEOS="
 libgeos-3.4.2
@@ -31,7 +31,7 @@ libgeos-ruby1.8
 # libgeos-c1/jessie	--->	libgeos-c1v5/stretch
 # libgeos-ruby1.8/jessie--->	NA/stretch
 
-aptitude $APTITUDE_OPT install $LSP_GEOS
+aptitude $APT_OPT install $LSP_GEOS
 
 LSP_GDAL="
 gdal-bin
@@ -46,7 +46,7 @@ python3-gdal
 "
 # NA/jessie	--->	libgdal1i/stretch
 
-aptitude $APTITUDE_OPT install $LSP_GDAL
+aptitude $APT_OPT install $LSP_GDAL
 
 LSP_GEOTIFF="
 geotiff-bin
@@ -54,16 +54,7 @@ libgeotiff-dev
 libgeotiff2
 "
 
-aptitude $APTITUDE_OPT install $LSP_GEOTIFF
-
-#=========================================================================
-# qgis
-
-LSP_QGIS="
-qgis/jessie-backports
-"
-
-aptitude $APTITUDE_OPT --target="jessie-backports" install $LSP_QGIS
+aptitude $APT_OPT install $LSP_GEOTIFF
 
 #=========================================================================
 
