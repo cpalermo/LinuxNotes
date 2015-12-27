@@ -176,41 +176,41 @@ ls -lh $PB_RES | grep libdrm
 
 ### gcc ### ?????
 
-GCC_STR="gcc-5-base_"
-GCC_GREP=$( ls -t "$GCC_STR"* )
-GCC_SUBV=$( echo $GCC_GREP | sed "s/$GCC_STR//;s/_.*.deb.*//" )
+#GCC_STR="gcc-5-base_"
+#GCC_GREP=$( ls -t "$GCC_STR"* )
+#GCC_SUBV=$( echo $GCC_GREP | sed "s/$GCC_STR//;s/_.*.deb.*//" )
 
 # Copio solo la versione più recente:
-echo $GCC_SUBV
+#echo $GCC_SUBV
 
-GCC_DEP=$( ls | grep gcc | grep $GCC_SUBV )
-STD_DEP=$( ls | grep stdc | grep $GCC_SUBV )
-echo $GCC_DEP $STD_DEP
+#GCC_DEP=$( ls | grep gcc | grep $GCC_SUBV )
+#STD_DEP=$( ls | grep stdc | grep $GCC_SUBV )
+#echo $GCC_DEP $STD_DEP
 
-cp $GCC_DEP $STD_DEP $PB_RES
+#cp $GCC_DEP $STD_DEP $PB_RES
 
-ls -lh $PB_RES | grep gcc
-ls -lh $PB_RES | grep stdc
+#ls -lh $PB_RES | grep gcc
+#ls -lh $PB_RES | grep stdc
 
 #=========================================================================
 
 ### ncurses ### ?????
 
-CUR_STR="ncurses-base_"
-CUR_GREP=$( ls -t "$CUR_STR"* )
-CUR_SUBV=$( echo $CUR_GREP | sed "s/$CUR_STR//;s/_.*.deb.*//" )
+#CUR_STR="ncurses-base_"
+#CUR_GREP=$( ls -t "$CUR_STR"* )
+#CUR_SUBV=$( echo $CUR_GREP | sed "s/$CUR_STR//;s/_.*.deb.*//" )
 
 # Copio solo la versione più recente:
-echo $CUR_SUBV
+#echo $CUR_SUBV
 
-CUR_DEP=$( ls | grep ncurses | grep $CUR_SUBV )
-INF_DEP=$( ls | grep tinfo | grep $CUR_SUBV )
-echo $CUR_DEP $INF_DEP
+#CUR_DEP=$( ls | grep ncurses | grep $CUR_SUBV )
+#INF_DEP=$( ls | grep tinfo | grep $CUR_SUBV )
+#echo $CUR_DEP $INF_DEP
 
-cp $CUR_DEP $INF_DEP $PB_RES
+#cp $CUR_DEP $INF_DEP $PB_RES
 
-ls -lh $PB_RES | grep ncurses
-ls -lh $PB_RES | grep tinfo
+#ls -lh $PB_RES | grep ncurses
+#ls -lh $PB_RES | grep tinfo
 
 #=========================================================================
 

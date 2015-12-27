@@ -1,0 +1,25 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+# steam
+
+aptitude $APT_OPT install steam:i386
+
+#=========================================================================
+# chrome
+
+wget -c https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+# b02492c9eb6131bb0a43cb8a906bd6e5  google-chrome-stable_current_amd64.deb
+
+gdebi google-chrome-stable_current_amd64.deb
+
+#=========================================================================
+# skype
+
+gdebi skype-debian_4.3.0.37-1_i386.deb
+
+#=========================================================================
+
