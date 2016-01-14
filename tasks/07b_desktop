@@ -45,6 +45,12 @@ transmission-gtk
 
 aptitude $APT_OPT install $LSP_LOCAL $LSP_EXTRA
 
+LSP_SPFM="
+spacefm-gtk3
+"
+
+aptitude $APT_OPT install $LSP_SPFM
+
 #=========================================================================
 # x2go
 
