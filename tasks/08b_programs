@@ -51,6 +51,12 @@ pandoc
 
 aptitude $APT_OPT install $LSP_PANDOC
 
+LSP_CALIBRE="
+calibre
+"
+
+aptitude $APT_OPT install $LSP_CALIBRE
+
 #=========================================================================
 
 
