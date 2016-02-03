@@ -110,11 +110,14 @@ firmware-realtek
 
 aptitude $APT_OPT install $LSP_FIRMWARE
 
-LSP_LVM="
+#=========================================================================
+
+LSP_HDD="
 lvm2
+smartmontools
 "
 
-apt-get $APT_OPT install $LSP_LVM
+apt-get $APT_OPT install $LSP_HDD
 
 # reboot
 

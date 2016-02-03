@@ -15,7 +15,6 @@ atool
 rar
 unrar
 gdebi-core
-smartmontools
 lm-sensors
 lshw
 memtest86+
@@ -24,13 +23,18 @@ rsync
 
 aptitude $APT_OPT install $LSP_TOOLS
 
-modinfo it87
+#=========================================================================
+
 cat /etc/modules
+sensors-detect
+
+cat /etc/modules
+
 # it87
+## asrock qc5000 - nuvoton NCT5573D:
+# nct6775
 
 # reboot needed
-
-# sensors-detect
 
 # moduli cpufreq
 # caricati:
@@ -49,10 +53,10 @@ cat /etc/modules
 update-alternatives --get-selections
 update-alternatives --list editor
 update-alternatives --display editor
-select-editor
+#select-editor
 
 #=========================================================================
-# arch i386 tools
+# arch i386 libs
 
 LSP_LIBC="
 libc6
@@ -64,35 +68,7 @@ libc-dev-bin
 locales
 "
 
-LSP_CUPS="
-cups
-cups-filters
-libcups2:i386
-libcupscgi1:i386
-libcupsimage2:i386
-libcupsmime1:i386
-libcupsppdc1:i386
-libcupsfilters1:i386
-libfontembed1:i386
-"
-
 aptitude $APT_OPT install $LSP_LIBC
-aptitude $APT_OPT install $LSP_CUPS
-
-#=========================================================================
-# build tools
-
-LSP_BUILD="
-build-essential
-debootstrap
-pbuilder
-fakeroot
-devscripts
-equivs
-quilt
-"
-
-aptitude $APT_OPT install $LSP_BUILD
 
 # reboot
 #=========================================================================
