@@ -21,17 +21,6 @@ APT_OPT="-yV"
 #getent group vboxusers
 
 #=========================================================================
-# multimedia
-
-LSP_MEDIA="
-mpv
-viewnior
-brasero
-"
-
-aptitude $APT_OPT install $LSP_MEDIA
-
-#=========================================================================
 # documents
 
 LSP_OFFICE="

@@ -4,13 +4,24 @@
 APT_OPT="-yV"
 
 #=========================================================================
-# multimedia
+# minimal
 
-LSP_MEDIA="
+LSP_MIN="
 mpv
 viewnior
 "
 
-aptitude $APT_OPT install $LSP_MEDIA
+aptitude $APT_OPT install $LSP_MIN
 
 #=========================================================================
+# files
+
+LSP_FIL="
+transmission-gtk
+brasero
+"
+
+aptitude $APT_OPT install $LSP_FIL
+
+#=========================================================================
+

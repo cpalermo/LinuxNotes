@@ -40,7 +40,6 @@ gnome-nettool
 gnome-shell-extensions
 gnome-sound-recorder
 gnome-tweak-tool
-transmission-gtk
 "
 
 aptitude $APT_OPT install $LSP_LOCAL $LSP_EXTRA

@@ -140,6 +140,8 @@ vainfo
 
 aptitude $APT_OPT install $LSP_LIBVDPAU $LSP_LIBVA
 
+#=========================================================================
+
 /usr/bin/vdpauinfo
 /usr/bin/vainfo
 
@@ -152,7 +154,7 @@ cat /sys/class/drm/card0/device/power_dpm_force_performance_level
 # low 			forces the hardware to the lowest performance level in the power state
 # high	 		forces the hardware to the highest performance level in the power state
 
-echo "performance" > /sys/class/drm/card0/device/power_dpm_state
+#echo "performance" > /sys/class/drm/card0/device/power_dpm_state
 watch cat /sys/kernel/debug/dri/64/radeon_pm_info
 
 # hw acc chrome
