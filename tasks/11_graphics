@@ -54,4 +54,28 @@ raco pkg install frog
 # raco pkg update --update-deps frog
 
 #=========================================================================
+## emacs webdev
+
+cp ~/emacs ~/.emacs.keep
+echo "
+(when (>= emacs-major-version 24)
+  (require 'package)
+  (add-to-list
+   'package-archives
+   '("melpa" . "http://melpa.org/packages/")
+   t)
+  (package-initialize))
+" >> ~/.emacs
+
+## install
+# M-x list-packages
+#
+# emmet-mode
+# auto-complete
+# ac-emmet
+#
+# M-x emmet-mode
+# M-x auto-complete-mode
+
+#=========================================================================
 
