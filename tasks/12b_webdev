@@ -1,0 +1,56 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+## emacs webdev
+
+# NB
+# su <user>
+
+cp ~/emacs ~/.emacs.keep
+echo "
+(when (>= emacs-major-version 24)
+  (require 'package)
+  (add-to-list
+   'package-archives
+   '("melpa" . "http://melpa.org/packages/")
+   t)
+  (package-initialize))
+" >> ~/.emacs
+
+## install
+# M-x list-packages
+#
+# emmet-mode
+# auto-complete
+# ac-emmet
+#
+# M-x emmet-mode
+# M-x auto-complete-mode
+
+#=========================================================================
+# frog
+
+LSP_RACKET="
+racket
+"
+#racket/jessie-backports
+
+aptitude $APT_OPT install $LSP_RACKET
+#aptitude $APT_OPT --target="jessie-backports" install $LSP_RACKET
+
+LSP_TOOLS="
+emacs-goodies-el
+python-pygments
+python3-pygments
+"
+
+aptitude $APT_OPT install $LSP_TOOLS
+
+raco pkg install frog
+# raco pkg update --update-deps frog
+
+#=========================================================================
+

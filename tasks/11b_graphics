@@ -1,0 +1,35 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+# imagemagick
+
+LSP_IMGM="
+imagemagick
+potrace
+"
+
+aptitude $APT_OPT install $LSP_IMGM
+
+#=========================================================================
+# inkscape
+
+LSP_INKS="
+inkscape/jessie-backports
+"
+
+aptitude $APT_OPT --target="jessie-backports" install $LSP_INKS
+
+#=========================================================================
+# gimp
+
+LSP_GIMP="
+gimp
+"
+
+aptitude $APT_OPT install $LSP_GIMP
+
+#=========================================================================
+
