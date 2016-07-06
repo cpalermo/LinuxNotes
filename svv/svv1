@@ -377,9 +377,11 @@ sudo lvconvert -m 1 /dev/vga/lv1
 # Extend the size of /var/opt/backups
 
 sudo lvextend -L +4G /dev/vga/lv2
+## NB !!
+sudo resize2fs /dev/vga/lv2
 
 sudo pvs
-#   PV         VG   Fmt  Attr PSize PFree  
+#   PV         VG   Fmt  Attr PSize PFree
 #   /dev/sdc1  vga  lvm2 a--  2.44g 380.00m
 #   /dev/sdc2  vga  lvm2 a--  2.44g      0 
 #   /dev/sdc3  vga  lvm2 a--  2.44g      0 
