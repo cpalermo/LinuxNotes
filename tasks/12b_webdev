@@ -31,12 +31,42 @@ echo "
 # M-x auto-complete-mode
 
 #=========================================================================
+# nodejs
+
+#TARG_REL="testing"
+#GREP_REL="deb.*[ ]$TARG_REL[ ]main"
+
+# uncomment target release
+#sed -i /"$GREP_REL"/s/'^#[ ]* deb'/'deb'/ /etc/apt/sources.list
+#cat /etc/apt/sources.list
+
+# comment target release
+#sed -i /"$GREP_REL"/s/'^[ ]*deb'/'# deb'/ /etc/apt/sources.list
+#cat /etc/apt/sources.list
+
+#aptitude update
+#aptitude -sV install -t jessie npm/$TARG_REL nodejs/$TARG_REL nodejs-dev/$TARG_REL
+
+#LSP_NODEJS="
+#npm
+#nodejs
+#nodejs-dev
+#"
+
+#aptitude $APT_OPT install $LSP_NODEJS
+
+#npm install -g hexo-cli
+
+#=========================================================================
 # frog
 
+TARG_REL="jessie-backports"
+
 LSP_RACKET="
-racket
+racket/$TARG_REL
+racket-common/$TARG_REL
+racket-doc/$TARG_REL
 "
-#racket/jessie-backports
 
 aptitude $APT_OPT install $LSP_RACKET
 #aptitude $APT_OPT --target="jessie-backports" install $LSP_RACKET
@@ -49,8 +79,37 @@ python3-pygments
 
 aptitude $APT_OPT install $LSP_TOOLS
 
-raco pkg install frog
-# raco pkg update --update-deps frog
+#exit
+#raco pkg install frog
+#raco pkg update --update-deps frog
+
+#=========================================================================
+# jekyll
+
+#TARG_REL="testing"
+#GREP_REL="deb.*[ ]$TARG_REL[ ]main"
+
+# uncomment target release
+#sed -i /"$GREP_REL"/s/'^#[ ]* deb'/'deb'/ /etc/apt/sources.list
+#cat /etc/apt/sources.list
+
+#aptitude update
+
+#LSP_JEKYLL="
+#jekyll/$TARG_REL
+#ruby-jekyll-coffeescript/$TARG_REL
+#ruby-toml/$TARG_REL
+#ruby-parslet/$TARG_REL
+#ruby-liquid/$TARG_REL
+#"
+
+#aptitude -sV install -t jessie $LSP_JEKYLL
+
+# comment target release
+#sed -i /"$GREP_REL"/s/'^[ ]*deb'/'# deb'/ /etc/apt/sources.list
+#cat /etc/apt/sources.list
+
+#aptitude update
 
 #=========================================================================
 

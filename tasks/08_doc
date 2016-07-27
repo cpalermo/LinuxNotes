@@ -23,6 +23,12 @@ pandoc
 
 aptitude $APT_OPT install $LSP_PANDOC
 
+LSP_MARKDOWN="
+markdown
+"
+
+aptitude $APT_OPT install $LSP_MARKDOWN
+
 LSP_CALIBRE="
 calibre
 "
