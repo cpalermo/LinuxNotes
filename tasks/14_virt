@@ -21,5 +21,13 @@ getent group vboxusers
 #getent group vboxusers
 
 #=========================================================================
+# AWS
 
+LSP_AWS="
+awscli
+"
+
+aptitude $APT_OPT install $LSP_AWS
+
+#=========================================================================
 
