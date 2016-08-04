@@ -132,4 +132,91 @@ cat /etc/resolv.conf
 # nameserver 8.8.8.8
 
 #=========================================================================
+## Network Troubleshooting and monitoring
+
+ping
+traceroute
+nmap
+
+DNS	hostnames
+IP	addrersses
+
+## sniffing
+## http://www.tecmint.com/12-tcpdump-commands-a-network-sniffer-tool/
+
+tcpdump -i eth0 port 80
+## output pcap file for wireshark analysis
+tcpdump -i eth0 -w capture.pcap port 80
+tcpdump -r capture.pcap
+
+## ping analysis
+
+# introduce network problem (random packet loss)
+tc qdisc add dev lo root netem loss random 40
+
+ping localhost
+tcpdump -i lo proto ICMP
+
+# cleanup tc command
+tc qdisc del dev lo root
+
+## sever side troubleshooting
+netstat -taupe
+ss -ltp
+
+cat /etc/hosts.allow
+cat /etc/hosts.deny
+
+## Advanced troubleshooting
+cat /etc/sysctl.conf
+
+ls /sys/class/net/
+cat /sys/class/net/eth*/operstate
+
+cat /proc/sys/kernel/hostname
+
+cat /proc/sys/net/ipv4/ip_forward
+cat /proc/sys/net/ipv4/conf/*/accept_redirects
+cat /proc/sys/net/ipv4/icmp_echo_ignore_all
+cat /proc/sys/net/ipv4/icmp_echo_ignore_broadcasts
+cat /proc/net/arp
+
+## Tools
+
+vnstat
+## network stats
+iptraf
+## real-time network traffic analyzer
+snort
+## network intrusion detection system
+
+aptitude install vnstat iptraf snort
+dpkg-reconfigure snort
+
+## examples allow/deny ports
+
+initctl start vsftpd
+
+telnet localhost ftp
+# C-]
+# q
+
+## Block the ftp port
+cat /etc/hosts.deny
+  vsftpd: ALL
+
+ifdown -a && ifup -a
+
+telnet localhost ftp
+# C-c
+
+## Allow the ftp port only for localhost
+cat /etc/hosts.allow
+  vsftpd: localhost
+
+ifdown -a && ifup -a
+
+telnet localhost ftp
+# C-]
+# q
 
