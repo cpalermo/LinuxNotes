@@ -1,0 +1,135 @@
+# Ubuntu GNU/Linux 14.04 - amd64
+# svv2
+
+#=========================================================================
+
+tasksel --list-task | grep "^i " | sed "s/^/# /"
+# i server	Basic Ubuntu server
+# i openssh-server	OpenSSH server
+
+#=========================================================================
+
+aptitude install vsftpd ftp
+
+## stop and start upstart ##
+
+initctl list | grep ftp
+# vsftpd start/running, process 4507
+
+initctl stop vsftpd
+# vsftpd stop/waiting
+
+## stop and start manually ##
+
+ls /usr/sbin/ | grep ftp
+# vsftpd
+ls /etc/ | grep ftpd
+# vsftpd.conf
+
+## Verify it is running
+/usr/sbin/vsftpd /etc/vsftpd.conf &
+
+ps -ef | grep vsftpd
+
+ftp localhost
+
+killall vsftpd
+
+#=========================================================================
+## Layer 2: configuration examples
+
+## blacklist hardware
+cat /etc/modprobe.d/blacklist.conf
+
+## check link status
+ip link show
+ethtool eth0
+mii-tool eth0
+
+## change MTU ( https://en.wikipedia.org/wiki/Maximum_transmission_unit )
+ip link set mtu 1492 dev eth0
+
+## change link speed
+ethtool -s eth0 speed 1000 duplex full
+
+## Additional Layer2 MAC VLAN address to eth0
+ip link add link eth0 dev peth0 type macvlan
+ip link set up dev peth0
+
+ip link show
+ethtool eth0
+ethtool peth0
+mii-tool eth0
+
+#=========================================================================
+## Layer 3: configuration examples
+
+ip address show
+ip route show
+# default via 192.168.1.1 dev eth0 
+# 192.168.1.0/24 dev eth0  proto kernel  scope link  src 192.168.1.104 
+
+## manually set a network (Layer 3) address:
+ip addr add 10.0.2.25/255.255.255.0 dev eth0
+
+## manually change default route:
+ip route del default via 192.168.1.1
+ip route add default via 192.168.1.2
+## or
+## ip route replace default via 192.168.1.2 dev eth0 
+
+ip route show
+# default via 192.168.1.2 dev eth0 
+# 192.168.1.0/24 dev eth0  proto kernel  scope link  src 192.168.1.105 
+# 192.168.1.0/24 dev eth0  proto kernel  scope link  src 192.168.1.104 
+
+## DNS servers
+cat /etc/resolv.conf
+echo "nameserver 192.168.0.254" >> /etc/resolv.conf
+
+## release and request a DHCP configuration
+dhclient -r eth0 && dhclient eth0
+## NB concatenate !!
+
+ip route show
+cat /etc/resolv.conf
+
+## Network configuration files
+cat /etc/network/interfaces
+cat /etc/hostname
+cat /etc/hosts
+
+## Create a boot-time configuration of network interface
+
+## info
+
+ip address show
+# 192.168.1.104/24
+ip route show
+# default via 192.168.1.1 dev eth0
+cat /etc/resolv.conf
+# nameserver 8.8.8.8
+# nameserver 8.8.4.4
+
+cat /etc/network/interfaces
+ auto eth0
+ iface eth0 inet static
+	address 192.168.1.105
+	netmask 255.255.255.0
+	gateway 192.168.1.1
+ ## place dns information after interface stanzas
+ dns-nameservers 8.8.8.8
+
+## release and request new configuration
+ifdown --exclude=lo -a && ifup --exclude=lo -a
+## NB concatenate !!
+
+ip address show
+# 192.168.1.105/24
+ip route show
+# default via 192.168.1.1 dev eth0
+cat /etc/resolv.conf
+# nameserver 8.8.8.8
+
+#=========================================================================
+
