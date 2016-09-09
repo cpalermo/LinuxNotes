@@ -25,7 +25,7 @@ PB_PKGREL="$PB_PKG-$PB_REL"
 GREP_REL="deb.*[ ]$TARG_REL[ ]main"
 
 LXCP=$(lxc-config lxc.lxcpath)
-LXCN="lxc-amd64-$TARG_REL-$PB_PKG"
+LXCN="lxc-$TARG_REL-$PB_PKG"
 
 # uncomment target release
 # sed /"$GREP_REL"/s/'^# deb'/'deb'/ /etc/apt/sources.list
@@ -41,8 +41,10 @@ LXCN="lxc-amd64-$TARG_REL-$PB_PKG"
 # lxc-create -h
 # lxc-create -t debian -h
 
+echo $LXCP
+
 if [ ! -d $LXCP/$LXCN ]; then
-	lxc-create -t debian -n $LXCN -- -r jessie -a amd64
+	lxc-create -t debian -n $LXCN -- -r $TARG_REL -a amd64
 	# host network access:
 	sed -i 's/empty$/none/' $LXCP/$LXCN/config
 	# set sources.list:
@@ -74,19 +76,17 @@ lxc-ls --fancy
 #=========================================================================
 # installazione dipendenze
 
-# NB
-# pacchetti installati:
-lxc-attach -n $LXCN -- dpkg -l
-# cache dei pacchetti del container debian di default
-ls /var/cache/lxc/debian/rootfs-jessie-amd64/var/cache/apt/archives/
+## NB
+## pacchetti installati:
+#lxc-attach -n $LXCN -- dpkg -l
+## cache dei pacchetti del container debian di default
+#ls /var/cache/lxc/debian/rootfs-jessie-amd64/var/cache/apt/archives/
 
-# cache dei pacchetti del container appena creato
-# NB per velocizzare l'installazione dei pacchetti
-# si possono copiare i file .deb in questa dir:
-ls $LXCP/$LXCN/rootfs/var/cache/apt/archives/
-
-# ( rimuovendo --dry-run )
-# rsync --archive -vh --dry-run archives/ $LXCP/$LXCN/rootfs/var/cache/apt/archives
+## cache dei pacchetti del container appena creato
+## NB per velocizzare l'installazione dei pacchetti
+## si possono copiare i file .deb in questa dir:
+#ls $LXCP/$LXCN/rootfs/var/cache/apt/archives/
+#rsync --archive -vh --dry-run archives/ $LXCP/$LXCN/rootfs/var/cache/apt/archives
 
 # aptitude
 lxc-attach -n $LXCN -- apt-get update
@@ -107,7 +107,7 @@ lxc-attach -n $LXCN -- aptitude $APT_OPT install r-base-dev
 # dipendenze R packages:
 lxc-attach -n $LXCN -- aptitude $APT_OPT install libxml2-dev
 # RCurl:
-lxc-attach -n $LXCN -- aptitude $APT_OPT install libcurl4-gnutls-dev
+lxc-attach -n $LXCN -- aptitude $APT_OPT install libcurl4-openssl-dev
 # git2r
 lxc-attach -n $LXCN -- aptitude $APT_OPT install libssl-dev
 
@@ -132,7 +132,6 @@ texlive-fonts-extra
 "
 
 lxc-attach -n $LXCN -- aptitude $APT_OPT install $LSV_RDOC
-#
 
 # support graphical output capabilities:
 #
@@ -161,23 +160,29 @@ libpango1.0-dev
 "
 
 lxc-attach -n $LXCN -- aptitude $APT_OPT install $LSV_RGR
-#
 
-# interprete java tramite gcc:
-#
-# versione gcc
-GCC_VER=$( lxc-attach -n $LXCN -- gcc --version | \
-	grep "^gcc" | sed 's/.* //;s/\.[0-9]$//' )
-echo $GCC_VER
-# controlla!
+## JAVA
 
-LSV_GCJ="
-gcj-$GCC_VER-jre-headless
-gcj-$GCC_VER-jdk
+# interprete java gcc (deprecato):
+#GCC_VER=$( lxc-attach -n $LXCN -- gcc --version | \
+#	grep "^gcc" | sed 's/.* //;s/\.[0-9]$//' )
+#echo $GCC_VER
+#LSV_GCJ="
+#gcj-$GCC_VER-jre-headless
+#gcj-$GCC_VER-jdk
+#"
+#lxc-attach -n $LXCN -- aptitude $APT_OPT install $LSV_GCJ
+
+## JDK debian jessie
+## default-jdk		-->	openjdk-7-jdk
+## default-jre		-->	openjdk-7-jre
+## default-jre-headless	-->	openjdk-7-jre-headless
+
+LSV_JDK="
+default-jre-headless
 "
 
-lxc-attach -n $LXCN -- aptitude $APT_OPT install $LSV_GCJ
-#
+lxc-attach -n $LXCN -- aptitude $APT_OPT install $LSV_JDK
 
 #=========================================================================
 
