@@ -16,7 +16,10 @@ PB_PKG="Rnox"
 PB_REL="3.2.5"
 PB_PKGREL="$PB_PKG-$PB_REL"
 
-# GCC_REL=
+GCC_VER=$( lxc-attach -n $LXCN -- gcc --version | \
+	grep "^gcc" | sed 's/.* //;s/\.[0-9]$//' )
+
+echo $GCC_VER
 
 # PB_PKGDIR="$PB_PKGREL-$(date +%y%m%d)"
 
@@ -94,8 +97,8 @@ lxc-attach -n $LXCN -- apt-get update
 lxc-attach -n $LXCN -- apt-get $APT_OPT install aptitude
 #
 lxc-attach -n $LXCN -- aptitude update
-lxc-attach -n $LXCN -- aptitude $APT_OPT full-upgrade
 #
+lxc-attach -n $LXCN -- aptitude $APT_OPT full-upgrade
 
 # R
 #
@@ -164,9 +167,6 @@ lxc-attach -n $LXCN -- aptitude $APT_OPT install $LSV_RGR
 ## JAVA
 
 # interprete java gcc (deprecato):
-#GCC_VER=$( lxc-attach -n $LXCN -- gcc --version | \
-#	grep "^gcc" | sed 's/.* //;s/\.[0-9]$//' )
-#echo $GCC_VER
 #LSV_GCJ="
 #gcj-$GCC_VER-jre-headless
 #gcj-$GCC_VER-jdk
@@ -289,10 +289,9 @@ make -j 4
 
 make install
 
-# $OPT_PREFIX/bin/R
+# R
 # data.frame( capabilities() )
-# q()
-# n
+# q("no")
 
 logout
 # <Ctrl+a q>
