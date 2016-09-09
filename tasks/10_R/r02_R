@@ -1,5 +1,11 @@
 # R
 #=========================================================================
+# R / Rnox
+
+#PB_PKG="R"
+PB_PKG="Rnox"
+
+#=========================================================================
 # opt
 
 APT_OPT="-yV"
@@ -12,8 +18,7 @@ PB_DIR="/var/cache/pbuilder"
 PB_SRC="$PB_DIR/src"
 PB_RES="$PB_DIR/result"
 
-PB_PKG="Rnox"
-PB_REL="3.2.3"
+PB_REL="3.2.5"
 PB_PKGREL="$PB_PKG-$PB_REL"
 
 # prova
@@ -30,7 +35,7 @@ aptitude $APT_OPT install r-base-dev
 # dipendenze R packages:
 aptitude $APT_OPT install libxml2-utils libxml2-dev
 # RCurl:
-aptitude $APT_OPT install libcurl4-gnutls-dev
+aptitude $APT_OPT install libcurl4-openssl-dev
 # git2r
 aptitude $APT_OPT install libssl-dev
 
@@ -186,5 +191,4 @@ whereis R
 which R
 
 #=========================================================================
-
 
