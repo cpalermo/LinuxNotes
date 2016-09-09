@@ -117,7 +117,7 @@ lvm2
 smartmontools
 "
 
-apt-get $APT_OPT install $LSP_HDD
+aptitude $APT_OPT install $LSP_HDD
 
 # reboot
 
