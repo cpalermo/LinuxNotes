@@ -30,6 +30,10 @@ echo "
 # M-x emmet-mode
 # M-x auto-complete-mode
 
+# yaml-mode
+#
+# M-x yaml-mode
+
 #=========================================================================
 # nodejs
 
