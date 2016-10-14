@@ -134,12 +134,12 @@ cat /etc/resolv.conf
 #=========================================================================
 ## Network Troubleshooting and monitoring
 
-ping
-traceroute
-nmap
+# ping
+# traceroute
+# nmap
 
-DNS	hostnames
-IP	addrersses
+# DNS	hostnames
+# IP	addresses
 
 ## sniffing
 ## http://www.tecmint.com/12-tcpdump-commands-a-network-sniffer-tool/
@@ -183,6 +183,9 @@ cat /proc/net/arp
 
 ## Tools
 
+aptitude install vnstat iptraf snort
+dpkg-reconfigure snort
+
 vnstat
 ## network stats
 iptraf
@@ -190,12 +193,10 @@ iptraf
 snort
 ## network intrusion detection system
 
-aptitude install vnstat iptraf snort
-dpkg-reconfigure snort
-
+#=========================================================================
 ## examples allow/deny ports
 
-initctl start vsftpd
+initctl status vsftpd
 
 telnet localhost ftp
 # C-]
@@ -219,4 +220,7 @@ ifdown -a && ifup -a
 telnet localhost ftp
 # C-]
 # q
+
+#=========================================================================
+
 
