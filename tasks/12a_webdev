@@ -9,7 +9,7 @@ APT_OPT="-yV"
 # NB
 # su <user>
 
-cp ~/emacs ~/.emacs.keep
+cp ~/.emacs ~/.emacs.keep
 echo "
 (when (>= emacs-major-version 24)
   (require 'package)
@@ -33,6 +33,14 @@ echo "
 # yaml-mode
 #
 # M-x yaml-mode
+
+# highlight-indentation-mode
+#
+# M-x highlight-indentation
+# M-x highlight-indentation-current-column-mode
+#
+# highlight-indentation-face --> background --> "black"
+# highlight-indentation-current-column-face --> background --> "dim gray"
 
 #=========================================================================
 
