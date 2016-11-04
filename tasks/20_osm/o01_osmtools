@@ -1,0 +1,28 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+# osmium-tool
+
+TARG_REL="jessie-backports"
+
+LSP_OSMIUM="
+osmium-tool/$TARG_REL
+"
+
+aptitude $APT_OPT install $LSP_OSMIUM
+#=========================================================================
+# osmosis
+
+#LSP_OSMOSIS="
+#osmosis/$TARG_REL
+#"
+
+#aptitude $APT_OPT install $LSP_OSMOSIS
+
+#=========================================================================
+
+exit
+
