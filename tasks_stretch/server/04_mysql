@@ -1,0 +1,60 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+# sqlite
+
+LSP_SQLITE="
+sqlite3
+libsqlite3-0
+libsqlite3-dev
+"
+
+aptitude $APT_OPT install $LSP_SQLITE
+
+#=========================================================================
+# mysql/mariadb
+
+LSP_MYSQL="
+default-mysql-server
+default-mysql-client
+default-libmysqlclient-dev
+"
+
+# cd ~ && pwd
+# /root
+
+touch /root/.my.cnf
+echo "[client]" > /root/.my.cnf
+echo "password=$(pwgen -s 10 1)" >> /root/.my.cnf
+chmod u=rw,go= /root/.my.cnf
+
+cat /root/.my.cnf
+aptitude $APT_OPT install $LSP_MYSQL
+## ***
+
+# mysql
+# > exit
+
+#=========================================================================
+# PHPMyAdmin
+
+LSP_MYADMIN="
+phpmyadmin
+"
+
+cat /root/.my.cnf
+aptitude $APT_OPT install $LSP_MYADMIN
+## apache2
+## yes
+## ***
+## [random]
+
+# <IP>/phpmyadmin
+
+#=========================================================================
+
+exit
+
