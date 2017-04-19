@@ -1,0 +1,39 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+# redis server
+
+LSP_REDIS="
+redis-server
+redis-tools
+redis-sentinel
+"
+
+aptitude $APT_OPT install $LSP_REDIS
+
+#=========================================================================
+# Php - redis
+
+LSP_PHPREDIS="
+php-redis
+"
+
+aptitude $APT_OPT install $LSP_PHPREDIS
+
+#=========================================================================
+# Python - redis
+
+LSP_PYREDIS="
+python-redis
+python3-redis
+"
+
+aptitude $APT_OPT install $LSP_PYREDIS
+
+#=========================================================================
+
+exit
+
