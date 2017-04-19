@@ -1,14 +1,4 @@
 # Debian GNU/Linux 9 (Stretch) - amd64
-
-#=========================================================================
-
-tasksel --list-task | grep "^i " | sed "s/^/# /"
-# i ssh-server	server SSH
-
-hostname
-dnsdomainname
-lsblk
-
 #=========================================================================
 # opt
 
@@ -54,43 +44,23 @@ cat /etc/apt/sources.list.d/backports.list | sed "s/^/# /"
 #=========================================================================
 # update
 
-uname --all
+apt-get update
+apt-get $APT_OPT install aptitude
+
 aptitude update
+
+uname --all
 aptitude $APT_OPT full-upgrade
+
+# reboot if needed
+uname --all
 
 # update-grub
 # dpkg-reconfigure grub-pc
-# install-grub /dev/
-#
-# in /etc/default/grub
-# GRUB_CMDLINE_LINUX_DEFAULT="rootdelay=3 quiet"
-# GRUB_CMDLINE_LINUX="rootdelay=3"
-
-#=========================================================================
-
-LSP_FIRMWARE="
-firmware-linux
-firmware-linux-free
-firmware-linux-nonfree
-firmware-amd-graphics
-firmware-misc-nonfree
-amd64-microcode
-intel-microcode
-firmware-realtek
-"
-
-aptitude $APT_OPT install $LSP_FIRMWARE
-
-#=========================================================================
-
-LSP_HDD="
-lvm2
-smartmontools
-"
-
-aptitude $APT_OPT install $LSP_HDD
-
-# reboot needed
+# N.B.
+# A new version of /boot/grub/menu.lst is available, but the version installed currently has been
+# locally modified:
+# ---> keep the local version currently installed
 
 #=========================================================================
 
