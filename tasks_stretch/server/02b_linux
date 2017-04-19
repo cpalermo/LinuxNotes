@@ -21,6 +21,20 @@ memtest86+
 "
 
 aptitude $APT_OPT install $LSP_TOOLS
+#=========================================================================
+# build tools
+
+LSP_BUILD="
+build-essential
+debootstrap
+pbuilder
+fakeroot
+devscripts
+equivs
+quilt
+"
+
+aptitude $APT_OPT install $LSP_BUILD
 
 #=========================================================================
 

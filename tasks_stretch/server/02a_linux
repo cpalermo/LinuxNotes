@@ -25,6 +25,21 @@ update-alternatives --display editor
 #select-editor
 
 #=========================================================================
+# build tools
+
+LSP_BUILD="
+build-essential
+debootstrap
+pbuilder
+fakeroot
+devscripts
+equivs
+quilt
+"
+
+aptitude $APT_OPT install $LSP_BUILD
+
+#=========================================================================
 
 exit
 
