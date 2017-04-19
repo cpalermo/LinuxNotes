@@ -1,0 +1,44 @@
+#=========================================================================
+# opt
+
+APT_OPT="-syV"
+
+#=========================================================================
+# build tools
+
+LSP_PIP="
+python-pip
+python3-pip
+"
+
+aptitude install $LSP_PIP
+
+#pip install --upgrade pip
+#pip3 install --upgrade pip
+
+#pip3 install virtualenv
+
+whereis pip
+# pip: /usr/bin/pip /usr/local/bin/pip2.7 /usr/local/bin/pip3.4 /usr/local/bin/pip 
+
+#pip3 install ipython[all]
+
+LSP_IPYTHON="
+ipython3
+ipython3-notebook
+"
+
+aptitude install $LSP_IPYTHON
+
+aptitude install python3-pyproj python-pyproj
+
+#=========================================================================
+# Emacs Python Development Environment
+# elpy
+#
+# M-x elpy-mode
+
+#=========================================================================
+
+exit
+

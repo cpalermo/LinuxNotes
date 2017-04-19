@@ -42,5 +42,8 @@ echo "
 # highlight-indentation-face --> background --> "black"
 # highlight-indentation-current-column-face --> background --> "dim gray"
 
+aptitude install discount
+# markdown-mode
+
 #=========================================================================
 

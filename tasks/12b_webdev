@@ -10,15 +10,14 @@ APT_OPT="-yV"
 # su <user>
 
 cp ~/.emacs ~/.emacs.keep
-echo "
-(when (>= emacs-major-version 24)
-  (require 'package)
-  (add-to-list
-   'package-archives
-   '("melpa" . "http://melpa.org/packages/")
-   t)
-  (package-initialize))
-" >> ~/.emacs
+## add:
+#(when (>= emacs-major-version 24)
+#  (require 'package)
+#  (add-to-list
+#   'package-archives
+#   '("melpa" . "http://melpa.org/packages/")
+#   t)
+#  (package-initialize))
 
 ## install
 # M-x list-packages
@@ -39,8 +38,11 @@ echo "
 # M-x highlight-indentation
 # M-x highlight-indentation-current-column-mode
 #
-# highlight-indentation-face --> background --> "black"
-# highlight-indentation-current-column-face --> background --> "dim gray"
+# highlight-indentation-face --> background --> "dim gray"
+# highlight-indentation-current-column-face --> background --> "orange red"
+
+aptitude install discount
+# markdown-mode
 
 #=========================================================================
 # nodejs

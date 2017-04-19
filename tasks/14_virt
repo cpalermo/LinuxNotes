@@ -23,11 +23,21 @@ getent group vboxusers
 #=========================================================================
 # AWS
 
-LSP_AWS="
-awscli
+LSP_PIP="
+python-pip
+python3-pip
 "
 
-aptitude $APT_OPT install $LSP_AWS
+aptitude $APT_OPT install $LSP_PIP
+
+pip install awscli
+
+# pip install --upgrade awscli
+
+#LSP_AWS="
+#awscli
+#"
+#aptitude $APT_OPT install $LSP_AWS
 
 #=========================================================================
 
