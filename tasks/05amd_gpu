@@ -1,0 +1,167 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+# accellerazione HW
+
+# DRM ; pciaccess
+LSP_DRM="
+libdrm2
+libdrm-dev
+libdrm-radeon1
+libdrm2:i386
+libdrm-radeon1:i386
+libpciaccess0
+libpciaccess-dev
+"
+# libdrm-amdgpu1
+# libdrm-amdgpu1:i386
+
+# Mesa Off Screen
+# LSP_MESAOS="
+# libgl1-mesa-swx11
+# libgl1-mesa-swx11-dev
+# libosmesa6
+# libosmesa6-dev
+# "
+
+# Mesa OpenCL ICD
+# LSP_OCLICD="
+# mesa-opencl-icd
+# "
+
+# Mesa OpenGL ; X
+LSP_OGL="
+libgl1-mesa-glx
+libgl1-mesa-dri
+libgl1-mesa-dev
+"
+
+# Mesa EGL ; Wayland
+LSP_EGL="
+libegl1-mesa
+libegl1-mesa-dev
+libglapi-mesa
+libwayland-egl1-mesa
+"
+
+# Mesa OpenGL|ES
+LSP_OGLES="
+libgles2-mesa
+libgles2-mesa-dev
+"
+
+# Mesa vdpau
+LSP_VDPAUDRI="
+mesa-vdpau-drivers
+mesa-vdpau-drivers:i386
+"
+
+# Mesa i386
+LSP_MESA32="
+libgl1-mesa-glx:i386
+libgl1-mesa-dri:i386
+libegl1-mesa:i386
+libglapi-mesa:i386
+libgles2-mesa:i386
+"
+
+# Supporto wayland
+# comunque dipendenze xserver-xorg-core --> libegl1-mesa --> etc.
+# di fatto aggiunge solo libwayland-cursor0
+LSP_WAYLAND="
+libwayland-client0
+libwayland-cursor0
+libwayland-server0
+libwayland-client0:i386
+libwayland-cursor0:i386
+libwayland-server0:i386
+libinput5
+"
+
+# xorg-server
+LSP_XORG="
+xserver-xorg-core
+xserver-common
+xserver-xephyr
+xwayland
+xserver-xorg-input-kbd
+xserver-xorg-input-mouse
+xserver-xorg-input-evdev
+xserver-xorg-input-void
+xserver-xorg-video-ati
+mesa-utils
+mesa-utils-extra
+"
+
+LSP_AUDIO="
+pulseaudio
+libpulse0
+libasound2
+libasound2-plugins
+libasound2-data
+libpulse0:i386
+libasound2:i386
+libasound2-plugins:i386
+"
+
+aptitude $APT_OPT install $LSP_DRM $LSP_OGL $LSP_EGL $LSP_OGLES $LSP_VDPAUDRI $LSP_MESA32 \
+$LSP_WAYLAND $LSP_XORG $LSP_AUDIO
+
+#=========================================================================
+# accellerazione video:
+# vdpau e va-api (tramite backend vdpau)
+
+LSP_LIBVDPAU="
+libvdpau1
+libvdpau1:i386
+vdpauinfo
+"
+
+LSP_LIBVA="
+vdpau-va-driver
+libva1
+libva-drm1
+libva-glx1
+libva-egl1
+libva-x11-1
+libva-wayland1
+vdpau-va-driver:i386
+libva1:i386
+libva-drm1:i386
+libva-glx1:i386
+libva-egl1:i386
+libva-x11-1:i386
+libva-wayland1:i386
+vainfo
+"
+
+aptitude $APT_OPT install $LSP_LIBVDPAU $LSP_LIBVA
+
+#=========================================================================
+
+/usr/bin/vdpauinfo
+/usr/bin/vainfo
+
+cat /sys/class/drm/card0/device/power_dpm_state
+# battery		a set of performance levels targeted for optimal operation on battery
+# balanced (default) 	a set of performance levels targeted for optimal every day use
+# performance 		a set of performance levels targeted for the highest GPU performance
+cat /sys/class/drm/card0/device/power_dpm_force_performance_level
+# auto (default)	disables forced levels; the hw uses all levels in the power state
+# low 			forces the hardware to the lowest performance level in the power state
+# high	 		forces the hardware to the highest performance level in the power state
+
+echo "performance" > /sys/class/drm/card0/device/power_dpm_state
+watch cat /sys/kernel/debug/dri/64/radeon_pm_info
+
+# hw acc chrome
+# chrome://gpu/
+# chrome://media-internals/
+# chrome://flags/
+#	Override software rendering list	--->	Enable
+
+#=========================================================================
+

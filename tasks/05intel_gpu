@@ -1,18 +1,24 @@
 #=========================================================================
 # opt
 
-APT_OPT="-yV"
+APT_OPT="-sV"
 
 #=========================================================================
 # accellerazione HW
 
+BKP_REL="jessie-backports"
+
 # DRM ; pciaccess
 LSP_DRM="
-libdrm2
-libdrm-dev
-libdrm-radeon1
-libdrm2:i386
-libdrm-radeon1:i386
+libdrm2/$BKP_REL
+libdrm-dev/$BKP_REL
+libdrm-radeon1/$BKP_REL
+libdrm-intel1/$BKP_REL
+libdrm-nouveau2/$BKP_REL
+libdrm2:i386/$BKP_REL
+libdrm-radeon1:i386/$BKP_REL
+libdrm-intel1:i386/$BKP_REL
+libdrm-nouveau2:i386/$BKP_REL
 libpciaccess0
 libpciaccess-dev
 "
@@ -54,10 +60,10 @@ libgles2-mesa-dev
 "
 
 # Mesa vdpau
-LSP_VDPAUDRI="
-mesa-vdpau-drivers
-mesa-vdpau-drivers:i386
-"
+#LSP_VDPAUDRI="
+#mesa-vdpau-drivers
+#mesa-vdpau-drivers:i386
+#"
 
 # Mesa i386
 LSP_MESA32="
@@ -91,9 +97,10 @@ xserver-xorg-input-kbd
 xserver-xorg-input-mouse
 xserver-xorg-input-evdev
 xserver-xorg-input-void
-xserver-xorg-video-ati
+xserver-xorg-input-synaptics
 mesa-utils
 mesa-utils-extra
+xserver-xorg-video-intel/$BKP_REL
 "
 
 LSP_AUDIO="
@@ -138,24 +145,18 @@ libva-wayland1:i386
 vainfo
 "
 
-aptitude $APT_OPT install $LSP_LIBVDPAU $LSP_LIBVA
+# Intel vaapi
+LSP_VAAPIDRI="
+i965-va-driver
+i965-va-driver:i386
+"
+
+aptitude $APT_OPT install $LSP_LIBVDPAU $LSP_LIBVA $LSP_VAAPIDRI
 
 #=========================================================================
 
 /usr/bin/vdpauinfo
 /usr/bin/vainfo
-
-cat /sys/class/drm/card0/device/power_dpm_state
-# battery		a set of performance levels targeted for optimal operation on battery
-# balanced (default) 	a set of performance levels targeted for optimal every day use
-# performance 		a set of performance levels targeted for the highest GPU performance
-cat /sys/class/drm/card0/device/power_dpm_force_performance_level
-# auto (default)	disables forced levels; the hw uses all levels in the power state
-# low 			forces the hardware to the lowest performance level in the power state
-# high	 		forces the hardware to the highest performance level in the power state
-
-#echo "performance" > /sys/class/drm/card0/device/power_dpm_state
-watch cat /sys/kernel/debug/dri/64/radeon_pm_info
 
 # hw acc chrome
 # chrome://gpu/
@@ -164,4 +165,12 @@ watch cat /sys/kernel/debug/dri/64/radeon_pm_info
 #	Override software rendering list	--->	Enable
 
 #=========================================================================
+## fix most recent intel
+
+aptitude install --target-release jessie-backports firmware-linux firmware-linux-nonfree firmware-misc-nonfree
+
+aptitude install --target-release jessie-backports linux-image-amd64
+
+egrep -i 'synap|alps|etps' /proc/bus/input/devices
+# N: Name="ETPS/2 Elantech Touchpad"
 
