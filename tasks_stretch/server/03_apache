@@ -33,6 +33,26 @@ cat /etc/apache2/apache2.conf
 #</Directory>
 
 #=========================================================================
+## SSL encryption
+
+## certbot
+## https://certbot.eff.org/#debianjessie-apache
+
+LSP_CERTBOT="
+certbot
+python-certbot
+python-certbot-apache
+"
+
+aptitude $APT_OPT install $LSP_CERTBOT
+
+# Enable the SSL encryption module:
+a2enmod ssl
+
+# Enable the virtual host for HTTPS:
+a2ensite default-ssl
+
+#=========================================================================
 
 exit
 
