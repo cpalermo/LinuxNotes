@@ -1,0 +1,66 @@
+# Debian GNU/Linux 9 (Stretch) - amd64
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+# sources.list
+
+## SRCLS_REP="http://mirror3.mirror.garr.it/mirrors/debian/"
+SRCLS_REP="http://cloudfront.debian.net/debian/"
+SRCLS_REL="stretch"
+SRCLS_COM="main contrib non-free"
+
+cp /etc/apt/sources.list /etc/apt/sources.list.keep.$(date +%y%m%d)
+
+echo "deb $SRCLS_REP $SRCLS_REL $SRCLS_COM" > /etc/apt/sources.list
+echo "deb-src $SRCLS_REP $SRCLS_REL $SRCLS_COM" >> /etc/apt/sources.list
+echo "" >> /etc/apt/sources.list
+echo "deb http://security.debian.org/ $SRCLS_REL/updates $SRCLS_COM" >> /etc/apt/sources.list
+echo "deb-src http://security.debian.org/ $SRCLS_REL/updates $SRCLS_COM" >> /etc/apt/sources.list
+echo "" >> /etc/apt/sources.list
+echo "deb $SRCLS_REP $SRCLS_REL-updates $SRCLS_COM" >> /etc/apt/sources.list
+echo "deb-src $SRCLS_REP $SRCLS_REL-updates $SRCLS_COM" >> /etc/apt/sources.list
+
+echo "" >> /etc/apt/sources.list
+echo "# testing, unstable, experimental" >> /etc/apt/sources.list
+echo "# deb $SRCLS_REP testing $SRCLS_COM" >> /etc/apt/sources.list
+echo "# deb-src $SRCLS_REP testing $SRCLS_COM" >> /etc/apt/sources.list
+echo "# deb $SRCLS_REP unstable $SRCLS_COM" >> /etc/apt/sources.list
+echo "# deb-src $SRCLS_REP unstable $SRCLS_COM" >> /etc/apt/sources.list
+echo "# deb $SRCLS_REP experimental $SRCLS_COM" >> /etc/apt/sources.list
+echo "# deb-src $SRCLS_REP experimental $SRCLS_COM" >> /etc/apt/sources.list
+
+cat /etc/apt/sources.list | sed "s/^/# /"
+
+## backports
+
+echo "deb $SRCLS_REP $SRCLS_REL-backports $SRCLS_COM" > /etc/apt/sources.list.d/backports.list
+echo "deb-src $SRCLS_REP $SRCLS_REL-backports $SRCLS_COM" >> /etc/apt/sources.list.d/backports.list
+
+cat /etc/apt/sources.list.d/backports.list | sed "s/^/# /"
+
+#=========================================================================
+# update
+
+apt-get update
+apt-get $APT_OPT install aptitude
+
+aptitude update
+
+uname --all
+aptitude $APT_OPT full-upgrade
+
+# reboot if needed
+uname --all
+
+# update-grub
+# dpkg-reconfigure grub-pc
+# N.B.
+# A new version of /boot/grub/menu.lst is available, but the version installed currently has been
+# locally modified:
+# ---> keep the local version currently installed
+
+#=========================================================================
+
