@@ -56,5 +56,19 @@ libgeotiff2
 
 aptitude $APT_OPT install $LSP_GEOTIFF
 
+## NB da cambiare per stretch
+LSP_NETCDF="
+libcf0
+libnetcdfc7
+libnetcdff5
+libnetcdfc++4
+libnetcdf-dev
+netcdf-bin
+netcdf-dbg
+netcdf-doc
+"
+
+aptitude $APT_OPT install $LSP_NETCDF
+
 #=========================================================================
 

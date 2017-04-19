@@ -55,6 +55,7 @@ install.packages( "tiff" , repos="http://cran.rstudio.com/" )
 install.packages( "png" , repos="http://cran.rstudio.com/" )
 install.packages( "jpeg" , repos="http://cran.rstudio.com/" )
 install.packages( "bmp" , repos="http://cran.rstudio.com/" )
+install.packages( "ncdf4" , repos="http://cran.rstudio.com/" )
 
 #=========================================================================
 
