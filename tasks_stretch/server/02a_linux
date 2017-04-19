@@ -1,0 +1,30 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+# selezione pacchetti utili
+
+LSP_TOOLS="
+mc
+tree
+htop
+vnstat
+atool
+gdebi-core
+rsync
+pwgen
+"
+
+aptitude $APT_OPT install $LSP_TOOLS
+
+update-alternatives --get-selections
+update-alternatives --list editor
+update-alternatives --display editor
+#select-editor
+
+#=========================================================================
+
+exit
+
