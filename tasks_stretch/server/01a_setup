@@ -35,6 +35,22 @@ echo "# deb $SRCLS_REP experimental $SRCLS_COM" >> /etc/apt/sources.list
 echo "# deb-src $SRCLS_REP experimental $SRCLS_COM" >> /etc/apt/sources.list
 
 cat /etc/apt/sources.list | sed "s/^/# /"
+# deb http://cloudfront.debian.net/debian/ stretch main contrib non-free
+# deb-src http://cloudfront.debian.net/debian/ stretch main contrib non-free
+# 
+# deb http://cloudfront.debian.net/debian-security/ stretch/updates main contrib non-free
+# deb-src http://cloudfront.debian.net/debian-security/ stretch/updates main contrib non-free
+# 
+# deb http://cloudfront.debian.net/debian/ stretch-updates main contrib non-free
+# deb-src http://cloudfront.debian.net/debian/ stretch-updates main contrib non-free
+# 
+# # testing, unstable, experimental
+# # deb http://cloudfront.debian.net/debian/ testing main contrib non-free
+# # deb-src http://cloudfront.debian.net/debian/ testing main contrib non-free
+# # deb http://cloudfront.debian.net/debian/ unstable main contrib non-free
+# # deb-src http://cloudfront.debian.net/debian/ unstable main contrib non-free
+# # deb http://cloudfront.debian.net/debian/ experimental main contrib non-free
+# # deb-src http://cloudfront.debian.net/debian/ experimental main contrib non-free
 
 ## backports
 
@@ -42,6 +58,8 @@ echo "deb $SRCLS_REP $SRCLS_REL-backports $SRCLS_COM" > /etc/apt/sources.list.d/
 echo "deb-src $SRCLS_REP $SRCLS_REL-backports $SRCLS_COM" >> /etc/apt/sources.list.d/backports.list
 
 cat /etc/apt/sources.list.d/backports.list | sed "s/^/# /"
+# deb http://cloudfront.debian.net/debian/ stretch-backports main contrib non-free
+# deb-src http://cloudfront.debian.net/debian/ stretch-backports main contrib non-free
 
 #=========================================================================
 # update
