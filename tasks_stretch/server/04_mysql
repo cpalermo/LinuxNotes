@@ -23,9 +23,6 @@ default-mysql-client
 default-libmysqlclient-dev
 "
 
-# cd ~ && pwd
-# /root
-
 touch /root/.my.cnf
 echo "[client]" > /root/.my.cnf
 echo "password=$(pwgen -s 10 1)" >> /root/.my.cnf
@@ -50,7 +47,10 @@ aptitude $APT_OPT install $LSP_MYADMIN
 ## apache2
 ## yes
 ## ***
-## [random]
+
+mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'phpmyadmin'@'localhost' WITH GRANT OPTION;"
+
+## NB phpmyadmin with same password and privileges of root
 
 # <IP>/phpmyadmin
 
