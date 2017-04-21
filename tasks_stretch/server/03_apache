@@ -32,6 +32,9 @@ cat /etc/apache2/apache2.conf
 #        allow from all
 #</Directory>
 
+apachectl configtest
+systemctl restart apache2.service
+
 #=========================================================================
 ## SSL encryption
 
@@ -51,6 +54,9 @@ a2enmod ssl
 
 # Enable the virtual host for HTTPS:
 a2ensite default-ssl
+
+apachectl configtest
+systemctl restart apache2.service
 
 #=========================================================================
 
