@@ -21,6 +21,7 @@ memtest86+
 "
 
 aptitude $APT_OPT install $LSP_TOOLS
+
 #=========================================================================
 # build tools
 
@@ -54,12 +55,6 @@ cat /etc/modules
 lsmod | grep 'freq'
 # disponibili:
 modinfo /lib/modules/$(uname -r)/kernel/drivers/cpufreq/* | grep -iv "^depends" | grep -i "^[fd]"
-# statistiche cpu:
-modinfo cpufreq_stats
-
-echo "cpufreq_stats" >> /etc/modules
-cat /etc/modules
-# cpufreq_stats
 
 # reboot nedeed
 
