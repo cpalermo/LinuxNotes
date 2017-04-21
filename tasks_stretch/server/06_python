@@ -9,7 +9,6 @@ APT_OPT="-yV"
 LSP_PY2="
 python
 python-dev
-python-venv
 python-pip
 python-pip-whl
 "
