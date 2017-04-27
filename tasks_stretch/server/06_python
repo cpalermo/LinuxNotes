@@ -20,7 +20,7 @@ python3-venv
 python3-pip
 "
 
-aptitude $APT_OPT install $LSP_PY2 $LSP_PY2
+aptitude $APT_OPT install $LSP_PY2 $LSP_PY3
 
 ## NB
 ls -l $(which python)
