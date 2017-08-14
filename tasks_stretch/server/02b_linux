@@ -22,6 +22,11 @@ memtest86+
 
 aptitude $APT_OPT install $LSP_TOOLS
 
+update-alternatives --get-selections
+update-alternatives --list editor
+update-alternatives --display editor
+#select-editor
+
 #=========================================================================
 # build tools
 
@@ -57,11 +62,6 @@ lsmod | grep 'freq'
 modinfo /lib/modules/$(uname -r)/kernel/drivers/cpufreq/* | grep -iv "^depends" | grep -i "^[fd]"
 
 # reboot nedeed
-
-update-alternatives --get-selections
-update-alternatives --list editor
-update-alternatives --display editor
-#select-editor
 
 #=========================================================================
 
