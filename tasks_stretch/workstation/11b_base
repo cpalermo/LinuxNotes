@@ -32,3 +32,6 @@ aptitude $APT_OPT install $LSP_LIBC
 aptitude $APT_OPT install $LSP_CUPS
 
 #=========================================================================
+
+exit
+

@@ -74,9 +74,16 @@ cat /etc/apt/sources.list.d/backports.list | sed "s/^/# /"
 #=========================================================================
 # update
 
-uname --all
+apt-get update
+apt-get $APT_OPT install aptitude
+
 aptitude update
+
+uname --all
 aptitude $APT_OPT full-upgrade
+
+# reboot if needed
+uname --all
 
 # update-grub
 # dpkg-reconfigure grub-pc
