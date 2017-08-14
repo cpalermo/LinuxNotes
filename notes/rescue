@@ -1,0 +1,10 @@
+aptitude install gddrescue
+aptitude -sV install ddrescueview
+
+lsblk
+
+# Rescue the most important part of the disc first.
+
+ddrescue -i0 -r0 /dev/sdd hdimage mapfile
+ddrescue -i0 -d -r3 /dev/sdd hdimage mapfile
+
