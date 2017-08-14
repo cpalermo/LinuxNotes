@@ -98,6 +98,10 @@ aptitude $APT_OPT install $LSP_TOOLS
 #raco pkg update --update-deps frog
 
 #=========================================================================
+
+aptitude -sV install -t jessie grunt/stretch
+
+#=========================================================================
 # jekyll
 
 #TARG_REL="testing"

@@ -17,6 +17,13 @@ ttf-mscorefonts-installer
 
 aptitude $APT_OPT install $LSP_OFFICE
 
+LSP_DICT="
+#hunspell-it
+hunspell-en-us
+"
+
+aptitude $APT_OPT install $LSP_DICT
+
 LSP_PANDOC="
 pandoc
 "
