@@ -9,28 +9,20 @@ APT_OPT="-yV"
 # DRM ; pciaccess
 LSP_DRM="
 libdrm2
+libdrm-common
 libdrm-dev
 libdrm-radeon1
 libdrm-amdgpu1
+libdrm-intel1
 libdrm2:i386
 libdrm-radeon1:i386
 libdrm-amdgpu1:i386
+libdrm-intel1:i386
 libpciaccess0
 libpciaccess-dev
 "
 
-# Mesa Off Screen
-# LSP_MESAOS="
-# libgl1-mesa-swx11
-# libgl1-mesa-swx11-dev
-# libosmesa6
-# libosmesa6-dev
-# "
-
-# Mesa OpenCL ICD
-# LSP_OCLICD="
-# mesa-opencl-icd
-# "
+aptitude $APT_OPT install $LSP_DRM
 
 # Mesa OpenGL ; X
 LSP_OGL="
@@ -53,10 +45,18 @@ libgles2-mesa
 libgles2-mesa-dev
 "
 
-# Mesa vdpau
+# Mesa vulkan drivers
+LSP_VULKAN="
+libvulkan1
+vulkan-utils
+libvulkan-dev
+mesa-vulkan-drivers
+"
+
+# Mesa vdpau e va-api
 LSP_VDPAUDRI="
 mesa-vdpau-drivers
-mesa-vdpau-drivers:i386
+mesa-va-drivers
 "
 
 # Mesa i386
@@ -68,33 +68,36 @@ libglapi-mesa:i386
 libgles2-mesa:i386
 "
 
-# Supporto wayland
+# wayland
 # comunque dipendenze xserver-xorg-core --> libegl1-mesa --> etc.
 # di fatto aggiunge solo libwayland-cursor0
 LSP_WAYLAND="
 libwayland-client0
 libwayland-cursor0
 libwayland-server0
-libwayland-client0:i386
-libwayland-cursor0:i386
-libwayland-server0:i386
-libinput10
+#libwayland-client0:i386
+#libwayland-cursor0:i386
+#libwayland-server0:i386
 "
 
 # xorg-server
 LSP_XORG="
 xserver-xorg-core
 xserver-common
-xserver-xephyr
+#xserver-xephyr
 xwayland
-xserver-xorg-input-kbd
-xserver-xorg-input-mouse
-xserver-xorg-input-evdev
-xserver-xorg-input-void
-xserver-xorg-video-ati
+libinput10
+libinput-tools
+xserver-xorg-input-libinput
+xserver-xorg-video-radeon
+xserver-xorg-video-amdgpu
+xserver-xorg-video-intel
 mesa-utils
 mesa-utils-extra
 "
+
+aptitude $APT_OPT install $LSP_OGL $LSP_EGL $LSP_OGLES $LSP_VDPAUDRI $LSP_MESA32 \
+$LSP_WAYLAND $LSP_XORG
 
 LSP_AUDIO="
 pulseaudio
@@ -107,8 +110,18 @@ libasound2:i386
 libasound2-plugins:i386
 "
 
-aptitude $APT_OPT install $LSP_DRM $LSP_OGL $LSP_EGL $LSP_OGLES $LSP_VDPAUDRI $LSP_MESA32 \
-$LSP_WAYLAND $LSP_XORG $LSP_AUDIO
+aptitude $APT_OPT install $LSP_AUDIO
+
+# Mesa Off Screen
+# LSP_MESAOS="
+# libosmesa6
+# libosmesa6-dev
+# "
+
+# Mesa OpenCL ICD
+# LSP_OCLICD="
+# mesa-opencl-icd
+# "
 
 #=========================================================================
 # accellerazione video:
@@ -116,7 +129,7 @@ $LSP_WAYLAND $LSP_XORG $LSP_AUDIO
 
 LSP_LIBVDPAU="
 libvdpau1
-libvdpau1:i386
+#libvdpau1:i386
 vdpauinfo
 "
 
@@ -126,15 +139,15 @@ libva1
 libva-drm1
 libva-glx1
 libva-egl1
-libva-x11-1
+#libva-x11-1
 libva-wayland1
-vdpau-va-driver:i386
-libva1:i386
-libva-drm1:i386
-libva-glx1:i386
-libva-egl1:i386
-libva-x11-1:i386
-libva-wayland1:i386
+#vdpau-va-driver:i386
+#libva1:i386
+#libva-drm1:i386
+#libva-glx1:i386
+#libva-egl1:i386
+#libva-x11-1:i386
+#libva-wayland1:i386
 vainfo
 "
 
@@ -162,4 +175,6 @@ watch cat /sys/kernel/debug/dri/64/radeon_pm_info
 #	Override software rendering list	--->	Enable
 
 #=========================================================================
+
+exit
 
