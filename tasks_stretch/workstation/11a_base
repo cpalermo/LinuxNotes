@@ -6,6 +6,12 @@ APT_OPT="-yV"
 #=========================================================================
 # arch i386 support
 
+dpkg --print-architecture
+dpkg --add-architecture i386
+dpkg --print-foreign-architectures
+
+aptitude update
+
 LSP_LIBC="
 libc6
 libc6-dev
@@ -15,6 +21,8 @@ libc-bin
 libc-dev-bin
 locales
 "
+
+aptitude $APT_OPT install $LSP_LIBC
 
 #=========================================================================
 
