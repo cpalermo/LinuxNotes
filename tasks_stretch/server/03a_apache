@@ -1,0 +1,41 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+# web server apache2
+
+LSP_APACHE="
+apache2
+"
+
+aptitude $APT_OPT install $LSP_APACHE
+
+#=========================================================================
+## apache mods
+
+ls /etc/apache2/mods-available
+ls /etc/apache2/mods-enabled
+
+a2enmod headers
+## enable headers for Access-Control-Allow-Origin
+
+a2enmod rewrite
+cat /etc/apache2/apache2.conf
+#<Directory /var/www/>
+#        Options Indexes FollowSymLinks
+#	 Options -Multiviews
+#        Require all granted
+#        AllowOverride All
+#        Order allow,deny
+#        allow from all
+#</Directory>
+
+apachectl configtest
+systemctl restart apache2.service
+
+#=========================================================================
+
+exit
+
