@@ -1,0 +1,32 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+# minimal
+
+LSP_MIN="
+mpv
+smplayer
+viewnior
+"
+
+aptitude $APT_OPT install $LSP_MIN
+
+# cat ~/.config/mpv/mpv.conf
+## --hwdec=vaapi
+## SMPlayer: Ctrl+P   -->   --hwdec=vaapi
+
+#=========================================================================
+# files
+
+LSP_FIL="
+transmission-gtk
+brasero
+"
+
+aptitude $APT_OPT install $LSP_FIL
+
+#=========================================================================
+

@@ -4,14 +4,19 @@
 APT_OPT="-yV"
 
 #=========================================================================
-# multimedia
+# minimal
 
-LSP_MEDIA="
+LSP_MIN="
 mpv
+smplayer
 viewnior
 "
 
-aptitude $APT_OPT install $LSP_MEDIA
+aptitude $APT_OPT install $LSP_MIN
+
+# cat ~/.config/mpv/mpv.conf
+## --hwdec=vaapi
+## SMPlayer: Ctrl+P   -->   --hwdec=vaapi
 
 #=========================================================================
 
