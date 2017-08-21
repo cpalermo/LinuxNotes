@@ -1,3 +1,7 @@
+# Emacs backups & auto save files
+*~
+\#*\#
+.\#*
 .Rproj.user
 .Rhistory
 .RData
