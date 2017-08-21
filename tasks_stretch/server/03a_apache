@@ -25,7 +25,7 @@ a2enmod rewrite
 cat /etc/apache2/apache2.conf
 #<Directory /var/www/>
 #        Options Indexes FollowSymLinks
-#	 Options -Multiviews
+#        Options -Multiviews
 #        Require all granted
 #        AllowOverride All
 #        Order allow,deny

@@ -48,6 +48,12 @@ php-zip
 
 aptitude $APT_OPT install $LSP_PHP
 
+#NOTICE: Not enabling PHP 7.0 FPM by default.
+#NOTICE: To enable PHP 7.0 FPM in Apache2 do:
+#NOTICE: a2enmod proxy_fcgi setenvif
+#NOTICE: a2enconf php7.0-fpm
+#NOTICE: You are seeing this message because you have apache2 package installed.
+
 #=========================================================================
 
 exit
