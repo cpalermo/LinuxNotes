@@ -1,0 +1,35 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+# documents
+
+LSP_OFFICE="
+libreoffice
+libreoffice-help-it
+libreoffice-l10n-it
+hyphen-it
+mythes-it
+ttf-mscorefonts-installer
+"
+
+aptitude $APT_OPT install $LSP_OFFICE
+
+LSP_PANDOC="
+pandoc
+"
+
+aptitude $APT_OPT install $LSP_PANDOC
+
+LSP_MARKDOWN="
+markdown
+"
+
+aptitude $APT_OPT install $LSP_MARKDOWN
+
+#=========================================================================
+
+exit
+
