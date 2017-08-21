@@ -9,7 +9,6 @@ APT_OPT="-yV"
 # DRM ; pciaccess
 LSP_DRM="
 libdrm2
-libdrm-common
 libdrm-dev
 libdrm-radeon1
 libdrm-amdgpu1
@@ -53,12 +52,6 @@ libvulkan-dev
 mesa-vulkan-drivers
 "
 
-# Mesa vdpau e va-api
-LSP_VDPAUDRI="
-mesa-vdpau-drivers
-mesa-va-drivers
-"
-
 # Mesa i386
 LSP_MESA32="
 libgl1-mesa-glx:i386
@@ -75,16 +68,15 @@ LSP_WAYLAND="
 libwayland-client0
 libwayland-cursor0
 libwayland-server0
+"
 #libwayland-client0:i386
 #libwayland-cursor0:i386
 #libwayland-server0:i386
-"
 
-# xorg-server
+# Server Xorg
 LSP_XORG="
 xserver-xorg-core
 xserver-common
-#xserver-xephyr
 xwayland
 libinput10
 libinput-tools
@@ -96,21 +88,88 @@ mesa-utils
 mesa-utils-extra
 "
 
-aptitude $APT_OPT install $LSP_OGL $LSP_EGL $LSP_OGLES $LSP_VDPAUDRI $LSP_MESA32 \
-$LSP_WAYLAND $LSP_XORG
+aptitude $APT_OPT install $LSP_OGL $LSP_EGL $LSP_OGLES $LSP_VULKAN $LSP_MESA32 $LSP_WAYLAND $LSP_XORG
 
-LSP_AUDIO="
-pulseaudio
+#=========================================================================
+## VA-API
+# Mesa e va-api
+LSP_VADRI="
+mesa-va-drivers
+mesa-va-drivers:i386
+i965-va-driver
+i965-va-driver:i386
+"
+
+# accellerazione video va-api:
+LSP_LIBVA="
+libva1
+libva-drm1
+libva-glx1
+libva-egl1
+libva-wayland1
+libva-x11-1
+libva1:i386
+libva-drm1:i386
+libva-glx1:i386
+libva-egl1:i386
+libva-wayland1:i386
+libva-x11-1:i386
+vainfo
+"
+
+aptitude $APT_OPT install $LSP_VADRI $LSP_LIBVA
+
+#=========================================================================
+## VDPAU
+
+#LSP_VDPAUDRI="
+#mesa-vdpau-drivers
+#"
+
+#LSP_LIBVDPAU="
+#libvdpau1
+#libvdpau1:i386
+#vdpauinfo
+#"
+
+#aptitude $APT_OPT install $LSP_VDPAUDRI $LSP_LIBVDPAU
+
+# va tramite backend vdpau
+#LSP_VDPAUVA="
+#vdpau-va-driver
+#"
+
+#aptitude $APT_OPT install $LSP_VDPAUVA
+
+#/usr/bin/vdpauinfo
+
+#=========================================================================
+## Audio
+
+LSP_LIBPULSE="
 libpulse0
+libpulse0:i386
+"
+
+aptitude $APT_OPT install $LSP_LIBPULSE
+
+LSP_PULSEAUDIO="
+pulseaudio
+"
+
+aptitude -R $APT_OPT install $LSP_PULSEAUDIO
+## NB "-R" to avoid vdpau deps
+
+LSP_ALSA="
 libasound2
 libasound2-plugins
 libasound2-data
-libpulse0:i386
 libasound2:i386
 libasound2-plugins:i386
 "
 
-aptitude $APT_OPT install $LSP_AUDIO
+aptitude -R $APT_OPT install $LSP_ALSA
+## NB "-R" to avoid vdpau deps
 
 # Mesa Off Screen
 # LSP_MESAOS="
@@ -124,36 +183,8 @@ aptitude $APT_OPT install $LSP_AUDIO
 # "
 
 #=========================================================================
-# accellerazione video:
-# vdpau e va-api (tramite backend vdpau)
+# check video hw acc va-api:
 
-LSP_LIBVDPAU="
-libvdpau1
-#libvdpau1:i386
-vdpauinfo
-"
-
-LSP_LIBVA="
-vdpau-va-driver
-libva1
-libva-drm1
-libva-glx1
-libva-egl1
-#libva-x11-1
-libva-wayland1
-#vdpau-va-driver:i386
-#libva1:i386
-#libva-drm1:i386
-#libva-glx1:i386
-#libva-egl1:i386
-#libva-x11-1:i386
-#libva-wayland1:i386
-vainfo
-"
-
-aptitude $APT_OPT install $LSP_LIBVDPAU $LSP_LIBVA
-
-/usr/bin/vdpauinfo
 /usr/bin/vainfo
 
 cat /sys/class/drm/card0/device/power_dpm_state
