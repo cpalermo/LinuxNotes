@@ -6,21 +6,42 @@ APT_OPT="-yV"
 #=========================================================================
 # xinit + mate
 
+# xserver deps
+LSP_XSERVER="
+x11-utils
+x11-xserver-utils
+xserver-xorg
+"
+
+aptitude -R $APT_OPT install $LSP_XSERVER
+
 LSP_DESKTOP="
 xinit
 xserver-xorg
 mate-desktop-environment
+desktop-base
 caja-open-terminal
 network-manager-gnome
 xsensors
 "
 
 LSP_BROWSER="
-iceweasel
-iceweasel-l10n-it
+firefox-esr
+firefox-esr-l10n-it
 "
 
-aptitude $APT_OPT install $LSP_DESKTOP $LSP_BROWSER
+LSP_DICT="
+hunspell
+hunspell-tools
+hunspell-it
+hunspell-en-us
+witalian
+wamerican-huge
+"
+#wamerican-insane
+
+aptitude $APT_OPT install $LSP_DESKTOP $LSP_BROWSER $LSP_DICT
+
 # startx
 
 #=========================================================================

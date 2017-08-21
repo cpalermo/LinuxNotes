@@ -1,0 +1,77 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+# Gnome 3
+
+# xserver deps for gnome3
+LSP_XSERVER="
+x11-utils
+x11-xserver-utils
+xserver-xephyr
+xserver-xorg
+"
+
+aptitude -R $APT_OPT install $LSP_XSERVER
+
+LSP_DESKTOP="
+gdm3
+gnome-core
+network-manager-gnome
+gedit
+gedit-plugins
+totem
+totem-plugins
+xsensors
+"
+
+LSP_BROWSER="
+firefox-esr
+firefox-esr-l10n-it
+"
+
+LSP_DICT="
+hunspell
+hunspell-tools
+hunspell-it
+hunspell-en-us
+witalian
+wamerican-huge
+"
+#wamerican-insane
+
+aptitude $APT_OPT install $LSP_DESKTOP $LSP_BROWSER $LSP_DICT
+
+#=========================================================================
+
+LSP_EXTRA="
+cheese
+cups-pk-helper
+desktop-base
+file-roller
+gnome-calendar
+gnome-clocks
+gnome-color-manager
+gnome-maps
+gnome-screenshot
+gnome-sound-recorder
+gnome-tweak-tool
+"
+
+aptitude $APT_OPT install $LSP_EXTRA
+
+#=========================================================================
+# x2go
+
+LSP_X2GO="
+x2goclient
+"
+
+aptitude $APT_OPT install $LSP_X2GO
+
+#=========================================================================
+
+exit
+

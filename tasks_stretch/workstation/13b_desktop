@@ -1,0 +1,86 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+# LXQT
+
+# xserver deps
+LSP_XSERVER="
+x11-utils
+x11-xserver-utils
+xserver-xorg
+"
+
+aptitude -R $APT_OPT install $LSP_XSERVER
+
+LSP_CORE="
+lxqt-core
+lxqt-sudo
+"
+
+aptitude $APT_OPT install $LSP_CORE
+
+LSP_DESKTOP="
+lxqt
+desktop-base
+xsensors
+mpv
+"
+
+LSP_BROWSER="
+firefox-esr
+firefox-esr-l10n-it
+"
+
+LSP_DICT="
+hunspell
+hunspell-tools
+hunspell-it
+hunspell-en-us
+witalian
+wamerican-huge
+"
+#wamerican-insane
+
+aptitude $APT_OPT install $LSP_DESKTOP $LSP_BROWSER $LSP_DICT
+
+#=========================================================================
+
+LSP_QTEXTRA="
+calibre
+juffed
+nomacs
+screengrab
+vokoscreen
+zim
+"
+
+aptitude $APT_OPT install $LSP_QTEXTRA
+
+LSP_EXTRA="
+mate-terminal
+caja
+caja-open-terminal
+atril
+pluma
+gitg
+viewnior
+"
+
+aptitude $APT_OPT install $LSP_EXTRA
+
+#=========================================================================
+# x2go
+
+LSP_X2GO="
+x2goclient
+"
+
+aptitude $APT_OPT install $LSP_X2GO
+
+#=========================================================================
+
+exit
+
