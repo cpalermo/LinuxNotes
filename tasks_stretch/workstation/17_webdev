@@ -1,0 +1,38 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+# bootstrap
+
+LSP_NODEJS="
+nodejs
+nodejs-dev
+"
+
+LSP_GRUNT="
+grunt
+"
+
+aptitude $APT_OPT install $LSP_NODEJS $LSP_GRUNT
+
+#=========================================================================
+# frog
+
+LSP_RACKET="
+racket
+racket-common
+racket-doc
+"
+
+aptitude $APT_OPT install $LSP_RACKET
+
+#exit
+#raco pkg install frog
+#raco pkg update --update-deps frog
+
+#=========================================================================
+
+exit
+
