@@ -1,0 +1,94 @@
+# R
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+TARG_REL="stretch"
+
+#=========================================================================
+
+GREP_REL="deb.*[ ]$TARG_REL[ ]main"
+
+LXCP=$(lxc-config lxc.lxcpath)
+LXCN="lxc-$TARG_REL-build"
+
+# uncomment target release
+# sed /"$GREP_REL"/s/'^# deb'/'deb'/ /etc/apt/sources.list
+# sed /"$GREP_REL"/s/'^#deb'/'deb'/ /etc/apt/sources.list
+
+# comment target release
+# sed /"$GREP_REL"/s/'^deb'/'# deb'/ /etc/apt/sources.list
+# sed /"$GREP_REL"/s/'^ deb'/'# deb'/ /etc/apt/sources.list
+
+#=========================================================================
+
+echo $LXCP
+echo $LXCN
+
+lxc-start -n $LXCN -d
+
+lxc-ls --fancy
+
+#=========================================================================
+# dipendenze generiche R
+
+LSP_RCORE="
+r-base-core
+"
+
+lxc-attach -n $LXCN -- aptitude -R $APT_OPT install $LSP_RCORE
+# NB "-R"
+
+
+LSP_RDEV="
+r-base-dev
+"
+
+lxc-attach -n $LXCN -- aptitude $APT_OPT install $LSP_RDEV
+
+# dipendenze per la documentazione di R:
+#
+# html:
+#texlive-binaries			/usr/bin/makeindex
+#texinfo					/usr/bin/makeinfo
+# pdf:
+#texlive-latex-base			/usr/bin/pdflatex
+#texlive-latex-extra		/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
+#texlive-fonts-recommended
+#texlive-fonts-extra		/usr/share/texlive/texmf-dist/tex/latex/inconsolata/inconsolata.sty
+
+LSP_RDOC="
+texlive-binaries
+texinfo
+texlive-latex-base
+texlive-latex-extra
+texlive-fonts-recommended
+texlive-fonts-extra
+"
+
+lxc-attach -n $LXCN -- aptitude $APT_OPT install $LSP_RDOC
+
+## JAVA nox
+
+## JDK debian jessie
+## default-jdk			-->	openjdk-8-jdk
+## default-jre			-->	openjdk-8-jre
+## default-jre-headless	-->	openjdk-8-jre-headless
+
+LSP_JDK="
+default-jre-headless
+"
+
+lxc-attach -n $LXCN -- aptitude $APT_OPT install $LSP_JDK
+
+#=========================================================================
+
+lxc-stop -n $LXCN
+
+lxc-ls --fancy
+
+#=========================================================================
+
+exit
+
