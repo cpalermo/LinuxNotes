@@ -1,0 +1,229 @@
+#=========================================================================
+# opt
+
+TARG_REL="stretch"
+
+## Version:
+PB_REL="3.4.1"
+## name
+PB_PKG="Rnox"
+PB_PKGREL="$PB_PKG-$PB_REL"
+
+## dirs
+
+PB_DIR="/opt/build"
+PB_SRC="$PB_DIR/src"
+PB_DEB="$PB_DIR/deb"
+PB_SUBDIR="/R/R-$PB_REL"
+
+MSG="### ATTENZIONE: questa versione di R è probabilmente già stata compilata! ###"
+
+#=========================================================================
+# Variabili di compilazione:
+
+GCC_VER=6
+
+#=========================================================================
+## lxc virt env
+
+LXCP=$(lxc-config lxc.lxcpath)
+LXCN="lxc-$TARG_REL-build"
+LXC_OPT=$LXCP/$LXCN/rootfs/opt/$PB_PKGREL
+
+echo $LXCP
+echo $LXCN
+
+lxc-start -n $LXCN -d
+
+lxc-ls --fancy
+
+## Check gcc ver
+
+lxc-attach -n $LXCN -- which gcc-$GCC_VER &&
+lxc-attach -n $LXCN -- which gfortran-$GCC_VER &&
+lxc-attach -n $LXCN -- which g++-$GCC_VER
+
+#=========================================================================
+# dir /opt in lxc:
+
+echo $LXC_OPT
+
+## rm -r $LXC_OPT
+if [ ! -d $LXC_OPT ]; then 
+	mkdir -p $LXC_OPT
+	mkdir -p $LXC_OPT/etc $LXC_OPT/src $LXC_OPT/var
+	mkdir -p $LXC_OPT/local $LXC_OPT/local/bin $LXC_OPT/local/lib
+else
+	echo $MSG
+fi
+
+tree $LXC_OPT
+# ├── etc
+# ├── local
+# │   ├── bin
+# │   └── lib
+# ├── src
+# └── var
+
+#=========================================================================
+## working directories
+
+cd $PB_SRC/$PB_SUBDIR
+echo $LXC_OPT
+
+# estraggo i sorgenti in /opt/src
+atool -X $LXC_OPT/src R-$PB_REL.tar.gz
+
+cd $LXC_OPT/src/R-$PB_REL
+
+# Variabili di compilazione:
+
+echo "CC="gcc-$GCC_VER"
+CFLAGS="-m64 -g -O2 -mtune=generic"
+F77="gfortran-$GCC_VER"
+FFLAGS="-m64 -g -O2 -mtune=generic"
+CXX="g++-$GCC_VER"
+CXXFLAGS="-m64 -g -O2 -mtune=generic"
+FC="gfortran-$GCC_VER"
+FCFLAGS="-m64 -g -O2 -mtune=generic"" >> config.site
+
+tail -n 20 config.site
+
+#=========================================================================
+#=========================================================================
+# entro nella console lxc
+
+lxc-console -n $LXCN
+# root
+# 123
+
+BUILDJ="$(nproc)"
+ 
+# Viene selezionata la dir più recente in /opt:
+cd /opt
+TSORT=$(ls -t)
+LAST=$(echo $TSORT | cut -d ' ' -f 1)
+OPTD="/opt/$LAST"
+# Prefisso di installazione
+OPT_PREFIX=$OPTD/local
+echo $OPT_PREFIX
+# srcdir
+OPT_SRCDIR=$(ls -d $OPTD/src/R*)
+echo $OPT_SRCDIR
+
+cd $OPT_SRCDIR
+
+#
+./configure --prefix=$OPT_PREFIX --srcdir=$OPT_SRCDIR \
+--enable-R-shlib=yes --enable-BLAS-shlib=yes \
+--with-x=no --with-tcltk=no \
+--with-cairo=yes --with-libpng=yes --with-jpeglib=yes --with-libtiff=yes
+
+make -j $BUILDJ
+
+make install
+
+# R
+# data.frame(capabilities())
+# q("no")
+
+logout
+# <Ctrl+a q>
+
+#R is now configured for x86_64-pc-linux-gnu
+#
+#  Source directory:          .
+#  Installation directory:    /opt/Rnox-3.4.1/local
+#
+#  C compiler:                gcc-6  -g -O2
+#  Fortran 77 compiler:       gfortran-6  -g -O2
+#
+#  Default C++ compiler:      g++-6   -g -O2
+#  C++98 compiler:            g++-6 -std=gnu++98 -g -O2
+#  C++11 compiler:            g++-6 -std=gnu++11 -g -O2
+#  C++14 compiler:            g++-6  -g -O2
+#  C++17 compiler:              
+#  Fortran 90/95 compiler:    gfortran-6 -g -O2
+#  Obj-C compiler:	      
+#
+#  Interfaces supported:      
+#  External libraries:        readline, curl
+#  Additional capabilities:   PNG, JPEG, TIFF, NLS, cairo, ICU
+#  Options enabled:           shared R library, shared BLAS, R profiling
+#
+#  Capabilities skipped:      
+#  Options not enabled:       memory profiling
+#
+#  Recommended packages:      yes
+
+#=========================================================================
+#=========================================================================
+# copio il risultato in /opt
+
+tree -L 3 $LXCP/$LXCN/rootfs/opt/$PB_PKGREL
+
+rsync --archive --delete -h $LXCP/$LXCN/rootfs/opt/$PB_PKGREL /opt
+
+tree -L 3 /opt/$PB_PKGREL | sed 's/^/# /'
+# ├── etc
+# ├── local
+# │   ├── bin
+# │   │   ├── R
+# │   │   └── Rscript
+# │   ├── lib
+# │   │   ├── pkgconfig
+# │   │   └── R
+# │   └── share
+# │       └── man
+# ├── src
+# │   └── R-3.4.1
+# │       ├── bin
+# │       ├── ChangeLog
+# │       ├── config.log
+# │       ├── config.site
+# │       ├── config.status
+# │       ├── configure
+# │       ├── configure.ac
+# │       ├── COPYING
+# │       ├── doc
+# │       ├── etc
+# │       ├── include
+# │       ├── INSTALL
+# │       ├── lib
+# │       ├── library
+# │       ├── libtool
+# │       ├── m4
+# │       ├── Makeconf
+# │       ├── Makeconf.in
+# │       ├── Makefile
+# │       ├── Makefile.fw
+# │       ├── Makefile.in
+# │       ├── Makefrag.cc
+# │       ├── Makefrag.cc_lo
+# │       ├── Makefrag.cxx
+# │       ├── Makefrag.m
+# │       ├── modules
+# │       ├── po
+# │       ├── README
+# │       ├── share
+# │       ├── src
+# │       ├── stamp-java
+# │       ├── SVN-REVISION
+# │       ├── tests
+# │       ├── tools
+# │       ├── VERSION
+# │       └── VERSION-NICK
+# └── var
+# 
+# 24 directories, 25 files
+
+#=========================================================================
+
+lxc-stop -n $LXCN
+
+lxc-ls --fancy
+
+#=========================================================================
+
+exit
+
