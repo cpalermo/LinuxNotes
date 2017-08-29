@@ -1,0 +1,76 @@
+# R
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+TARG_REL="stretch"
+
+#=========================================================================
+
+GREP_REL="deb.*[ ]$TARG_REL[ ]main"
+
+LXCP=$(lxc-config lxc.lxcpath)
+LXCN="lxc-$TARG_REL-build"
+
+# uncomment target release
+# sed /"$GREP_REL"/s/'^# deb'/'deb'/ /etc/apt/sources.list
+# sed /"$GREP_REL"/s/'^#deb'/'deb'/ /etc/apt/sources.list
+
+# comment target release
+# sed /"$GREP_REL"/s/'^deb'/'# deb'/ /etc/apt/sources.list
+# sed /"$GREP_REL"/s/'^ deb'/'# deb'/ /etc/apt/sources.list
+
+#=========================================================================
+
+echo $LXCP
+echo $LXCN
+
+lxc-start -n $LXCN -d
+
+lxc-ls --fancy
+
+#=========================================================================
+# R: supporto a X
+
+## X11 headers/libs 
+
+LSP_X11="
+libxt-dev
+"
+
+lxc-attach -n $LXCN -- aptitude $APT_OPT install $LSP_X11
+
+#=========================================================================
+# R: supporto completo
+
+## JAVA
+
+## JDK debian jessie
+## default-jdk			-->	openjdk-8-jdk
+## default-jre			-->	openjdk-8-jre
+## default-jre-headless	-->	openjdk-8-jre-headless
+
+LSP_JDK="
+default-jdk
+default-jre
+"
+
+lxc-attach -n $LXCN -- aptitude $APT_OPT install $LSP_JDK
+
+## Supporto completo - eventualmente non necessario
+lxc-attach -n $LXCN -- aptitude $APT_OPT build-dep r-base
+
+#lxc-attach -n $LXCN -- apt-get build-dep r-base
+
+
+#=========================================================================
+
+lxc-stop -n $LXCN
+
+lxc-ls --fancy
+
+#=========================================================================
+
+exit
+
