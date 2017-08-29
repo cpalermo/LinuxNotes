@@ -1,0 +1,161 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+TARG_REL="stretch"
+
+PB_DIR="/opt/build"
+
+#=========================================================================
+
+GREP_REL="deb.*[ ]$TARG_REL[ ]main"
+
+LXCP=$(lxc-config lxc.lxcpath)
+LXCN="lxc-$TARG_REL-build"
+
+# uncomment target release
+# sed /"$GREP_REL"/s/'^# deb'/'deb'/ /etc/apt/sources.list
+# sed /"$GREP_REL"/s/'^#deb'/'deb'/ /etc/apt/sources.list
+
+# comment target release
+# sed /"$GREP_REL"/s/'^deb'/'# deb'/ /etc/apt/sources.list
+# sed /"$GREP_REL"/s/'^ deb'/'# deb'/ /etc/apt/sources.list
+
+#=========================================================================
+
+# ls /usr/share/lxc/templates
+# lxc-create -h
+# lxc-create -t debian -h
+
+echo $LXCP
+
+if [ ! -d $LXCP/$LXCN ]; then
+	lxc-create -t debian -n $LXCN -- -r $TARG_REL -a amd64
+	# host network access:
+	sed -i 's/empty$/none/' $LXCP/$LXCN/config
+	# set sources.list:
+	cp /etc/apt/sources.list $LXCP/$LXCN/rootfs/etc/apt/sources.list
+	# uncomment target release
+	sed -i /"$GREP_REL"/s/'^# deb'/'deb'/ $LXCP/$LXCN/rootfs/etc/apt/sources.list
+	sed -i /"$GREP_REL"/s/'^#deb'/'deb'/ $LXCP/$LXCN/rootfs/etc/apt/sources.list
+	lxc-start -n $LXCN -d
+	lxc-attach -n $LXCN -- passwd root
+	# 123
+else
+	lxc-start -n $LXCN -d
+fi
+
+# lxc-console -n $LXCN
+# root
+# 123
+#
+# logout | exit
+# <Ctrl+a q>
+#
+# lxc-stop -n $LXCN
+#
+# lxc-destroy -n $LXCN
+
+tree -L 3 $LXCP
+lxc-ls --fancy
+
+#=========================================================================
+# installazione dipendenze
+
+## NB
+## pacchetti installati:
+#lxc-attach -n $LXCN -- dpkg -l
+## cache dei pacchetti del container debian di default
+#ls /var/cache/lxc/debian/rootfs-stretch-amd64/var/cache/apt/archives/
+
+## cache dei pacchetti del container appena creato
+## NB per velocizzare l'installazione dei pacchetti
+## si possono copiare i file .deb in questa dir:
+#ls $LXCP/$LXCN/rootfs/var/cache/apt/archives/
+#rsync --archive -vh --dry-run archives/ $LXCP/$LXCN/rootfs/var/cache/apt/archives
+
+# aptitude
+lxc-attach -n $LXCN -- apt-get update
+#
+lxc-attach -n $LXCN -- apt-get $APT_OPT install aptitude
+#
+lxc-attach -n $LXCN -- aptitude update
+#
+lxc-attach -n $LXCN -- aptitude $APT_OPT full-upgrade
+
+# build tools
+#LSP_BUILD="
+#build-essential
+#debootstrap
+#pbuilder
+#fakeroot
+#devscripts
+#equivs
+#quilt
+#"
+#lxc-attach -n $LXCN -- aptitude $APT_OPT install $LSP_BUILD
+
+# dipendenze Curl:
+# RCurl
+# git2r
+LSP_RLIB="
+libxml2-utils
+libxml2-dev
+libcurl4-openssl-dev
+libcurl-ssl-dev
+libssl-dev
+"
+
+lxc-attach -n $LXCN -- aptitude $APT_OPT install $LSP_RLIB
+
+# pacchetti raster data
+# support graphical output capabilities:
+#
+lxc-attach -n $LXCN -- aptitude search libjpeg.*-dev && echo "##" &&
+lxc-attach -n $LXCN -- aptitude search libpng.*-dev && echo "##" &&
+lxc-attach -n $LXCN -- aptitude search libtiff.*-dev && echo "##" &&
+lxc-attach -n $LXCN -- aptitude search libcairo.*-dev && echo "##" &&
+lxc-attach -n $LXCN -- aptitude search libpango.*-dev && echo "##" &&
+lxc-attach -n $LXCN -- aptitude search libopenjp2.*-dev && echo "##" &&
+lxc-attach -n $LXCN -- aptitude search libgeotiff.*-dev && echo "##" &&
+lxc-attach -n $LXCN -- aptitude search libnetcdf.*-dev
+# CONTROLLA bene e seleziona le versioni !
+# Debian stretch:
+#
+# R
+#libjpeg-dev*		--with-jpeglib=yes
+#libpng-dev*		--with-libpng=yes
+#libtiff5-dev		--with-libtiff=yes
+#libcairo2-dev		--with-cairo=yes
+#libpango1.0-dev	NB necessario
+# * già installati con altre dipendenze
+#
+# GDAL
+#libopenjp2-7-dev
+#libgeotiff-dev
+#libnetcdf-dev
+
+LSP_RGRAPH="
+libjpeg-dev
+libpng-dev
+libtiff5-dev
+libcairo2-dev
+libpango1.0-dev
+libopenjp2-7-dev
+libgeotiff-dev
+libnetcdf-dev
+"
+
+lxc-attach -n $LXCN -- aptitude $APT_OPT install $LSP_RGRAPH
+
+#=========================================================================
+
+lxc-stop -n $LXCN
+
+lxc-ls --fancy
+
+#=========================================================================
+
+exit
+
