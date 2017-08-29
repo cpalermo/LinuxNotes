@@ -1,0 +1,145 @@
+#=========================================================================
+# opt
+
+TARG_REL="stretch"
+
+## Version:
+PB_REL="3.4.1"
+
+## dirs
+
+PB_DIR="/opt/build"
+PB_SRC="$PB_DIR/src"
+PB_DEB="$PB_DIR/deb"
+PB_SUBDIR="/R/R-$PB_REL"
+
+#=========================================================================
+## lxc virt env
+
+LXCP=$(lxc-config lxc.lxcpath)
+LXCN="lxc-$TARG_REL-build"
+LXC_OPT=$LXCP/$LXCN/rootfs/opt/$PB_PKGREL
+
+echo $LXCP
+echo $LXCN
+
+lxc-ls --fancy
+
+#=========================================================================
+# Altre variabili
+
+APT_CACHE="$LXCP/$LXCN/rootfs/var/cache/apt/archives/"
+ls $APT_CACHE | grep r-base-.*.deb
+
+#=========================================================================
+## working directories
+
+echo $PB_SRC/$PB_SUBDIR
+echo $PB_DEB/$PB_SUBDIR
+
+mkdir -vp $PB_SRC/$PB_SUBDIR
+mkdir -vp $PB_DEB/$PB_SUBDIR
+
+#.
+#├── deb
+#│   └── R
+#│       └── R-3.4.1
+#└── src
+#    └── R
+#        └── R-3.4.1
+
+cd $PB_SRC/$PB_SUBDIR
+
+# per spostare i pacchetti scaricati, nella cache di default
+# per renderli disponibili nelle prossime installazioni
+# (NB cancellare '--dri-run' ):
+mkdir -p archives 
+rsync --archive -vh --dry-run \
+$LXCP/$LXCN/rootfs/var/cache/apt/archives/ \
+$PB_GET/archives
+
+#=========================================================================
+## deb packages with equivs
+
+ls $LXCP/$LXCN/rootfs/var/cache/apt/archives/ | grep r-base-.*.deb
+
+APT_CACHE="$LXCP/$LXCN/rootfs/var/cache/apt/archives/"
+echo $PB_DEB/$PB_SUBDIR
+
+mkdir -p $PB_DEB/$PB_SUBDIR/equivs
+
+cp -a $APT_CACHE/r-base-core*.deb $PB_DEB/$PB_SUBDIR
+cp -a $APT_CACHE/r-base-dev*.deb $PB_DEB/$PB_SUBDIR
+
+cd $PB_DEB/$PB_SUBDIR
+mkdir -p r-base-core/DEBIAN && mkdir -p equivs/r-base-core
+mkdir -p r-base-dev/DEBIAN && mkdir -p equivs/r-base-dev
+
+tree $PB_DEB/$PB_SUBDIR | sed 's/^/# /'
+# ├── equivs
+# │   ├── r-base-core
+# │   └── r-base-dev
+# ├── r-base-core
+# │   └── DEBIAN
+# ├── r-base-core_3.3.3-1_amd64.deb
+# ├── r-base-dev
+# │   └── DEBIAN
+# └── r-base-dev_3.3.3-1_all.deb
+# 
+# 7 directories, 2 files
+
+## estrazione dei file DEBIAN
+dpkg-deb -e r-base-core*.deb r-base-core/DEBIAN
+dpkg-deb -e r-base-dev*.deb r-base-dev/DEBIAN
+
+# sovrascrivo la versione
+#
+sed s/'^Version[[:alnum:][:punct:][:space:]]*'/"Version: $PB_REL-equivs"/ \
+r-base-core/DEBIAN/control > equivs/r-base-core/control
+
+sed s/'^Version[[:alnum:][:punct:][:space:]]*'/"Version: $PB_REL-equivs"/ \
+r-base-dev/DEBIAN/control > equivs/r-base-dev/control
+
+#
+sed -i s/'^Source[[:alnum:][:punct:][:space:]]*'/'Source: r-base'/ equivs/r-base-core/control
+sed -i s/'^Source[[:alnum:][:punct:][:space:]]*'/'Source: r-base'/ equivs/r-base-dev/control
+
+# controllo:
+cat equivs/r-base-core/control | grep "^Version"
+cat equivs/r-base-dev/control | grep "^Version"
+cat equivs/r-base-core/control | grep "^Source"
+cat equivs/r-base-dev/control | grep "^Source"
+
+cd $PB_DEB/$PB_SUBDIR/equivs
+equivs-build r-base-core/control
+equivs-build r-base-dev/control
+
+# copio i deb fittizi nel repo locale local-apt-repository
+LOCREP="/srv/local-apt-repository"
+mkdir -p $LOCREP
+cp -a $PB_DEB/$PB_SUBDIR/equivs/r-base*.deb $LOCREP
+ls $LOCREP
+
+aptitude update
+
+## check
+aptitude show r-base-core | grep ^Ver &&
+aptitude show r-base-dev | grep ^Ver
+
+#=========================================================================
+
+## download src R
+
+cd $PB_SRC/$PB_SUBDIR
+
+if [ ! -f R-$PB_REL.tar.gz ]; then 
+	wget -c http://cran.rstudio.com/src/base/R-3/R-$PB_REL.tar.gz
+	md5sum R-$PB_REL.tar.gz
+else
+	md5sum R-$PB_REL.tar.gz
+fi
+
+#=========================================================================
+
+exit
+
