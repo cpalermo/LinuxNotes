@@ -15,6 +15,7 @@ atool
 gdebi-core
 rsync
 pwgen
+locate
 lm-sensors
 lshw
 memtest86+
@@ -38,6 +39,7 @@ fakeroot
 devscripts
 equivs
 quilt
+local-apt-repository
 "
 
 aptitude $APT_OPT install $LSP_BUILD
