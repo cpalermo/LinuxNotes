@@ -24,7 +24,7 @@ pandoc
 aptitude $APT_OPT install $LSP_PANDOC
 
 LSP_MARKDOWN="
-markdown
+discount
 "
 
 aptitude $APT_OPT install $LSP_MARKDOWN
