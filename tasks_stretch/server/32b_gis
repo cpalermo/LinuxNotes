@@ -1,0 +1,352 @@
+#=========================================================================
+# opt
+
+apt_opt='-yV'
+
+#=========================================================================
+## package lists
+
+## gdal
+
+lsp_gdal_amd64=(
+gdal-bin
+libgdal-dev
+libgdal20
+python-gdal
+python3-gdal
+libgdal-java
+libgdal-perl
+)
+
+lsp_gdal_all=(
+# gdal-data
+libgdal-doc
+)
+
+lsp_gdal=(
+"${lsp_gdal_amd64[@]}"
+"${lsp_gdal_all[@]}"
+)
+
+## proj
+
+lsp_proj=(
+proj-bin
+libproj12
+proj-data
+libproj-dev
+libproj-java
+)
+
+## geos
+
+lsp_geos=(
+libgeos++-dev
+libgeos-3.5.1
+libgeos-c1v5
+libgeos-dev
+libgeos-doc
+ruby-geos
+)
+
+## openjp2
+
+lsp_openjp2=(
+libopenjp2-7
+libopenjp2-7-dev
+libopenjp2-tools
+libopenjp3d-tools
+libopenjp3d7
+libopenjpip-dec-server
+libopenjpip-server
+## libopenjpip-viewer
+libopenjpip7
+)
+
+## geotiff
+
+lsp_geotiff_dfsg=(
+geotiff-bin
+libgeotiff2
+libgeotiff-dev
+)
+
+lsp_geotiff_epsg=(
+libgeotiff-epsg
+)
+
+lsp_geotiff=(
+"${lsp_geotiff_dfsg[@]}"
+"${lsp_geotiff_epsg[@]}"
+)
+
+## netcdf
+
+lsp_netcdf=(
+libnetcdf-dev
+libnetcdf11
+netcdf-bin
+netcdf-dbg
+netcdf-doc
+)
+
+#=========================================================================
+## EQUIVS DUMMY PACKAGES WITH EQUIVS
+
+## Version:
+pb_rel='2.2.1'
+source='gdal'
+
+## dirs
+PB_DIR=/opt/build
+PB_SRC="$PB_DIR"/src
+PB_DEB="$PB_DIR"/deb
+PB_SUBDIR=/"$source"/gdal-"$pb_rel"
+
+## working directories
+
+echo $PB_SRC/$PB_SUBDIR
+echo $PB_DEB/$PB_SUBDIR
+
+mkdir -vp $PB_SRC/$PB_SUBDIR
+mkdir -vp $PB_DEB/$PB_SUBDIR
+
+cd $PB_SRC/$PB_SUBDIR
+
+## deb packages with equivs
+
+snapshot_url='http://snapshot.debian.org/archive/debian/20170409T153318Z/pool/main/g/gdal/'
+snapshot_version_amd64='_2.1.2%2Bdfsg-5_amd64.deb'
+snapshot_version_all='_2.1.2%2Bdfsg-5_all.deb'
+snapshot_version='2.1.2+dfsg-5'
+
+# echo "${lsp_gdal[@]/#/$snapshot_url}"
+# echo "${lsp_gdal_amd64[@]/%/$snapshot_version_amd64}"
+# echo "${lsp_gdal_all[@]/%/$snapshot_version_all}"
+
+## prepare directories tree
+cd "$PB_DEB"/"$PB_SUBDIR"
+
+mkdir -vp "$PB_DEB"/"$PB_SUBDIR"/equivs
+for i in "${lsp_gdal[@]}"; do
+  mkdir -vp "$i"/DEBIAN
+  mkdir -vp equivs/"$i"
+done
+
+## download snapshots
+for i in "${lsp_gdal_amd64[@]}"; do
+  wget -c "$snapshot_url""$i""$snapshot_version_amd64"
+done
+
+for i in "${lsp_gdal_all[@]}"; do
+  wget -c "$snapshot_url""$i""$snapshot_version_all"
+done
+
+tree "$PB_DEB"/"$PB_SUBDIR"
+
+##
+## estrazione dei file DEBIAN
+
+for i in "${lsp_gdal[@]}"; do
+  dpkg-deb -e "$i"_*.deb "$i"/DEBIAN
+done
+
+for i in "${lsp_gdal[@]}"; do
+  sed s/"^Version[[:alnum:][:punct:][:space:]]*"/"Version: $pb_rel-equivs"/ \
+    "$i"/DEBIAN/control > equivs/"$i"/control
+  sed -i s/"^Source[[:alnum:][:punct:][:space:]]*"/"Source: "$source""/ \
+    equivs/"$i"/control
+  sed -i s/"$snapshot_version"/"$pb_rel-equivs"/ equivs/"$i"/control
+  ## check
+  cat equivs/"$i"/control | grep "^Source"
+  cat equivs/"$i"/control | grep "$pb_rel"
+done
+
+## build
+cd "$PB_DEB"/"$PB_SUBDIR"/equivs
+for i in "${lsp_gdal[@]}"; do
+  equivs-build "$i"/control
+done
+
+# copio i deb fittizi nel repo locale local-apt-repository
+LOCREP="/srv/local-apt-repository"
+mkdir -p "$LOCREP"
+cp -a "$PB_DEB"/"$PB_SUBDIR"/equivs/*equivs_amd64.deb "$LOCREP"
+cp -a "$PB_DEB"/"$PB_SUBDIR"/equivs/*equivs_all.deb "$LOCREP"
+ls -la "$LOCREP"
+
+aptitude update
+
+## check
+for i in "${lsp_gdal[@]}"; do
+  echo "$i"
+  aptitude show "$i" | grep ^Ver
+done
+aptitude -sV install  "${lsp_gdal[@]}"
+
+#=========================================================================
+
+aptitude "$apt_opt" install "${lsp_lsp_openjp2[@]}"
+aptitude "$apt_opt" install "${lsp_geotiff[@]}"
+aptitude "$apt_opt" install "${lsp_netcdf[@]}"
+aptitude "$apt_opt" install "${lsp_proj[@]}"
+aptitude "$apt_opt" install "${lsp_geos[@]}"
+aptitude "$apt_opt" install "${lsp_gdal[@]}"
+
+#=========================================================================
+## download src gdal
+
+cd "$PB_SRC"/"$PB_SUBDIR"
+
+if [ ! -f gdal-"$pb_rel".tar.xz ]; then 
+  wget -c http://download.osgeo.org/gdal/"$pb_rel"/gdal-"$pb_rel".tar.xz
+  wget -c http://download.osgeo.org/gdal/"$pb_rel"/gdal-"$pb_rel".tar.xz.md5
+  md5sum -c gdal-"$pb_rel".tar.xz.md5
+else
+  md5sum -c gdal-"$pb_rel".tar.xz.md5
+fi
+
+#=========================================================================
+## build
+
+export EPREFIX="/usr/local:$EPREFIX"
+export PYTHONPATH="$EPREFIX/lib/python2.7/site-packages:$PYTHONPATH"
+
+## backup /usr/local
+atool -a /var/backups/usr-local-"$(date +%y%m%d)".tar.gz /usr/local
+
+## working directories
+
+cd $PB_SRC/$PB_SUBDIR
+
+atool -X /usr/local/src gdal-"$pb_rel".tar.xz
+
+cd /usr/local/src/gdal-"$pb_rel"
+
+buildj=$(nproc)
+
+./configure --prefix=$EPREFIX --libdir=$EPREFIX/lib \
+--with-libtiff=internal --with-geotiff=internal \
+--with-jpeg=internal --with-gif=internal \
+--with-libz=internal --with-libjson-c=internal \
+--with-pcraster=internal --with-qhull=internal 
+
+make -j "$buildj"
+
+make install
+
+cat /etc/ld.so.conf.d/libc.conf
+# /usr/local/lib
+ldconfig
+
+# Check that this works with:
+gdalinfo --version
+
+cd swig/python
+mkdir -p $EPREFIX/lib/python2.7/site-packages
+
+python setup.py build
+python setup.py install --prefix=$EPREFIX
+
+# Check that this works with:
+python -c "from osgeo import gdal; print(gdal.__version__)"
+
+cp -a /usr/local/src/gdal-2.2.1/swig/python/scripts/*.py /usr/local/bin
+
+## Check
+gdal_merge.py --version
+
+###
+echo '
+GDAL is now configured for x86_64-pc-linux-gnu
+
+  Installation directory:    /usr/local
+  C compiler:                gcc -DHAVE_AVX_AT_COMPILE_TIME -DHAVE_SSSE3_AT_COMPILE_TIME -DHAVE_SSE_AT_COMPILE_TIME -g -O2
+  C++ compiler:              g++ -DHAVE_AVX_AT_COMPILE_TIME -DHAVE_SSSE3_AT_COMPILE_TIME -DHAVE_SSE_AT_COMPILE_TIME -g -O2
+  C++11 support:             yes
+
+  LIBTOOL support:           yes
+
+  LIBZ support:              internal
+  LIBLZMA support:           no
+  cryptopp support:          no
+  GRASS support:             no
+  CFITSIO support:           no
+  PCRaster support:          internal
+  LIBPNG support:            external
+  DDS support:               no
+  GTA support:               no
+  LIBTIFF support:           internal (BigTIFF=yes)
+  LIBGEOTIFF support:        internal
+  LIBJPEG support:           internal
+  12 bit JPEG:               yes
+  12 bit JPEG-in-TIFF:       yes
+  LIBGIF support:            internal
+  OGDI support:              yes
+  HDF4 support:              yes
+  HDF5 support:              yes
+  Kea support:               no
+  NetCDF support:            yes
+  Kakadu support:            no
+  JasPer support:            no
+  OpenJPEG support:          yes
+  ECW support:               no
+  MrSID support:             no
+  MrSID/MG4 Lidar support:   no
+  JP2Lura support:           no
+  MSG support:               no
+  GRIB support:              yes
+  EPSILON support:           no
+  WebP support:              yes
+  cURL support (wms/wcs/...):yes
+  PostgreSQL support:        yes
+  MRF support:               yes
+  MySQL support:             no
+  Ingres support:            no
+  Xerces-C support:          yes
+  NAS support:               yes
+  Expat support:             yes
+  libxml2 support:           yes
+  Google libkml support:     yes
+  ODBC support:              yes
+  PGeo support:              yes
+  FGDB support:              no
+  MDB support:               no
+  PCIDSK support:            internal
+  OCI support:               no
+  GEORASTER support:         no
+  SDE support:               no
+  Rasdaman support:          no
+  DODS support:              no
+  SQLite support:            yes
+  PCRE support:              yes
+  SpatiaLite support:        no
+  RasterLite2 support:       no
+  Teigha (DWG and DGNv8):    no
+  INFORMIX DataBlade support:no
+  GEOS support:              yes
+  SFCGAL support:            no
+  QHull support:             internal
+  Poppler support:           no
+  Podofo support:            no
+  PDFium support:            no
+  OpenCL support:            no
+  Armadillo support:         no
+  FreeXL support:            yes
+  SOSI support:              no
+  MongoDB support:           no
+
+
+  SWIG Bindings:             no
+
+  Statically link PROJ.4:    no
+  enable GNM building:       yes
+  enable pthread support:    yes
+  enable POSIX iconv support:yes
+  hide internal symbols:     no
+'
+
+#=========================================================================
+
+exit
+
