@@ -1,0 +1,25 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+# R
+
+LSP_RCORE="
+r-base-core
+"
+
+LSP_RDEV="
+r-base-dev
+"
+
+aptitude show $LSP_RCORE | grep ^Ver
+aptitude show $LSP_RDEV | grep ^Ver
+
+aptitude $APT_OPT install $LSP_RCORE $LSP_RDEV
+
+#=========================================================================
+
+exit
+
