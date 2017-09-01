@@ -11,6 +11,7 @@ dpkg --add-architecture i386
 dpkg --print-foreign-architectures
 
 aptitude update
+aptitude forget-new
 
 LSP_LIBC="
 libc6

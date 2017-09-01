@@ -8,15 +8,17 @@ APT_OPT="-yV"
 
 LSP_MIN="
 mpv
-smplayer
 viewnior
 "
+#smplayer
 
 aptitude $APT_OPT install $LSP_MIN
 
 # cat ~/.config/mpv/mpv.conf
 ## --hwdec=vaapi
 ## SMPlayer: Ctrl+P   -->   --hwdec=vaapi
+
+watch cat /sys/kernel/debug/dri/64/radeon_pm_info
 
 #=========================================================================
 

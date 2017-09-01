@@ -116,10 +116,7 @@ lxc-attach -n $LXCN -- aptitude search libjpeg.*-dev && echo "##" &&
 lxc-attach -n $LXCN -- aptitude search libpng.*-dev && echo "##" &&
 lxc-attach -n $LXCN -- aptitude search libtiff.*-dev && echo "##" &&
 lxc-attach -n $LXCN -- aptitude search libcairo.*-dev && echo "##" &&
-lxc-attach -n $LXCN -- aptitude search libpango.*-dev && echo "##" &&
-lxc-attach -n $LXCN -- aptitude search libopenjp2.*-dev && echo "##" &&
-lxc-attach -n $LXCN -- aptitude search libgeotiff.*-dev && echo "##" &&
-lxc-attach -n $LXCN -- aptitude search libnetcdf.*-dev
+lxc-attach -n $LXCN -- aptitude search libpango.*-dev
 # CONTROLLA bene e seleziona le versioni !
 # Debian stretch:
 #
@@ -130,11 +127,6 @@ lxc-attach -n $LXCN -- aptitude search libnetcdf.*-dev
 #libcairo2-dev		--with-cairo=yes
 #libpango1.0-dev	NB necessario
 # * già installati con altre dipendenze
-#
-# GDAL
-#libopenjp2-7-dev
-#libgeotiff-dev
-#libnetcdf-dev
 
 LSP_RGRAPH="
 libjpeg-dev
@@ -142,9 +134,6 @@ libpng-dev
 libtiff5-dev
 libcairo2-dev
 libpango1.0-dev
-libopenjp2-7-dev
-libgeotiff-dev
-libnetcdf-dev
 "
 
 lxc-attach -n $LXCN -- aptitude $APT_OPT install $LSP_RGRAPH
