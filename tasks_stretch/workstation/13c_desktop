@@ -58,6 +58,7 @@ gnome-maps
 gnome-screenshot
 gnome-sound-recorder
 gnome-tweak-tool
+gitg
 "
 
 aptitude $APT_OPT install $LSP_EXTRA
@@ -70,6 +71,24 @@ x2goclient
 "
 
 aptitude $APT_OPT install $LSP_X2GO
+
+#=========================================================================
+## Add Gnome Classic on Wayland
+
+ls -lah /usr/share/xsessions/
+ls -lah /usr/share/wayland-sessions/
+
+cp -a /usr/share/xsessions/gnome-classic.desktop \
+/usr/share/wayland-sessions/gnome-classic-wayland.desktop
+
+## Edit name:
+nano /usr/share/wayland-sessions/gnome-classic-wayland.desktop
+# Ex. 
+# Name[it]=GNOME classico su Wayland
+
+## aggiungi un idle a gdm - altrimenti non legge le session wayland
+
+echo "Type=idle" >> /lib/systemd/system/gdm.service
 
 #=========================================================================
 
