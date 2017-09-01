@@ -59,10 +59,10 @@ default-jre
 lxc-attach -n $LXCN -- aptitude $APT_OPT install $LSP_JDK
 
 ## Supporto completo - eventualmente non necessario
+
 lxc-attach -n $LXCN -- aptitude $APT_OPT build-dep r-base
 
 #lxc-attach -n $LXCN -- apt-get build-dep r-base
-
 
 #=========================================================================
 
