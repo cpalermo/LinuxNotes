@@ -1,0 +1,44 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+## NB check !!
+RSURL="https://s3.amazonaws.com/rstudio-dailybuilds/"
+RSREL="rstudio-xenial-1.1.350-amd64.deb"
+RSNAME="rstudio_1.1.350_amd64.deb"
+RSMD5="e204683d6bfe9447a3940e3b94f1d1b5"
+
+LOCREP="/srv/local-apt-repository"
+
+#=========================================================================
+# Emacs Speaks Statistics
+
+LSP_ESS="
+ess
+"
+
+aptitude $APT_OPT install $LSP_ESS
+
+#=========================================================================
+# Rstudio IDE
+
+LSP_RS="
+rstudio
+"
+
+cd $LOCREP
+
+wget -c $RSURL$RSREL
+mv $RSREL $RSNAME
+md5sum $RSNAME | grep $RSMD5
+
+aptitude update
+
+aptitude -R $APT_OPT install $LSP_RS
+## NB "-R"
+
+#=========================================================================
+
+exit
+
