@@ -1,0 +1,55 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+
+# dipendenze Curl:
+# RCurl
+# git2r
+LSP_RLIB="
+libxml2-utils
+libxml2-dev
+libcurl4-openssl-dev
+libcurl-ssl-dev
+libssl-dev
+"
+
+aptitude $APT_OPT install $LSP_RLIB
+
+# pacchetti raster data
+# support graphical output capabilities:
+#
+aptitude search libjpeg.*-dev && echo "##" &&
+aptitude search libpng.*-dev && echo "##" &&
+aptitude search libtiff.*-dev && echo "##" &&
+aptitude search libcairo.*-dev && echo "##" &&
+aptitude search libpango.*-dev && echo "##" &&
+aptitude search libopenjp2.*-dev && echo "##" &&
+aptitude search libgeotiff.*-dev && echo "##" &&
+aptitude search libnetcdf.*-dev
+# CONTROLLA bene e seleziona le versioni !
+# Debian stretch:
+#
+# R
+#libjpeg-dev*		--with-jpeglib=yes
+#libpng-dev*		--with-libpng=yes
+#libtiff5-dev		--with-libtiff=yes
+#libcairo2-dev		--with-cairo=yes
+#libpango1.0-dev	NB necessario
+
+LSP_RGRAPH="
+libjpeg-dev
+libpng-dev
+libtiff5-dev
+libcairo2-dev
+libpango1.0-dev
+"
+
+aptitude $APT_OPT install $LSP_RGRAPH
+
+#=========================================================================
+
+exit
+
