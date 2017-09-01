@@ -1,0 +1,72 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+# R
+
+LSP_RCORE="
+r-base-core
+"
+
+LSP_RDEV="
+r-base-dev
+"
+
+aptitude show $LSP_RCORE | grep ^Ver
+aptitude show $LSP_RDEV | grep ^Ver
+# *equivs
+
+aptitude -R $APT_OPT install $LSP_RCORE
+# NB "-R"
+aptitude $APT_OPT install $LSP_RDEV
+
+#=========================================================================
+
+updatedb
+locate /.bashrc | grep -v "/lxc/" | grep -v "/etc/"
+
+## login ##
+
+cd ~
+ls -lhaF
+
+touch .environment
+nano .environment
+# if [ -d "/opt/R/local/bin" ] ; then
+#     PATH="/opt/R/local/bin:$PATH"
+# fi
+
+nano .bashrc
+# if [ -f ~/.environment ]; then
+#     . ~/.environment
+# fi
+
+source .bashrc
+
+# per ripristinare l'ambiente di default
+# source /etc/environment
+
+# N.B. VARIABILI GLOBALI
+# Variabili di ambiente, file di configurazione globali:
+# /etc/login.defs	# letto all'avvio del sistema
+# /etc/profile		# letto all'avvio della sessione, ma se si esegue 'su'
+					# le variabili vengono reimpostate su /etc/login.defs
+					# si deve quindi eseguire 'source /etc/profile'
+# /etc/environment	# file di configurazione per le variabili ambientali
+#
+#					su	ssh	source
+# /etc/login.defs	OK	-	-	[SU]*PATH
+# /etc/profile		-	OK	OK	[SU]*PATH
+# /etc/environment	OK	OK	OK	PATH
+#
+# https://wiki.debian.org/it/EnvironmentVariables
+
+whereis R
+which R
+
+#=========================================================================
+
+exit
+
