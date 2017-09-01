@@ -1,0 +1,28 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+
+TARG_REL="stretch-backports"
+
+LSP_QGIS="
+qgis/$TARG_REL
+qgis-common/$TARG_REL
+python-qgis/$TARG_REL
+python-qgis-common/$TARG_REL
+qgis-providers/$TARG_REL
+qgis-providers-common/$TARG_REL
+libqgis-customwidgets/$TARG_REL
+qgis-plugin-grass/$TARG_REL
+qgis-plugin-grass-common/$TARG_REL
+qgis-provider-grass/$TARG_REL
+"
+
+aptitude $APT_OPT install $LSP_QGIS
+
+#=========================================================================
+
+exit
+
