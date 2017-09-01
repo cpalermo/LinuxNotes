@@ -217,13 +217,14 @@ tree -L 3 /opt/$PB_PKGREL | sed 's/^/# /'
 # 
 # 24 directories, 25 files
 
-ls -lahF /opt/$PB_PKGREL/local/bin/
+ls -lah /opt/$PB_PKGREL/local/bin/
 
-# ln -s /opt/$PB_PKGREL/ /opt/R
-# ls -lahF /opt/R/local/bin/
+ln -s /opt/$PB_PKGREL/ /opt/R
+ls -lah /opt/R/local/bin/
 
-# ln -s /opt/$PB_PKGREL/local/bin/* /usr/local/bin/
-# ls -lahF /usr/local/bin
+ln -s /opt/$PB_PKGREL/local/bin/R /usr/local/bin/
+ln -s /opt/$PB_PKGREL/local/bin/Rscript /usr/local/bin/
+ls -lah /usr/local/bin | grep " R"
 # rm /usr/local/bin/R
 # rm /usr/local/bin/Rscript
 
