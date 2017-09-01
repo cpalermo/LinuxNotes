@@ -1,0 +1,24 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+# frog
+
+LSP_RACKET="
+racket
+racket-common
+racket-doc
+"
+
+aptitude $APT_OPT install $LSP_RACKET
+
+#exit
+#raco pkg install frog
+#raco pkg update --update-deps frog
+
+#=========================================================================
+
+exit
+
