@@ -1,0 +1,93 @@
+# R packages
+#=========================================================================
+# root@pc:~# R
+
+data.frame(capabilities())
+
+rr <- "http://cran.rstudio.com/"
+
+update.packages(repos=rr)
+
+## tidyverse
+install.packages("tidyverse", repos=rr)
+
+## program
+install.packages("rlang", repos=rr)
+install.packages("magrittr", repos=rr)
+install.packages("glue", repos=rr)
+install.packages("sys", repos=rr)
+
+## import
+install.packages("httr", repos=rr)
+install.packages("rvest", repos=rr)
+install.packages("jsonlite", repos=rr)
+install.packages("xml2", repos=rr)
+install.packages("yaml", repos=rr)
+
+## dabases
+install.packages("DBI", repos=rr)
+install.packages("RSQLite", repos=rr)
+install.packages("RMySQL", repos=rr)
+install.packages("RPostgreSQL", repos=rr)
+##install.packages("bigrquery", repos=rr)
+## commercial databases
+##install.packages("odbc", repos=rr)
+## SQL Translations for dplyr
+##install.packages("dbplyr", repos=rr)
+
+## Wrangle
+install.packages("stringr", repos=rr)
+install.packages("lubridate", repos=rr)
+install.packages("forcats", repos=rr)
+install.packages("hms", repos=rr)
+install.packages("blob", repos=rr)
+
+# Dev tools
+install.packages("devtools", repos=rr)
+install.packages("packrat", repos=rr)
+
+# Raster data
+install.packages("raster", repos=rr)
+install.packages("tiff", repos=rr)
+install.packages("png", repos=rr)
+install.packages("jpeg", repos=rr)
+install.packages("bmp", repos=rr)
+install.packages("ncdf4", repos=rr)
+install.packages("magick", repos="rr")
+
+# Graphics
+install.packages("ggplot2", repos="rr")
+install.packages("RColorBrewer", repos="rr")
+# gridSVG
+# splashr
+
+## API
+install.packages("plumber")
+
+# High level Web Dev
+install.packages("rmarkdown", repos="rr")
+install.packages("shiny", repos="rr")
+install.packages("googleID")
+install.packages("googleAuthR")
+# leaflet
+# leaflet.extras
+# mapedit
+# DT
+# dygraphs
+
+# Spatial data
+install.packages("sp", repos="rr")
+install.packages("rgeos", repos="rr")
+install.packages("rgdal", repos="rr")
+install.packages("sf", repos="rr")
+install.packages("maptools", repos="rr")
+install.packages("geojson", repos="rr")
+install.packages("geojsonio", repos="rr")
+install.packages("osmdata", repos="rr")
+install.packages("rnaturalearthdata", repos="rr")
+install.packages("rnaturalearth", repos="rr")
+# RQGIS
+# rmapzen
+
+#=========================================================================
+
