@@ -1,0 +1,91 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+
+LSP_EMACS="
+emacs25
+"
+
+aptitude $APT_OPT install $LSP_EMACS
+
+#=========================================================================
+
+exit
+
+#=========================================================================
+#=========================================================================
+## emacs packages
+
+# NB
+# su <user>
+
+## https://melpa.org/#/getting-started
+
+cat ~/.emacs
+echo "
+(require 'package) ;; You might already have this line
+(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+                    (not (gnutls-available-p))))
+       (url (concat (if no-ssl "http" "https") "://melpa.org/packages/")))
+  (add-to-list 'package-archives (cons "melpa" url) t))
+(when (< emacs-major-version 24)
+  ;; For important compatibility libraries like cl-lib
+  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+(package-initialize) ;; You might already have this line
+"
+
+#### Options  -->  Custom Themes  -->  misterioso
+
+## install
+# M-x list-packages
+#
+# emmet-mode
+# auto-complete
+# ac-emmet
+#
+# M-x emmet-mode
+# M-x auto-complete-mode
+
+# yaml-mode
+#
+# M-x yaml-mode
+
+# highlight-indentation
+#
+# M-x highlight-indentation
+# M-x highlight-indentation-current-column-mode
+# M-x highlight-indentation-set-offset
+#
+#### Options  -->  Customize Emacs  -->  Top-level Customization Group
+# highlight-indentation-face --> background --> "dim gray"
+# highlight-indentation-current-column-face --> background --> "black"
+
+# markdown-mode
+# markdown-preview-mode
+
+cat ~/.emacs
+echo "
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes (quote (misterioso)))
+ '(package-selected-packages
+   (quote
+    (markdown-preview-mode markdown-mode highlight-indentation yaml-mode ac-emmet auto-complete emmet-mode))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(highlight-indentation-current-column-face ((t (:background "black"))))
+ '(highlight-indentation-face ((t (:inherit fringe :background "dim gray")))))
+"
+
+#=========================================================================
+#=========================================================================
+

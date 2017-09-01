@@ -180,7 +180,7 @@ source .bashrc
 			# si deve quindi eseguire 'source /etc/profile'
 # /etc/environment	# file di configurazione per le variabili ambientali
 #
-#			su	ssh	source
+#					su	ssh	source
 # /etc/login.defs	OK	-	-	[SU]*PATH
 # /etc/profile		-	OK	OK	[SU]*PATH
 # /etc/environment	OK	OK	OK	PATH
