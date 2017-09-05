@@ -47,6 +47,7 @@ aptitude $APT_OPT install $LSP_DESKTOP $LSP_BROWSER $LSP_DICT
 #=========================================================================
 
 LSP_EXTRA="
+libcanberra-gtk-module
 cheese
 cups-pk-helper
 desktop-base
