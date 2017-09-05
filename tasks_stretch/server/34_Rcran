@@ -4,24 +4,41 @@
 
 data.frame(capabilities())
 
+installed.packages()[,c("Package","Version")]
+
 rr <- "http://cran.rstudio.com/"
 
 update.packages(repos=rr)
 
 ## tidyverse
 install.packages("tidyverse", repos=rr)
+#also installing the dependencies ‘colorspace’, ‘mnormt’, ‘bindr’, ‘RColorBrewer’, ‘dichromat’, #‘munsell’, ‘labeling’, ‘viridisLite’, ‘rematch’, ‘plyr’, ‘psych’, ‘reshape2’, ‘assertthat’, #‘bindrcpp’, ‘glue’, ‘pkgconfig’, ‘rlang’, ‘R6’, ‘Rcpp’, ‘BH’, ‘plogr’, ‘digest’, ‘gtable’, ‘scales’, #‘lazyeval’, ‘mime’, ‘curl’, ‘openssl’, ‘cellranger’, ‘stringi’, ‘selectr’, ‘tidyselect’, ‘broom’, #‘dplyr’, ‘forcats’, ‘ggplot2’, ‘haven’, ‘httr’, ‘hms’, ‘jsonlite’, ‘lubridate’, ‘magrittr’, ‘modelr’, #‘purrr’, ‘readr’, ‘readxl’, ‘stringr’, ‘tibble’, ‘rvest’, ‘tidyr’, ‘xml2’
+
+# Graphics
+#install.packages("ggplot2", repos="rr")
+#install.packages("RColorBrewer", repos="rr")
+# gridSVG
+# splashr
 
 ## program
-install.packages("rlang", repos=rr)
-install.packages("magrittr", repos=rr)
-install.packages("glue", repos=rr)
-install.packages("sys", repos=rr)
+#install.packages("rlang", repos=rr)
+#install.packages("magrittr", repos=rr)
+#install.packages("glue", repos=rr)
+
+## Wrangle
+#install.packages("stringr", repos=rr)
+#install.packages("lubridate", repos=rr)
+#install.packages("forcats", repos=rr)
+#install.packages("hms", repos=rr)
+
+install.packages("blob", repos=rr)
 
 ## import
-install.packages("httr", repos=rr)
-install.packages("rvest", repos=rr)
-install.packages("jsonlite", repos=rr)
-install.packages("xml2", repos=rr)
+#install.packages("httr", repos=rr)
+#install.packages("rvest", repos=rr)
+#install.packages("jsonlite", repos=rr)
+#install.packages("xml2", repos=rr)
+
 install.packages("yaml", repos=rr)
 
 ## dabases
@@ -35,16 +52,23 @@ install.packages("RPostgreSQL", repos=rr)
 ## SQL Translations for dplyr
 ##install.packages("dbplyr", repos=rr)
 
-## Wrangle
-install.packages("stringr", repos=rr)
-install.packages("lubridate", repos=rr)
-install.packages("forcats", repos=rr)
-install.packages("hms", repos=rr)
-install.packages("blob", repos=rr)
-
 # Dev tools
 install.packages("devtools", repos=rr)
 install.packages("packrat", repos=rr)
+
+# Spatial data
+install.packages("sp", repos=rr)
+install.packages("rgeos", repos=rr)
+install.packages("rgdal", repos=rr)
+install.packages("sf", repos=rr)
+install.packages("maptools", repos=rr)
+install.packages("geojson", repos=rr)
+install.packages("geojsonio", repos=rr)
+install.packages("osmdata", repos=rr)
+install.packages("rnaturalearthdata", repos=rr)
+install.packages("rnaturalearth", repos=rr)
+# RQGIS
+# rmapzen
 
 # Raster data
 install.packages("raster", repos=rr)
@@ -53,41 +77,28 @@ install.packages("png", repos=rr)
 install.packages("jpeg", repos=rr)
 install.packages("bmp", repos=rr)
 install.packages("ncdf4", repos=rr)
-install.packages("magick", repos="rr")
-
-# Graphics
-install.packages("ggplot2", repos="rr")
-install.packages("RColorBrewer", repos="rr")
-# gridSVG
-# splashr
+install.packages("magick", repos=rr)
 
 ## API
-install.packages("plumber")
+install.packages("plumber", repos=rr)
 
 # High level Web Dev
-install.packages("rmarkdown", repos="rr")
-install.packages("shiny", repos="rr")
-install.packages("googleID")
-install.packages("googleAuthR")
+install.packages("rmarkdown", repos=rr)
+install.packages("shiny", repos=rr)
+install.packages("googleAuthR", repos=rr)
+# googleID
 # leaflet
 # leaflet.extras
 # mapedit
 # DT
 # dygraphs
 
-# Spatial data
-install.packages("sp", repos="rr")
-install.packages("rgeos", repos="rr")
-install.packages("rgdal", repos="rr")
-install.packages("sf", repos="rr")
-install.packages("maptools", repos="rr")
-install.packages("geojson", repos="rr")
-install.packages("geojsonio", repos="rr")
-install.packages("osmdata", repos="rr")
-install.packages("rnaturalearthdata", repos="rr")
-install.packages("rnaturalearth", repos="rr")
-# RQGIS
-# rmapzen
+## da rivedere:
+# sys
+## NB richiede libapparmor-dev
+# splashr
 
 #=========================================================================
+
+exit
 
