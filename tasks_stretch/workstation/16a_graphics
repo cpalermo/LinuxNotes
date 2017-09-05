@@ -8,6 +8,7 @@ APT_OPT="-yV"
 
 LSP_IMGM="
 imagemagick
+libmagick++-dev
 potrace
 "
 
