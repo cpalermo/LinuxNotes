@@ -182,15 +182,15 @@ for i in "${lsp_gdal[@]}"; do
   echo "$i"
   aptitude show "$i" | grep ^Ver
 done
-aptitude -sV install  "${lsp_gdal[@]}"
+aptitude -ysV install  "${lsp_gdal[@]}"
 
 #=========================================================================
 
-aptitude "$apt_opt" install "${lsp_lsp_openjp2[@]}"
-aptitude "$apt_opt" install "${lsp_geotiff[@]}"
-aptitude "$apt_opt" install "${lsp_netcdf[@]}"
-aptitude "$apt_opt" install "${lsp_proj[@]}"
-aptitude "$apt_opt" install "${lsp_geos[@]}"
+aptitude "$apt_opt" install "${lsp_openjp2[@]}" &&
+aptitude "$apt_opt" install "${lsp_geotiff[@]}" &&
+aptitude "$apt_opt" install "${lsp_netcdf[@]}" &&
+aptitude "$apt_opt" install "${lsp_proj[@]}" &&
+aptitude "$apt_opt" install "${lsp_geos[@]}" &&
 aptitude "$apt_opt" install "${lsp_gdal[@]}"
 
 #=========================================================================
@@ -209,8 +209,9 @@ fi
 #=========================================================================
 ## build
 
-export EPREFIX="/usr/local:$EPREFIX"
-export PYTHONPATH="$EPREFIX/lib/python2.7/site-packages:$PYTHONPATH"
+export PREFIX="/usr/local"
+export EPREFIX=$PREFIX
+export PYTHONPATH="$EPREFIX/lib/python2.7/site-packages"
 
 ## backup /usr/local
 atool -a /var/backups/usr-local-"$(date +%y%m%d)".tar.gz /usr/local
@@ -225,9 +226,9 @@ cd /usr/local/src/gdal-"$pb_rel"
 
 buildj=$(nproc)
 
-./configure --prefix=$EPREFIX --libdir=$EPREFIX/lib \
+./configure --prefix=$PREFIX --bindir=$EPREFIX/bin --libdir=$EPREFIX/lib \
 --with-libtiff=internal --with-geotiff=internal \
---with-jpeg=internal --with-gif=internal \
+--with-jpeg=internal --with-gif=internal --with-png=internal \
 --with-libz=internal --with-libjson-c=internal \
 --with-pcraster=internal --with-qhull=internal 
 
@@ -243,17 +244,15 @@ ldconfig
 gdalinfo --version
 
 cd swig/python
-mkdir -p $EPREFIX/lib/python2.7/site-packages
+mkdir -pv $EPREFIX/lib/python2.7/site-packages
 
 python setup.py build
 python setup.py install --prefix=$EPREFIX
+cp -a /usr/local/src/gdal-2.2.1/swig/python/scripts/*.py $EPREFIX/bin
 
 # Check that this works with:
+cd ~
 python -c "from osgeo import gdal; print(gdal.__version__)"
-
-cp -a /usr/local/src/gdal-2.2.1/swig/python/scripts/*.py /usr/local/bin
-
-## Check
 gdal_merge.py --version
 
 ###
@@ -273,7 +272,7 @@ GDAL is now configured for x86_64-pc-linux-gnu
   GRASS support:             no
   CFITSIO support:           no
   PCRaster support:          internal
-  LIBPNG support:            external
+  LIBPNG support:            internal
   DDS support:               no
   GTA support:               no
   LIBTIFF support:           internal (BigTIFF=yes)
