@@ -18,7 +18,7 @@ aptitude show $LSP_RCORE | grep ^Ver
 aptitude show $LSP_RDEV | grep ^Ver
 # *equivs
 
-aptitude -R $APT_OPT install $LSP_RCORE
+aptitude -R $APT_OPT install $LSP_RCORE &&
 # NB "-R"
 aptitude $APT_OPT install $LSP_RDEV
 
