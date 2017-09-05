@@ -5,9 +5,9 @@ APT_OPT="-yV"
 
 ## NB check !!
 RSURL="https://s3.amazonaws.com/rstudio-dailybuilds/"
-RSREL="rstudio-xenial-1.1.350-amd64.deb"
-RSNAME="rstudio_1.1.350_amd64.deb"
-RSMD5="e204683d6bfe9447a3940e3b94f1d1b5"
+RSREL="rstudio-xenial-1.1.353-amd64.deb"
+RSNAME="rstudio_1.1.353_amd64.deb"
+RSMD5="3028d265fbc348ad45d04a1008dd57ad"
 
 LOCREP="/srv/local-apt-repository"
 
