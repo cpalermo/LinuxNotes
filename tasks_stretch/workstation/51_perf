@@ -1,0 +1,43 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+## radeontop
+
+LSP_RT="
+radeontop
+"
+
+aptitude $APT_OPT install $LSP_RT
+
+aptitude $APT_OPT build-dep $LSP_RT
+
+#=========================================================================
+# check video hw acc va-api:
+
+/usr/bin/vainfo
+
+cat /sys/class/drm/card0/device/power_dpm_state
+# battery		a set of performance levels targeted for optimal operation on battery
+# balanced (default) 	a set of performance levels targeted for optimal every day use
+# performance 		a set of performance levels targeted for the highest GPU performance
+cat /sys/class/drm/card0/device/power_dpm_force_performance_level
+# auto (default)	disables forced levels; the hw uses all levels in the power state
+# low 			forces the hardware to the lowest performance level in the power state
+# high	 		forces the hardware to the highest performance level in the power state
+
+echo "performance" > /sys/class/drm/card0/device/power_dpm_state
+watch cat /sys/kernel/debug/dri/64/radeon_pm_info
+
+# hw acc chrome
+# chrome://gpu/
+# chrome://media-internals/
+# chrome://flags/
+#	Override software rendering list	--->	Enable
+
+#=========================================================================
+
+exit
+
