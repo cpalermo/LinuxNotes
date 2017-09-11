@@ -25,12 +25,22 @@ a2enmod rewrite
 cat /etc/apache2/apache2.conf
 #<Directory /var/www/>
 #        Options Indexes FollowSymLinks
-#	 Options -Multiviews
+#        Options -Multiviews
 #        Require all granted
 #        AllowOverride All
 #        Order allow,deny
 #        allow from all
 #</Directory>
+
+a2enmod proxy
+a2enmod proxy_http
+## Example:
+#<VirtualHost *:80>
+#        ServerName localhost    
+#        ProxyPreserveHost On
+#        ProxyPass        / http://127.0.0.1:8000/
+#        ProxyPassReverse / http://127.0.0.1:8000/
+#</VirtualHost>
 
 apachectl configtest
 systemctl restart apache2.service
