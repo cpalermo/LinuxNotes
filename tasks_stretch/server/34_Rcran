@@ -14,6 +14,8 @@ update.packages(repos=rr)
 install.packages("tidyverse", repos=rr)
 #also installing the dependencies ‘colorspace’, ‘mnormt’, ‘bindr’, ‘RColorBrewer’, ‘dichromat’, #‘munsell’, ‘labeling’, ‘viridisLite’, ‘rematch’, ‘plyr’, ‘psych’, ‘reshape2’, ‘assertthat’, #‘bindrcpp’, ‘glue’, ‘pkgconfig’, ‘rlang’, ‘R6’, ‘Rcpp’, ‘BH’, ‘plogr’, ‘digest’, ‘gtable’, ‘scales’, #‘lazyeval’, ‘mime’, ‘curl’, ‘openssl’, ‘cellranger’, ‘stringi’, ‘selectr’, ‘tidyselect’, ‘broom’, #‘dplyr’, ‘forcats’, ‘ggplot2’, ‘haven’, ‘httr’, ‘hms’, ‘jsonlite’, ‘lubridate’, ‘magrittr’, ‘modelr’, #‘purrr’, ‘readr’, ‘readxl’, ‘stringr’, ‘tibble’, ‘rvest’, ‘tidyr’, ‘xml2’
 
+install.packages("readODS", repos=rr)
+
 # Graphics
 #install.packages("ggplot2", repos="rr")
 #install.packages("RColorBrewer", repos="rr")
@@ -97,6 +99,11 @@ install.packages("googleAuthR", repos=rr)
 # sys
 ## NB richiede libapparmor-dev
 # splashr
+
+#=========================================================================
+
+library(devtools)
+install_github("trestletech/plumber")
 
 #=========================================================================
 
