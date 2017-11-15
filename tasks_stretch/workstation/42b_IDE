@@ -4,10 +4,10 @@
 APT_OPT="-yV"
 
 ## NB check !!
-RSURL="https://s3.amazonaws.com/rstudio-dailybuilds/"
-RSREL="rstudio-xenial-1.1.353-amd64.deb"
-RSNAME="rstudio_1.1.353_amd64.deb"
-RSMD5="3028d265fbc348ad45d04a1008dd57ad"
+RSURL="https://download1.rstudio.org/"
+RSREL="rstudio-xenial-1.1.383-amd64.deb"
+RSNAME="rstudio-1.1.383-amd64.deb"
+RSMD5="fccec7cbf773c3464ea6cbb91fc2ec28"
 
 LOCREP="/srv/local-apt-repository"
 
@@ -20,6 +20,8 @@ ess
 
 aptitude $APT_OPT install $LSP_ESS
 
+# M-x ess-set-style
+
 #=========================================================================
 # Rstudio IDE
 
@@ -27,7 +29,7 @@ LSP_RS="
 rstudio
 "
 
-cd $LOCREP
+mkdir -p $LOCREP && cd $LOCREP
 
 wget -c $RSURL$RSREL
 mv $RSREL $RSNAME
