@@ -37,6 +37,7 @@ devscripts
 equivs
 quilt
 local-apt-repository
+checkinstall
 "
 
 aptitude $APT_OPT install $LSP_BUILD
