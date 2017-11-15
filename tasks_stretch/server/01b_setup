@@ -104,6 +104,7 @@ firmware-misc-nonfree
 amd64-microcode
 intel-microcode
 firmware-realtek
+firmware-iwlwifi
 "
 
 aptitude $APT_OPT install $LSP_FIRMWARE

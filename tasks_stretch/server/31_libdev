@@ -44,10 +44,18 @@ libv8-3.14.5
 libv8-3.14-dev
 "
 
+## dipendenze:
+# jqr
+LSP_RJQ="
+jq
+libjq-dev
+"
+
 aptitude $APT_OPT install $LSP_RLIB &&
 aptitude $APT_OPT install $LSP_RUNI &&
 aptitude $APT_OPT install $LSP_RPRO &&
-aptitude $APT_OPT install $LSP_RV8
+aptitude $APT_OPT install $LSP_RV8 &&
+aptitude $APT_OPT install $LSP_RJQ
 
 # pacchetti raster data
 # support graphical output capabilities:

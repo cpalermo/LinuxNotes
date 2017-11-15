@@ -92,12 +92,12 @@ netcdf-doc
 
 #=========================================================================
 
-aptitude "$apt_opt" install  "${lsp_lsp_openjp2[@]}"
-aptitude "$apt_opt" install  "${lsp_geotiff[@]}"
-aptitude "$apt_opt" install  "${lsp_netcdf[@]}"
-aptitude "$apt_opt" install  "${lsp_proj[@]}"
-aptitude "$apt_opt" install  "${lsp_geos[@]}"
-aptitude "$apt_opt" install  "${lsp_gdal[@]}"
+aptitude "$apt_opt" install "${lsp_openjp2[@]}"
+aptitude "$apt_opt" install "${lsp_geotiff[@]}"
+aptitude "$apt_opt" install "${lsp_netcdf[@]}"
+aptitude "$apt_opt" install "${lsp_proj[@]}"
+aptitude "$apt_opt" install "${lsp_geos[@]}"
+aptitude "$apt_opt" install "${lsp_gdal[@]}"
 
 #=========================================================================
 
