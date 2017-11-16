@@ -94,7 +94,7 @@ netcdf-doc
 ## EQUIVS DUMMY PACKAGES WITH EQUIVS
 
 ## Version:
-pb_rel='2.2.1'
+pb_rel='2.2.2'
 source='gdal'
 
 ## dirs
@@ -182,16 +182,16 @@ for i in "${lsp_gdal[@]}"; do
   echo "$i"
   aptitude show "$i" | grep ^Ver
 done
-aptitude -ysV install  "${lsp_gdal[@]}"
+aptitude -ysV install "${lsp_gdal[@]}"
 
 #=========================================================================
 
-aptitude "$apt_opt" install "${lsp_openjp2[@]}" &&
-aptitude "$apt_opt" install "${lsp_geotiff[@]}" &&
-aptitude "$apt_opt" install "${lsp_netcdf[@]}" &&
-aptitude "$apt_opt" install "${lsp_proj[@]}" &&
-aptitude "$apt_opt" install "${lsp_geos[@]}" &&
-aptitude "$apt_opt" install "${lsp_gdal[@]}"
+aptitude $apt_opt install "${lsp_openjp2[@]}" &&
+aptitude $apt_opt install "${lsp_geotiff[@]}" &&
+aptitude $apt_opt install "${lsp_netcdf[@]}" &&
+aptitude $apt_opt install "${lsp_proj[@]}" &&
+aptitude $apt_opt install "${lsp_geos[@]}" &&
+aptitude $apt_opt install "${lsp_gdal[@]}"
 
 #=========================================================================
 ## download src gdal
@@ -234,7 +234,17 @@ buildj=$(nproc)
 
 make -j "$buildj"
 
-make install
+#=========================================================================
+# make install
+checkinstall --install=no --pkgname="gdal" --default
+
+mv gdal_*.deb /srv/local-apt-repository/
+
+aptitude update
+
+aptitude install gdal
+
+#=========================================================================
 
 cat /etc/ld.so.conf.d/libc.conf
 # /usr/local/lib
@@ -254,6 +264,16 @@ cp -a /usr/local/src/gdal-2.2.1/swig/python/scripts/*.py $EPREFIX/bin
 cd ~
 python -c "from osgeo import gdal; print(gdal.__version__)"
 gdal_merge.py --version
+
+#=========================================================================
+## remove gdal
+
+## aptitude purge gdal
+## NB check !!
+## rm /usr/local/bin/*.py
+## rm -r /usr/local/lib/python2.7/dist-packages/*
+
+#=========================================================================
 
 ###
 echo '
