@@ -57,6 +57,7 @@ install.packages("RPostgreSQL", repos=rr)
 # Dev tools
 install.packages("devtools", repos=rr)
 install.packages("packrat", repos=rr)
+install.packages("roxygen2", repos=rr)
 
 # Spatial data
 install.packages("sp", repos=rr)
