@@ -91,7 +91,7 @@ netcdf-doc
 )
 
 #=========================================================================
-## EQUIVS DUMMY PACKAGES WITH EQUIVS
+## NB set version:
 
 ## Version:
 pb_rel='2.2.2'
