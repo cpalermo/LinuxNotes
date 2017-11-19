@@ -15,7 +15,7 @@ nmap
 ndiff
 "
 
-aptitude $APT_OPT install $LSP_NETT
+aptitude $APT_OPT install $LSP_NETT &&
 aptitude $APT_OPT install $LSP_NMAP
 
 #=========================================================================
