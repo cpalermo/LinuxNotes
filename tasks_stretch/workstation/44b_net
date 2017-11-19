@@ -1,0 +1,50 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+# nmap
+
+LSP_NETT="
+net-tools
+"
+
+LSP_NMAP="
+nmap
+ndiff
+"
+
+aptitude $APT_OPT install $LSP_NETT
+aptitude $APT_OPT install $LSP_NMAP
+
+#=========================================================================
+## Add inc user
+
+useradd -s "/bin/bash" -mU inc
+usermod --groups sudo,inc inc
+passwd inc
+
+## Tor
+
+# plugins:
+# https://addons.mozilla.org/it/firefox/addon/Video-DownloadHelper
+# https://addons.mozilla.org/it/firefox/addon/adblock-plus
+# https://addons.mozilla.org/it/firefox/addon/https-everywhere
+
+aptitude $APT_OPT install flashplugin-nonfree
+
+aptitude $APT_OPT install tor tor-arm 
+
+systemctl status tor.service
+arm
+
+# Impostazioni Avanzate iceweasel:
+# Host SOCKS	127.0.0.1	9050
+
+# https://check.torproject.org
+
+#=========================================================================
+
+exit
+
