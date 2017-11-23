@@ -94,7 +94,7 @@ netcdf-doc
 ## NB set version:
 
 ## Version:
-pb_rel='2.2.2'
+pb_rel='2.2.3'
 source='gdal'
 
 ## dirs
@@ -220,7 +220,7 @@ export PYTHONPATH="$GDAL_EPREFIX/lib/python2.7/dist-packages"
 ##export PYTHONPATH="$GDAL_EPREFIX/lib/python3.5/dist-packages"
 
 ## backup /usr/local
-atool -a /var/backups/usr-local-"$(date +%y%m%d)".tar.gz /usr/local
+atool -a /var/backups/usr-local-"$(date +%y%m%d)".tar.xz /usr/local
 
 ## working directories
 
@@ -251,9 +251,21 @@ make -j "$buildj"
 checkinstall -D --install=no --pkgname="gdal" --default
 cp gdal_*.deb /srv/local-apt-repository/
 
+#=========================================================================
+
 aptitude update
 aptitude show gdal | grep ^Ver
-aptitude install gdal
+
+## remove old gdal
+
+aptitude purge gdal
+## NB check !!
+rm -v /usr/local/bin/*.py
+rm -vr /usr/local/lib/python2.7/dist-packages/*
+
+## install new version
+
+aptitude -V install gdal
 
 #=========================================================================
 
@@ -276,13 +288,6 @@ cd ~
 python -c "from osgeo import gdal; print(gdal.__version__)"
 gdal_merge.py --version
 
-#=========================================================================
-## remove gdal
-
-## aptitude purge gdal
-## NB check !!
-## rm /usr/local/bin/*.py
-## rm -r /usr/local/lib/python2.7/dist-packages/*
 
 #=========================================================================
 
@@ -290,7 +295,7 @@ gdal_merge.py --version
 echo '
 GDAL is now configured for x86_64-pc-linux-gnu
 
-  Installation directory:    
+  Installation directory:    /usr/local
   C compiler:                gcc -DHAVE_AVX_AT_COMPILE_TIME -DHAVE_SSSE3_AT_COMPILE_TIME -DHAVE_SSE_AT_COMPILE_TIME -g -O2
   C++ compiler:              g++ -DHAVE_AVX_AT_COMPILE_TIME -DHAVE_SSSE3_AT_COMPILE_TIME -DHAVE_SSE_AT_COMPILE_TIME -g -O2
   C++11 support:             yes
