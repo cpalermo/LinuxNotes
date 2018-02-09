@@ -4,7 +4,22 @@
 APT_OPT="-yV"
 
 #=========================================================================
-# R
+# Add R backports from CRAN
+
+CRAN_REP="http://cloud.r-project.org"
+CRAN_REL="stretch-cran34/"
+CRAN_KEY="E19F5F87128899B192B1A2C2AD5F960A256A04AF"
+
+echo "deb $CRAN_REP/bin/linux/debian stretch-cran34/" > /etc/apt/sources.list.d/cran.list
+
+cat /etc/apt/sources.list.d/cran.list | sed "s/^/# /"
+# deb http://cloud.r-project.org/bin/linux/debian stretch-cran34/
+
+## fetch and import the current key using
+apt-key adv --keyserver keys.gnupg.net --recv-key $CRAN_KEY
+
+#=========================================================================
+# install R
 
 LSP_RCORE="
 r-base-core
@@ -13,6 +28,8 @@ r-base-core
 LSP_RDEV="
 r-base-dev
 "
+
+aptitude update
 
 aptitude show $LSP_RCORE | grep ^Ver
 aptitude show $LSP_RDEV | grep ^Ver
