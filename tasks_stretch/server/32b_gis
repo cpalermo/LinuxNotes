@@ -94,7 +94,7 @@ netcdf-doc
 ## NB set version:
 
 ## Version:
-pb_rel='2.2.3'
+pb_rel='2.3.0'
 source='gdal'
 
 ## dirs
@@ -199,9 +199,12 @@ aptitude $apt_opt install "${lsp_gdal[@]}"
 
 cd "$PB_SRC"/"$PB_SUBDIR"
 
+if [ ! -f gdal-"$pb_rel".tar.xz.md5 ]; then 
+  wget -c http://download.osgeo.org/gdal/"$pb_rel"/gdal-"$pb_rel".tar.xz.md5
+fi
+
 if [ ! -f gdal-"$pb_rel".tar.xz ]; then 
   wget -c http://download.osgeo.org/gdal/"$pb_rel"/gdal-"$pb_rel".tar.xz
-  wget -c http://download.osgeo.org/gdal/"$pb_rel"/gdal-"$pb_rel".tar.xz.md5
   md5sum -c gdal-"$pb_rel".tar.xz.md5
 else
   md5sum -c gdal-"$pb_rel".tar.xz.md5
@@ -297,13 +300,15 @@ GDAL is now configured for x86_64-pc-linux-gnu
   Installation directory:    /usr/local
   C compiler:                gcc -DHAVE_AVX_AT_COMPILE_TIME -DHAVE_SSSE3_AT_COMPILE_TIME -DHAVE_SSE_AT_COMPILE_TIME -g -O2
   C++ compiler:              g++ -DHAVE_AVX_AT_COMPILE_TIME -DHAVE_SSSE3_AT_COMPILE_TIME -DHAVE_SSE_AT_COMPILE_TIME -g -O2
-  C++11 support:             yes
+  C++14 support:             no
 
   LIBTOOL support:           yes
 
   LIBZ support:              external
   LIBLZMA support:           no
+  ZSTD support:              no
   cryptopp support:          no
+  crypto/openssl support:    yes
   GRASS support:             no
   CFITSIO support:           no
   PCRaster support:          internal
@@ -316,6 +321,7 @@ GDAL is now configured for x86_64-pc-linux-gnu
   12 bit JPEG:               yes
   12 bit JPEG-in-TIFF:       yes
   LIBGIF support:            external
+  JPEG-Lossless/CharLS:      no
   OGDI support:              yes
   HDF4 support:              yes
   HDF5 support:              yes
@@ -373,7 +379,7 @@ GDAL is now configured for x86_64-pc-linux-gnu
 
   SWIG Bindings:             no
 
-  Statically link PROJ.4:    no
+  Statically link PROJ:      no
   enable GNM building:       yes
   enable pthread support:    yes
   enable POSIX iconv support:yes
