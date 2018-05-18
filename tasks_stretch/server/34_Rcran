@@ -105,6 +105,8 @@ install.packages("googleAuthR", repos=rr)
 ## NB richiede libapparmor-dev
 # splashr
 
+install.packages("availabe", repos=rr)
+
 #=========================================================================
 
 # library(devtools)
