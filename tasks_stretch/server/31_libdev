@@ -64,6 +64,17 @@ aptitude $APT_OPT install $LSP_RV8 &&
 aptitude $APT_OPT install $LSP_RJQ &&
 aptitude $APT_OPT install $LSP_SSH
 
+## dipendenze prime_server (Valhalla):
+# https://github.com/kevinkreiser/prime_server
+lsp_psdep=(
+libsodium-dev
+libpgm-dev
+libzmq3-dev
+libczmq-dev
+)
+
+aptitude $APT_OPT install "${lsp_psdep[@]}"
+
 # pacchetti raster data
 # support graphical output capabilities:
 #

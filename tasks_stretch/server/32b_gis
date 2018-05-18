@@ -101,17 +101,17 @@ source='gdal'
 PB_DIR=/opt/build
 PB_SRC="$PB_DIR"/src
 PB_DEB="$PB_DIR"/deb
-PB_SUBDIR=/"$source"/gdal-"$pb_rel"
+PB_SUBDIR="$source"/"$source"-"$pb_rel"
 
 ## working directories
 
-echo $PB_SRC/$PB_SUBDIR
-echo $PB_DEB/$PB_SUBDIR
+echo "$PB_SRC"/"$PB_SUBDIR"
+echo "$PB_DEB"/"$PB_SUBDIR"
 
-mkdir -vp $PB_SRC/$PB_SUBDIR
-mkdir -vp $PB_DEB/$PB_SUBDIR
+mkdir -vp "$PB_SRC"/"$PB_SUBDIR"
+mkdir -vp "$PB_DEB"/"$PB_SUBDIR"
 
-cd $PB_SRC/$PB_SUBDIR
+cd "$PB_SRC"/"$PB_SUBDIR"
 
 #=========================================================================
 ## deb packages with equivs

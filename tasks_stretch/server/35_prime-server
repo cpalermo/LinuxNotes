@@ -1,0 +1,96 @@
+#=========================================================================
+# opt
+
+apt_opt='-yV'
+
+#=========================================================================
+## Requiremets
+
+echo '
+Requires:
+02_linux
+31_libdev
+'
+
+#=========================================================================
+## compile prime_server
+
+## Version:
+pb_rel=$(date +%y%m%d)
+source='prime_server'
+pkgname='prime-server'
+buildj=$(nproc)
+
+export PB_PREFIX="/usr/local"
+export PB_EPREFIX=$PS_PREFIX
+
+cd $PB_PREFIX/src
+
+git clone https://github.com/kevinkreiser/"$source".git
+
+mv -v "$source" "$source"-"$pb_rel"
+
+cd "$source"-"$pb_rel"
+
+# NB!
+git submodule update --init --recursive
+##
+
+./autogen.sh
+
+./configure --prefix="$PS_PREFIX" --bindir=$PS_EPREFIX/bin --libdir=$pS_EPREFIX/lib
+
+make test -j "$buildj"
+
+checkinstall -D --install=no --pkgname="$pkgname" --default
+
+cp -pv "$pkgname"_*.deb /srv/local-apt-repository/
+
+aptitude update
+aptitude show "$pkgname" | grep ^Ver
+
+## remove old package
+aptitude purge "$pkgname"
+
+## install package
+
+aptitude $apt_opt install "$pkgname"
+
+#=========================================================================
+
+## Tests
+
+time prime_serverd 1000 1
+time prime_serverd 1000 8
+
+#run zmq based HTTP server
+prime_serverd tcp://*:8002 &> /dev/null &
+server_pid=$!
+
+ab -k -n 1000 -c 8 http://127.0.0.1:8002/is_prime?possible_prime=32416190071
+kill $server_pid
+
+#=========================================================================
+## libprime server ???
+
+#cd /srv/local-apt-repository/
+
+#wget -c https://launchpad.net/~valhalla-core/+archive/ubuntu/valhalla/+files/libprime-server0.6.3-0_0.6.3-0ubuntu1~xenial1_amd64.deb
+
+#wget -c https://launchpad.net/~valhalla-core/+archive/ubuntu/valhalla/+files/libprime-server0.6.3-dev_0.6.3-0ubuntu1~xenial1_amd64.deb
+
+#aptitude update
+
+#aptitude search libprime-server.*
+
+#lsp_libps=(
+#libprime-server0.6.3-0
+#libprime-server0.6.3-dev
+#)
+
+#aptitude $APT_OPT install "${lsp_libps[@]}"
+
+#=========================================================================
+
+exit
+

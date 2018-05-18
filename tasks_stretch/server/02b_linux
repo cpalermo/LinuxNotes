@@ -33,6 +33,7 @@ update-alternatives --display editor
 
 LSP_BUILD="
 build-essential
+lcov
 debootstrap
 pbuilder
 fakeroot
