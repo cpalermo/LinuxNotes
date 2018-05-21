@@ -1,0 +1,119 @@
+#=========================================================================
+# opt
+
+apt_opt='-yV'
+
+#=========================================================================
+## Requiremets
+
+echo '
+Requires:
+02_linux
+04_mysql
+06_python
+31_libdev
+35_prime-server
+'
+## Check dependencies
+
+lsp_test0=(
+autoconf
+automake
+make
+libtool
+pkg-config
+g++
+gcc
+jq
+lcov
+vim-common
+libcurl4-openssl-dev
+zlib1g-dev
+protobuf-compiler
+libprotobuf-dev
+liblz4-dev
+libboost-all-dev
+)
+
+aptitude -sV install "${lsp_test0[@]}"
+
+lsp_test1=(
+libgeos-dev
+libgeos++-dev
+lua5.2
+liblua5.2-dev
+libsqlite3-dev
+libspatialite-dev
+libsqlite3-mod-spatialite
+python-all-dev
+)
+
+aptitude -sV install "${lsp_test1[@]}"
+
+#=========================================================================
+## compile Valhalla
+
+## Version:
+pb_rel=2.4.9
+source='valhalla'
+pkgname=$source
+buildj=$(nproc)
+
+export PB_PREFIX="/usr/local"
+export PB_EPREFIX=$PB_PREFIX
+
+cd $PB_PREFIX/src
+
+git clone https://github.com/valhalla/"$source".git
+
+mv -v "$source" "$source"-"$pb_rel"
+
+cd "$source"-"$pb_rel"
+
+## Downgrade git to release
+git tag -l | grep "$pb_rel"
+
+git checkout "$pb_rel"
+git branch -D master
+git checkout -b master
+
+# NB!
+git submodule update --init --recursive
+
+./autogen.sh
+##
+
+./configure --prefix="$PB_PREFIX" --bindir=$PB_EPREFIX/bin --libdir=$PB_EPREFIX/lib
+
+make test -j "$buildj"
+
+## NB bugfix per make install di valhalla
+/bin/mkdir -p '/usr/local/include/valhalla/baldr'
+##
+
+checkinstall -D --install=no --pkgname="$pkgname" --default
+
+cp -pv "$pkgname"_*.deb /srv/local-apt-repository/
+
+aptitude update
+aptitude show "$pkgname" | grep ^Ver
+
+## remove old package
+aptitude purge "$pkgname"
+
+## install package
+
+aptitude $apt_opt install "$pkgname"
+
+cat /etc/ld.so.conf.d/libc.conf
+# /usr/local/lib
+ldconfig
+
+#=========================================================================
+
+## Tests
+
+#=========================================================================
+
+exit
+

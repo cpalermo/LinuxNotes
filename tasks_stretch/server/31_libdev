@@ -75,6 +75,16 @@ libczmq-dev
 
 aptitude $APT_OPT install "${lsp_psdep[@]}"
 
+## dipendenze Valhalla
+lsp_valdep=(
+liblz4-dev
+libboost-all-dev
+lua5.2
+liblua5.2-dev
+)
+
+aptitude $APT_OPT install "${lsp_valdep[@]}"
+
 # pacchetti raster data
 # support graphical output capabilities:
 #
