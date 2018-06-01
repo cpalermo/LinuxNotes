@@ -114,5 +114,14 @@ install.packages("availabe", repos=rr)
 
 #=========================================================================
 
+# dep libsecret-1-dev
+install.packages("keyring", repos=rr)
+
+devtools::install_github("GIScience/openrouteservice-r")
+
+install.packages("geojsonsf", repos=rr)
+
+#=========================================================================
+
 exit
 
