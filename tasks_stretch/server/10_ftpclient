@@ -1,0 +1,25 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+# lftp
+
+LSP_LFTP="
+lftp
+"
+
+aptitude $APT_OPT install $LSP_LFTP
+
+echo '
+exit
+mkdir ~/.config/lftp
+echo "set ssl:verify-certificate no" >> ~/.config/lftp/rc
+cat ~/.config/lftp/rc
+'
+
+#=========================================================================
+
+exit
+
