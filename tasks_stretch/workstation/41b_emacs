@@ -66,6 +66,10 @@ echo "
 # markdown-mode
 # markdown-preview-mode
 
+# tide
+#
+# M-x tide-mode
+
 cat ~/.emacs
 echo "
 (custom-set-variables

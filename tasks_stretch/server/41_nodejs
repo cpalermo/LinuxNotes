@@ -4,17 +4,33 @@
 APT_OPT="-yV"
 
 #=========================================================================
-# bootstrap
+# Script to install the NodeSource Node.js 8.x LTS Carbon repo onto a
+# Debian or Ubuntu system.
+# wget -qO- https://deb.nodesource.com/setup_8.x | bash -
 
+
+if [ -x "$(command curl)" ]; then
+    curl -sL https://deb.nodesource.com/setup_8.x | bash -
+else
+    wget -qO- https://deb.nodesource.com/setup_8.x | bash -
+fi
+            
 LSP_NODEJS="
 nodejs
 "
 
-LSP_GRUNT="
-grunt
-"
+aptitude $APT_OPT install $LSP_NODEJS
 
-aptitude $APT_OPT install $LSP_NODEJS $LSP_GRUNT
+#=========================================================================
+## Angular + Typescript
+
+npm install -g typescript
+
+npm install -g @angular/cli
+
+## Grunt
+
+npm install -g grunt
 
 #=========================================================================
 
