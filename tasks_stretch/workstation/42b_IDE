@@ -23,7 +23,7 @@ aptitude $APT_OPT install $LSP_ESS
 # M-x ess-set-style
 
 #=========================================================================
-# Rstudio IDE
+# RStudio IDE
 
 LSP_RS="
 rstudio
@@ -39,6 +39,23 @@ aptitude update
 
 aptitude -R $APT_OPT install $LSP_RS
 ## NB "-R"
+
+#=========================================================================
+## Visual Studio Code
+
+echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
+
+cd ~
+wget https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+
+aptitude update
+
+LSP_VSC="
+code
+"
+
+aptitude $APT_OPT install $LSP_VSC
 
 #=========================================================================
 
