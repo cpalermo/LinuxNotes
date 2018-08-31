@@ -44,6 +44,21 @@ checkinstall
 aptitude $APT_OPT install $LSP_BUILD
 
 #=========================================================================
+# nmap
+
+LSP_NETT="
+net-tools
+"
+
+LSP_NMAP="
+nmap
+ndiff
+"
+
+aptitude $APT_OPT install $LSP_NETT &&
+aptitude $APT_OPT install $LSP_NMAP
+
+#=========================================================================
 
 exit
 

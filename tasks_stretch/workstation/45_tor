@@ -4,21 +4,6 @@
 APT_OPT="-yV"
 
 #=========================================================================
-# nmap
-
-LSP_NETT="
-net-tools
-"
-
-LSP_NMAP="
-nmap
-ndiff
-"
-
-aptitude $APT_OPT install $LSP_NETT &&
-aptitude $APT_OPT install $LSP_NMAP
-
-#=========================================================================
 ## inc user
 # useradd -s "/bin/bash" -mU inc
 # usermod --groups sudo,inc inc
