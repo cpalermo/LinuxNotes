@@ -94,7 +94,7 @@ netcdf-doc
 ## NB set version:
 
 ## Version:
-pb_rel='2.3.0'
+pb_rel='2.3.2'
 source='gdal'
 
 ## dirs
@@ -170,6 +170,8 @@ for i in "${lsp_gdal[@]}"; do
 done
 
 # copio i deb fittizi nel repo locale local-apt-repository
+# ricorda di fare prima un:
+## aptitude update && aptitude full-upgrade
 LOCREP="/srv/local-apt-repository"
 mkdir -p "$LOCREP"
 cp -a "$PB_DEB"/"$PB_SUBDIR"/equivs/*equivs_amd64.deb "$LOCREP"
@@ -255,6 +257,7 @@ checkinstall -D --install=no --pkgname="gdal" --default
 cp gdal_*.deb /srv/local-apt-repository/
 
 #=========================================================================
+## install GDAL
 
 aptitude update
 aptitude show gdal | grep ^Ver
@@ -262,15 +265,10 @@ aptitude show gdal | grep ^Ver
 ## remove old gdal
 
 aptitude purge gdal
-## NB check !!
-rm -v /usr/local/bin/*.py
-rm -vr /usr/local/lib/python2.7/dist-packages/*
 
 ## install new version
 
 aptitude -V install gdal
-
-#=========================================================================
 
 cat /etc/ld.so.conf.d/libc.conf
 # /usr/local/lib
@@ -278,6 +276,9 @@ ldconfig
 
 # Check that this works with:
 gdalinfo --version
+
+#=========================================================================
+## install GDAL python scripts
 
 cd swig/python
 mkdir -pv $PYTHONPATH
@@ -290,6 +291,10 @@ cp -a ./scripts/*.py $GDAL_EPREFIX/bin
 cd ~
 python -c "from osgeo import gdal; print(gdal.__version__)"
 gdal_merge.py --version
+
+# check
+ls -la /usr/local/bin/*.py
+ls -la /usr/local/lib/python2.7/dist-packages/*
 
 #=========================================================================
 
