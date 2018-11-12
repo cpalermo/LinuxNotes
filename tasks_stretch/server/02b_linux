@@ -10,12 +10,12 @@ LSP_TOOLS="
 mc
 tree
 htop
-vnstat
-atool
-gdebi-core
 rsync
 pwgen
 locate
+atool
+rar
+unrar
 lm-sensors
 lshw
 memtest86+
@@ -40,26 +40,32 @@ fakeroot
 devscripts
 equivs
 quilt
-local-apt-repository
 checkinstall
+local-apt-repository
+gdebi-core
 "
 
 aptitude $APT_OPT install $LSP_BUILD
 
 #=========================================================================
-# nmap
+# Network
 
-LSP_NETT="
+## https://wiki.linuxfoundation.org/networking/iproute2
+## https://wiki.linuxfoundation.org/networking/net-tools
+LSP_IP="
+iproute2
+iproute2-doc
 net-tools
 "
 
-LSP_NMAP="
+LSP_NET="
 nmap
 ndiff
+vnstat
 "
 
-aptitude $APT_OPT install $LSP_NETT &&
-aptitude $APT_OPT install $LSP_NMAP
+aptitude $APT_OPT install $LSP_IP &&
+aptitude $APT_OPT install $LSP_NET
 
 #=========================================================================
 
