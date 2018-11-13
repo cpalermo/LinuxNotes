@@ -20,6 +20,12 @@ ls /etc/apache2/mods-enabled
 
 a2enmod headers
 ## enable headers for Access-Control-Allow-Origin
+## Example:
+#<VirtualHost *:80>
+#        ServerName 127.0.0.1
+#        DocumentRoot /var/www/html/example
+#        Header set Access-Control-Allow-Origin "*"
+#</VirtualHost>
 
 a2enmod rewrite
 cat /etc/apache2/apache2.conf
@@ -36,7 +42,7 @@ a2enmod proxy
 a2enmod proxy_http
 ## Example:
 #<VirtualHost *:80>
-#        ServerName localhost    
+#        ServerName localhost
 #        ProxyPreserveHost On
 #        ProxyPass        / http://127.0.0.1:8000/
 #        ProxyPassReverse / http://127.0.0.1:8000/
@@ -67,6 +73,12 @@ a2ensite default-ssl
 
 apachectl configtest
 systemctl restart apache2.service
+
+#=========================================================================
+## To add admin user to www-data
+## NB append !
+
+# usermod --append --groups www-data <user>
 
 #=========================================================================
 
