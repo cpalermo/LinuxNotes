@@ -13,7 +13,7 @@ if [ -x "$(command curl)" ]; then
 else
     wget -qO- https://deb.nodesource.com/setup_8.x | bash -
 fi
-            
+
 LSP_NODEJS="
 nodejs
 "
