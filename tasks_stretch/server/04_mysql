@@ -4,6 +4,14 @@
 APT_OPT="-yV"
 
 #=========================================================================
+## Requiremets
+
+echo '
+Requires:
+01_setup
+'
+
+#=========================================================================
 # sqlite
 
 LSP_SQLITE="
@@ -52,6 +60,17 @@ mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'phpmyadmin'@'localhost' WITH GRANT OPT
 ## NB phpmyadmin with same password and privileges of root
 
 # <IP>/phpmyadmin
+
+#=========================================================================
+
+# MySql Driver for Python
+
+LSP_PYMYSQL="
+python-mysqldb
+python3-mysqldb
+"
+
+aptitude $APT_OPT install $LSP_PYMYSQL
 
 #=========================================================================
 
