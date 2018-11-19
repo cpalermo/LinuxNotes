@@ -17,10 +17,9 @@ APT_OPT="-yV"
 #=========================================================================
 # sources.list
 
-## SRCLS_REP="http://mirror3.mirror.garr.it/mirrors/debian/"
-## SRCLS_SEC="deb http://security.debian.org/"
-SRCLS_REP="http://cloudfront.debian.net/debian/"
-SRCLS_SEC="http://cloudfront.debian.net/debian-security/"
+# deb.debian.org (AWS instance)
+SRCLS_REP="http://cdn-aws.deb.debian.org/debian/"
+SRCLS_SEC="http://security.debian.org/debian-security/"
 SRCLS_REL="stretch"
 SRCLS_COM="main contrib non-free"
 
@@ -45,22 +44,22 @@ echo "# deb $SRCLS_REP experimental $SRCLS_COM" >> /etc/apt/sources.list
 echo "# deb-src $SRCLS_REP experimental $SRCLS_COM" >> /etc/apt/sources.list
 
 cat /etc/apt/sources.list | sed "s/^/# /"
-# deb http://cloudfront.debian.net/debian/ stretch main contrib non-free
-# deb-src http://cloudfront.debian.net/debian/ stretch main contrib non-free
+# deb http://cdn-aws.deb.debian.org/debian/ stretch main contrib non-free
+# deb-src http://cdn-aws.deb.debian.org/debian/ stretch main contrib non-free
 # 
-# deb http://cloudfront.debian.net/debian-security/ stretch/updates main contrib non-free
-# deb-src http://cloudfront.debian.net/debian-security/ stretch/updates main contrib non-free
+# deb http://security.debian.org/debian-security/ stretch/updates main contrib non-free
+# deb-src http://security.debian.org/debian-security/ stretch/updates main contrib non-free
 # 
-# deb http://cloudfront.debian.net/debian/ stretch-updates main contrib non-free
-# deb-src http://cloudfront.debian.net/debian/ stretch-updates main contrib non-free
+# deb http://cdn-aws.deb.debian.org/debian/ stretch-updates main contrib non-free
+# deb-src http://cdn-aws.deb.debian.org/debian/ stretch-updates main contrib non-free
 # 
 # # testing, unstable, experimental
-# # deb http://cloudfront.debian.net/debian/ testing main contrib non-free
-# # deb-src http://cloudfront.debian.net/debian/ testing main contrib non-free
-# # deb http://cloudfront.debian.net/debian/ unstable main contrib non-free
-# # deb-src http://cloudfront.debian.net/debian/ unstable main contrib non-free
-# # deb http://cloudfront.debian.net/debian/ experimental main contrib non-free
-# # deb-src http://cloudfront.debian.net/debian/ experimental main contrib non-free
+# # deb http://cdn-aws.deb.debian.org/debian/ testing main contrib non-free
+# # deb-src http://cdn-aws.deb.debian.org/debian/ testing main contrib non-free
+# # deb http://cdn-aws.deb.debian.org/debian/ unstable main contrib non-free
+# # deb-src http://cdn-aws.deb.debian.org/debian/ unstable main contrib non-free
+# # deb http://cdn-aws.deb.debian.org/debian/ experimental main contrib non-free
+# # deb-src http://cdn-aws.deb.debian.org/debian/ experimental main contrib non-free
 
 ## backports
 
@@ -68,8 +67,8 @@ echo "deb $SRCLS_REP $SRCLS_REL-backports $SRCLS_COM" > /etc/apt/sources.list.d/
 echo "deb-src $SRCLS_REP $SRCLS_REL-backports $SRCLS_COM" >> /etc/apt/sources.list.d/backports.list
 
 cat /etc/apt/sources.list.d/backports.list | sed "s/^/# /"
-# deb http://cloudfront.debian.net/debian/ stretch-backports main contrib non-free
-# deb-src http://cloudfront.debian.net/debian/ stretch-backports main contrib non-free
+# deb http://cdn-aws.deb.debian.org/debian/ stretch-backports main contrib non-free
+# deb-src http://cdn-aws.deb.debian.org/debian/ stretch-backports main contrib non-free
 
 #=========================================================================
 # update
