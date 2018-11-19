@@ -4,6 +4,14 @@
 APT_OPT="-yV"
 
 #=========================================================================
+## Requirements
+
+echo '
+Requires:
+01_setup
+'
+
+#=========================================================================
 # Script to install the NodeSource Node.js 8.x LTS Carbon repo onto a
 # Debian or Ubuntu system.
 # wget -qO- https://deb.nodesource.com/setup_8.x | bash -
