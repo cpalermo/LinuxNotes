@@ -4,6 +4,14 @@
 APT_OPT="-yV"
 
 #=========================================================================
+## Requirements
+
+echo '
+Requires:
+01_setup
+'
+
+#=========================================================================
 # web server apache2
 
 LSP_APACHE="
@@ -55,7 +63,7 @@ systemctl restart apache2.service
 ## SSL encryption
 
 ## certbot
-## https://certbot.eff.org/#debianjessie-apache
+## https://certbot.eff.org/lets-encrypt/debianstretch-apache
 
 LSP_CERTBOT="
 certbot
