@@ -94,7 +94,7 @@ netcdf-doc
 ## NB set version:
 
 ## Version:
-pb_rel='2.3.2'
+pb_rel='2.4.0'
 source='gdal'
 
 ## dirs
@@ -213,16 +213,34 @@ else
 fi
 
 #=========================================================================
-## build
+## variabili di compilazione
+
+gcc --version
+buildj=$(nproc)
+
+GCC_VER=6
+MTUNE=native
 
 export GDAL_PREFIX="/usr/local"
 export GDAL_EPREFIX=$GDAL_PREFIX
+
+export CC="gcc-$GCC_VER"
+export CFLAGS="-m64 -g -O2 -mtune=$MTUNE"
+export F77="gfortran-$GCC_VER"
+export FFLAGS="-m64 -g -O2 -mtune=$MTUNE"
+export CXX="g++-$GCC_VER"
+export CXXFLAGS="-m64 -g -O2 -mtune=$MTUNE"
+export FC="gfortran-$GCC_VER"
+export FCFLAGS="-m64 -g -O2 -mtune=$MTUNE"
 
 ## python
 ls -l $(which python)
 export PYTHONPATH="$GDAL_EPREFIX/lib/python2.7/dist-packages"
 ##export PYTHONPATH="$GDAL_EPREFIX/lib/python3/dist-packages"
 ##export PYTHONPATH="$GDAL_EPREFIX/lib/python3.5/dist-packages"
+
+#=========================================================================
+## build
 
 ## backup /usr/local
 atool -a /var/backups/usr-local-"$(date +%y%m%d)".tar.xz /usr/local
@@ -234,8 +252,6 @@ cd $PB_SRC/$PB_SUBDIR
 atool -X /usr/local/src gdal-"$pb_rel".tar.xz
 
 cd /usr/local/src/gdal-"$pb_rel"
-
-buildj=$(nproc)
 
 echo $GDAL_EPREFIX
 echo $PYTHONPATH
@@ -303,8 +319,8 @@ echo '
 GDAL is now configured for x86_64-pc-linux-gnu
 
   Installation directory:    /usr/local
-  C compiler:                gcc -DHAVE_AVX_AT_COMPILE_TIME -DHAVE_SSSE3_AT_COMPILE_TIME -DHAVE_SSE_AT_COMPILE_TIME -g -O2
-  C++ compiler:              g++ -DHAVE_AVX_AT_COMPILE_TIME -DHAVE_SSSE3_AT_COMPILE_TIME -DHAVE_SSE_AT_COMPILE_TIME -g -O2
+  C compiler:                gcc-6 -DHAVE_AVX_AT_COMPILE_TIME -DHAVE_SSSE3_AT_COMPILE_TIME -DHAVE_SSE_AT_COMPILE_TIME -m64 -g -O2 -mtune=native
+  C++ compiler:              g++-6 -DHAVE_AVX_AT_COMPILE_TIME -DHAVE_SSSE3_AT_COMPILE_TIME -DHAVE_SSE_AT_COMPILE_TIME -m64 -g -O2 -mtune=native
   C++14 support:             no
 
   LIBTOOL support:           yes
@@ -332,6 +348,7 @@ GDAL is now configured for x86_64-pc-linux-gnu
   HDF5 support:              yes
   Kea support:               no
   NetCDF support:            yes
+  NetCDF has netcdf_mem.h:   yes
   Kakadu support:            no
   JasPer support:            no
   OpenJPEG support:          yes
@@ -346,6 +363,7 @@ GDAL is now configured for x86_64-pc-linux-gnu
   cURL support (wms/wcs/...):yes
   PostgreSQL support:        yes
   MRF support:               yes
+  LERC support:              yes
   MySQL support:             no
   Ingres support:            no
   Xerces-C support:          yes
@@ -380,6 +398,8 @@ GDAL is now configured for x86_64-pc-linux-gnu
   FreeXL support:            yes
   SOSI support:              no
   MongoDB support:           no
+  HDFS support:              no
+  userfaultfd support:       yes
 
 
   SWIG Bindings:             no
