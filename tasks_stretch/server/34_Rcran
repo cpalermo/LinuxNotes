@@ -42,6 +42,7 @@ install.packages("readODS", repos=rr)
 install.packages("blob", repos=rr)
 
 ## import
+install.packages("config", repos=rr)
 #install.packages("httr", repos=rr)
 #install.packages("rvest", repos=rr)
 #install.packages("jsonlite", repos=rr)
@@ -63,6 +64,7 @@ install.packages("RPostgreSQL", repos=rr)
 install.packages("devtools", repos=rr)
 install.packages("packrat", repos=rr)
 install.packages("roxygen2", repos=rr)
+install.packages("availabe", repos=rr)
 
 # Spatial data
 install.packages("sp", repos=rr)
@@ -104,8 +106,6 @@ install.packages("googleAuthR", repos=rr)
 # sys
 ## NB richiede libapparmor-dev
 # splashr
-
-install.packages("availabe", repos=rr)
 
 #=========================================================================
 
