@@ -9,17 +9,21 @@ APT_OPT="-yV"
 echo '
 Requires:
 01_setup
+02_linux
 '
 
 #=========================================================================
-# Script to install the NodeSource Node.js 8.x LTS Carbon repo onto a
-# Debian or Ubuntu system.
-# wget -qO- https://deb.nodesource.com/setup_8.x | bash -
+## https://github.com/nodesource/distributions/blob/master/README.md#installation-instructions
+## https://github.com/nodejs/Release#release-schedule
+VERSION="10.x"
+URL="https://deb.nodesource.com/setup_$VERSION"
+echo $URL
 
+# Script to setup the NodeSource Node.js repo
 if [ -x "$(command curl)" ]; then
-    curl -sL https://deb.nodesource.com/setup_8.x | bash -
+    curl -sL $URL | bash -
 else
-    wget -qO- https://deb.nodesource.com/setup_8.x | bash -
+    wget -qO- $URL | bash -
 fi
 
 LSP_NODEJS="
@@ -27,6 +31,12 @@ nodejs
 "
 
 aptitude $APT_OPT install $LSP_NODEJS
+
+## Update
+
+npm version
+npm update -g
+npm version
 
 #=========================================================================
 
