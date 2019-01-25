@@ -1,0 +1,42 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+## install Dike 6
+
+## https://www.firma.infocert.it/installazione/software.php
+## Save Dike6-installer-x86_64.deb
+## in Dike6-installer-x86_64.deb
+
+## Dike6 compatibile con » Ubuntu xenial (16.04LTS)
+## richiede /usr/lib/x86_64-linux-gnu/libjpeg.so.8
+## da libjpeg-turbo8
+##
+## Dovrebbe essere sicuro
+# lrwxrwxrwx 1 root root     17 ott 20  2016 libjpeg.so -> libjpeg.so.62.2.0
+# lrwxrwxrwx 1 root root     17 ott 20  2016 libjpeg.so.62 -> libjpeg.so.62.2.0
+# -rw-r--r-- 1 root root 436224 ott 20  2016 libjpeg.so.62.2.0
+# lrwxrwxrwx 1 root root     16 lug  5  2018 libjpeg.so.8 -> libjpeg.so.8.0.2
+# -rw-r--r-- 1 root root 363264 lug  5  2018 libjpeg.so.8.0.2
+
+
+cd /srv/local-apt-repository/
+
+wget -c http://security.ubuntu.com/ubuntu/pool/main/libj/libjpeg-turbo/libjpeg-turbo8_1.4.2-0ubuntu3.1_amd64.deb
+
+## install
+
+aptitude update
+
+aptitude $APT_OPT install libjpeg-turbo8
+
+aptitude $APT_OPT install dike6
+
+Dike
+
+#=========================================================================
+
+exit
+
