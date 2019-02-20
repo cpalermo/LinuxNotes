@@ -8,7 +8,7 @@ APT_OPT="-yV"
 
 ## https://www.firma.infocert.it/installazione/software.php
 ## Save Dike6-installer-x86_64.deb
-## in Dike6-installer-x86_64.deb
+## in /srv/local-apt-repository/
 
 ## Dike6 compatibile con » Ubuntu xenial (16.04LTS)
 ## richiede /usr/lib/x86_64-linux-gnu/libjpeg.so.8
@@ -20,7 +20,6 @@ APT_OPT="-yV"
 # -rw-r--r-- 1 root root 436224 ott 20  2016 libjpeg.so.62.2.0
 # lrwxrwxrwx 1 root root     16 lug  5  2018 libjpeg.so.8 -> libjpeg.so.8.0.2
 # -rw-r--r-- 1 root root 363264 lug  5  2018 libjpeg.so.8.0.2
-
 
 cd /srv/local-apt-repository/
 

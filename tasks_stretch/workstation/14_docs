@@ -30,6 +30,19 @@ discount
 aptitude $APT_OPT install $LSP_MARKDOWN
 
 #=========================================================================
+# Google Fonts
+
+cd /usr/local/share/fonts
+
+git clone git://github.com/google/fonts.git google
+
+fc-cache -f
+
+# cd /usr/local/share/fonts/google
+# git pull
+# fc-cache -f
+
+#=========================================================================
 
 exit
 
