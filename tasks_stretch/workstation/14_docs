@@ -2,6 +2,7 @@
 # opt
 
 APT_OPT="-yV"
+BP_REL="stretch-backports"
 
 #=========================================================================
 # documents
@@ -10,12 +11,17 @@ LSP_OFFICE="
 libreoffice
 libreoffice-help-it
 libreoffice-l10n-it
+"
+
+aptitude $APT_OPT -t $BP_REL install $LSP_OFFICE
+
+LSP_DICT="
 hyphen-it
 mythes-it
 ttf-mscorefonts-installer
 "
 
-aptitude $APT_OPT install $LSP_OFFICE
+aptitude $APT_OPT install $LSP_DICT
 
 LSP_PANDOC="
 pandoc
