@@ -23,11 +23,6 @@ npm install -g @angular/cli
 npm install -g ionic cordova
 ## answer "no" to the last question
 
-## Grunt
-
-npm install -g grunt
-npm install -g grunt-cli
-
 ## Update
 
 npm update -g

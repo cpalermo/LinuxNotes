@@ -32,6 +32,11 @@ nodejs
 
 aptitude $APT_OPT install $LSP_NODEJS
 
+## Grunt
+
+npm install -g grunt
+npm install -g grunt-cli
+
 ## Update
 
 npm version
