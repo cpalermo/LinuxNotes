@@ -10,15 +10,19 @@ LSP_MIN="
 mpv
 viewnior
 "
-#smplayer
 
 aptitude $APT_OPT install $LSP_MIN
 
 # cat ~/.config/mpv/mpv.conf
 ## --hwdec=vaapi
-## SMPlayer: Ctrl+P   -->   --hwdec=vaapi
 
-watch cat /sys/kernel/debug/dri/64/radeon_pm_info
+# watch cat /sys/kernel/debug/dri/64/radeon_pm_info
+
+#smplayer
+## SMPlayer: Ctrl+P   -->   --hwdec=vaapi
+#
+#totem
+#totem-plugins
 
 #=========================================================================
 
