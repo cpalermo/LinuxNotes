@@ -13,7 +13,7 @@ libreoffice-help-it
 libreoffice-l10n-it
 "
 
-aptitude $APT_OPT -t $BP_REL install $LSP_OFFICE
+aptitude -t $BP_REL install $LSP_OFFICE
 
 LSP_DICT="
 hyphen-it
