@@ -9,22 +9,52 @@ BP_REL="stretch-backports"
 
 LSP_FLATP="
 flatpak
-gnome-software-plugin-flatpak
 "
 
 aptitude -t $BP_REL install $LSP_FLATP
 
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak --installations
 
-# NB
-reboot
+#LSP_FLATG="
+#gnome-software-plugin-flatpak
+#"
+
+aptitude install $LSP_FLATG
+
+exit
+
+# su <user>
+# flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+# flatpak remotes
+# reboot
+
+# flatpak update
 
 #=========================================================================
 
+## https://flathub.org/apps
+
 # pdftricks
 # GnomeMpv
-
 # jamovi
+# Shotcut
+
+# Es.
+# su <user>
+# 
+# flatpak install com.github.muriloventuroso.pdftricks
+# flatpak install io.github.GnomeMpv
+# flatpak install org.jamovi.jamovi
+# flatpak install flathub org.shotcut.Shotcut
+#
+# flatpak list
+#
+# flatpak run com.github.muriloventuroso.pdftricks
+# flatpak run io.github.GnomeMpv
+# flatpak run org.jamovi.jamovi
+# flatpak run org.shotcut.Shotcut
+
+#=========================================================================
 
 # steam
 
