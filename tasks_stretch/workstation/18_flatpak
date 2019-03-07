@@ -18,8 +18,7 @@ flatpak --installations
 #LSP_FLATG="
 #gnome-software-plugin-flatpak
 #"
-
-aptitude install $LSP_FLATG
+#aptitude install $LSP_FLATG
 
 exit
 
