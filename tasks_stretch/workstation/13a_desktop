@@ -45,15 +45,29 @@ aptitude $APT_OPT install $LSP_DESKTOP $LSP_BROWSER $LSP_DICT
 # startx
 
 #=========================================================================
-# x2go
 
-LSP_X2GO="
-x2goclient
-x2goserver
-x2goserver-xsession
+LSP_LDM="
+lightdm
 "
 
-aptitude $APT_OPT install $LSP_X2GO
+aptitude $APT_OPT install $LSP_LDM
+
+echo '
+# Autologin:
+nano /etc/lightdm/lightdm.conf
+# autologin-user=user
+'
+
+#=========================================================================
+# x2go
+
+#LSP_X2GO="
+#x2goclient
+#x2goserver
+#x2goserver-xsession
+#"
+
+#aptitude $APT_OPT install $LSP_X2GO
 
 #=========================================================================
 
