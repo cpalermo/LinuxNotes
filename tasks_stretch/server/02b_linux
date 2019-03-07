@@ -58,6 +58,14 @@ update-alternatives --list editor
 update-alternatives --display editor
 #select-editor
 
+LSP_CURL="
+curl
+libcurl3
+libcurl4-openssl-dev
+"
+
+aptitude $APT_OPT install $LSP_CURL
+
 #=========================================================================
 # build tools
 
