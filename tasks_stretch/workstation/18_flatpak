@@ -42,17 +42,15 @@ exit
 # Es.
 # su <user>
 # 
-# flatpak install com.github.muriloventuroso.pdftricks
-# flatpak install io.github.GnomeMpv
-# flatpak install org.jamovi.jamovi
 # flatpak install flathub org.shotcut.Shotcut
+# flatpak install flathub com.ozmartians.VidCutter
+# flatpak install flathub net.sourceforge.qtpfsgui.LuminanceHDR
+# flatpak install flathub org.gaphor.Gaphor
 #
+# flatpak update
 # flatpak list
-#
-# flatpak run com.github.muriloventuroso.pdftricks
-# flatpak run io.github.GnomeMpv
-# flatpak run org.jamovi.jamovi
-# flatpak run org.shotcut.Shotcut
+# flatpak uninstall --delete-data
+# flatpak uninstall --unused
 
 #=========================================================================
 
