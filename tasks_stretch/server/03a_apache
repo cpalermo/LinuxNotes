@@ -23,6 +23,11 @@ aptitude $APT_OPT install $LSP_APACHE
 #=========================================================================
 ## apache mods
 
+## Es. apache2 env variables
+cat /etc/apache2/envvars
+# export APACHE_RUN_USER=user
+# export APACHE_RUN_GROUP=user
+
 ls /etc/apache2/mods-available
 ls /etc/apache2/mods-enabled
 

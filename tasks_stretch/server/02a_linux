@@ -97,6 +97,8 @@ LSP_NET="
 nmap
 ndiff
 vnstat
+whois
+dnsutils
 "
 
 aptitude $APT_OPT install $LSP_IP &&
