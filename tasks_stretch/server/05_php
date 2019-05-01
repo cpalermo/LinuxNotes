@@ -63,6 +63,23 @@ aptitude $APT_OPT install $LSP_PHP
 #NOTICE: You are seeing this message because you have apache2 package installed.
 
 #=========================================================================
+## /etc/php/7.0/apache2/php.ini
+
+## default 
+# memory_limit = 128M
+# post_max_size = 8M
+# upload_max_filesize = 2M
+
+cat /etc/php/7.0/apache2/php.ini
+echo='
+memory_limit = 256M
+post_max_size = 32M
+upload_max_filesize = 32M
+'
+
+systemctl reload apache2
+
+#=========================================================================
 
 exit
 
