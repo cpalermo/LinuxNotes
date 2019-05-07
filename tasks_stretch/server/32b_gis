@@ -94,7 +94,7 @@ netcdf-doc
 ## NB set version:
 
 ## Version:
-pb_rel='2.4.0'
+pb_rel='2.4.1'
 source='gdal'
 
 ## dirs
@@ -234,16 +234,20 @@ export FC="gfortran-$GCC_VER"
 export FCFLAGS="-m64 -g -O2 -mtune=$MTUNE"
 
 ## python
-ls -l $(which python)
-export PYTHONPATH="$GDAL_EPREFIX/lib/python2.7/dist-packages"
+
+ls -l $(which python3)
+export PYTHONPATH="$GDAL_EPREFIX/lib/python3.5/dist-packages"
+
 ##export PYTHONPATH="$GDAL_EPREFIX/lib/python3/dist-packages"
-##export PYTHONPATH="$GDAL_EPREFIX/lib/python3.5/dist-packages"
+
+##ls -l $(which python)
+##export PYTHONPATH="$GDAL_EPREFIX/lib/python2.7/dist-packages"
 
 #=========================================================================
 ## build
 
 ## backup /usr/local
-atool -a /var/backups/usr-local-"$(date +%y%m%d)".tar.xz /usr/local
+#atool -a /var/backups/usr-local-"$(date +%y%m%d)".tar.xz /usr/local
 
 ## working directories
 
@@ -257,8 +261,8 @@ echo $GDAL_EPREFIX
 echo $PYTHONPATH
 
 ./configure --prefix=$GDAL_PREFIX --bindir=$GDAL_EPREFIX/bin --libdir=$GDAL_EPREFIX/lib \
---with-libtiff=internal --with-geotiff=internal \
---with-jpeg=internal
+--with-libtiff=internal --with-geotiff=internal --with-jpeg=internal \
+--with-python=python3
 ##--with-gif=internal --with-png=internal \
 ##--with-libz=internal --with-libjson-c=internal \
 ##--with-pcraster=internal --with-qhull=internal 
@@ -299,18 +303,23 @@ gdalinfo --version
 cd swig/python
 mkdir -pv $PYTHONPATH
 
-python setup.py build
-python setup.py install --prefix=$GDAL_EPREFIX
+python3 setup.py build
+python3 setup.py install --prefix=$GDAL_EPREFIX
 cp -a ./scripts/*.py $GDAL_EPREFIX/bin
 
 # Check that this works with:
 cd ~
-python -c "from osgeo import gdal; print(gdal.__version__)"
+python3 -c "from osgeo import gdal; print(gdal.__version__)"
 gdal_merge.py --version
 
 # check
 ls -la /usr/local/bin/*.py
-ls -la /usr/local/lib/python2.7/dist-packages/*
+ls -la /usr/local/lib/python3.5/dist-packages/*
+
+#=========================================================================
+## rm src
+
+rm -r /usr/local/src/gdal-"$pb_rel"
 
 #=========================================================================
 
