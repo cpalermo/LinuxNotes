@@ -71,6 +71,7 @@ aptitude $APT_OPT install $LSP_CURL
 
 LSP_BUILD="
 build-essential
+cmake
 lcov
 debootstrap
 pbuilder
