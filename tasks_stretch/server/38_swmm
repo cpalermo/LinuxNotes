@@ -1,0 +1,34 @@
+#=========================================================================
+# opt
+
+apt_opt='-yV'
+
+#=========================================================================
+## Requirements
+
+echo '
+Requires:
+02_linux
+'
+
+#=========================================================================
+## build 
+
+git clone https://github.com/OpenWaterAnalytics/Stormwater-Management-Model.git
+
+cd Stormwater-Management-Model
+
+mkdir build-dir
+
+cd build-dir/
+
+cmake ..
+
+make
+
+bin/run-swmm --version
+
+#=========================================================================
+
+exit
+
