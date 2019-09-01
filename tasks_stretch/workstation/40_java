@@ -1,0 +1,28 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+# Java
+
+lsp_jdk=(
+default-jdk
+default-jre
+)
+
+aptitude $APT_OPT install "${lsp_jdk[@]}"
+
+#=========================================================================
+# Install 
+# IntelliJ IDEA Community
+# through flatpak
+
+echo '
+flatpak install flathub com.jetbrains.IntelliJ-IDEA-Community
+'
+
+#=========================================================================
+
+exit
+
