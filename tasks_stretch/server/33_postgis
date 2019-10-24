@@ -1,0 +1,35 @@
+#=========================================================================
+# opt
+
+apt_opt='-yV'
+
+#=========================================================================
+## package lists
+
+lsp_psql=(
+postgresql-all
+postgresql-client
+)
+
+lsp_postgis=(
+postgis
+)
+
+aptitude "$apt_opt" install "${lsp_psql[@]}"
+aptitude "$apt_opt" install "${lsp_postgis[@]}"
+
+#=========================================================================
+
+su - postgres
+psql
+\q
+
+## touch /root/.pgpass
+## hostname:port:database:username:password
+## *:*:*:*:password
+## chmod u=rw,go= /root/.pgpass
+
+#=========================================================================
+
+exit
+
