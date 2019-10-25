@@ -236,9 +236,8 @@ export FCFLAGS="-m64 -g -O2 -mtune=$MTUNE"
 ## python
 
 ls -l $(which python3)
-export PYTHONPATH="$GDAL_EPREFIX/lib/python3.5/dist-packages"
-
-##export PYTHONPATH="$GDAL_EPREFIX/lib/python3/dist-packages"
+##export PYTHONPATH="$GDAL_EPREFIX/lib/python3.5/dist-packages"
+export PYTHONPATH="$GDAL_EPREFIX/lib/python3/dist-packages"
 
 ##ls -l $(which python)
 ##export PYTHONPATH="$GDAL_EPREFIX/lib/python2.7/dist-packages"
@@ -411,7 +410,7 @@ GDAL is now configured for x86_64-pc-linux-gnu
   userfaultfd support:       yes
 
 
-  SWIG Bindings:             no
+  SWIG Bindings:             python 
 
   Statically link PROJ:      no
   enable GNM building:       yes
