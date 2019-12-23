@@ -37,6 +37,10 @@ aptitude $APT_OPT install $LSP_NODEJS
 npm install -g grunt
 npm install -g grunt-cli
 
+## Gulp
+
+npm install -g gulp-cli
+
 ## Update
 
 npm version
