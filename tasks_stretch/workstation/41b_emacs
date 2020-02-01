@@ -40,10 +40,12 @@ echo "
 ## install
 # M-x list-packages
 #
+# web-mode
 # emmet-mode
 # auto-complete
 # ac-emmet
 #
+# M-x web-mode
 # M-x emmet-mode
 # M-x auto-complete-mode
 
@@ -72,25 +74,23 @@ echo "
 
 #### Options  -->  Custom Themes  -->  misterioso
 
-cat ~/.emacs
-echo "
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (misterioso)))
- '(package-selected-packages
-   (quote
-    (olivetti markdown-preview-mode markdown-mode yaml-mode ac-emmet auto-complete))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(highlight-indentation-current-column-face ((t (:background "black"))))
- '(highlight-indentation-face ((t (:inherit fringe :background "dim gray")))))
-"
+# cat ~/.emacs
+
+;; auto load emmet-mode
+(require 'emmet-mode)
+(add-hook 'sgml-mode-hook 'emmet-mode)
+(add-hook 'css-mode-hook  'emmet-mode)
+(add-hook 'html-mode-hook 'emmet-mode)
+
+;; auto load web-mode for OctoberCMS .htm files
+(require 'web-mode)
+(setq web-mode-markup-indent-offset 2)
+(setq web-mode-css-indent-offset 2)
+(setq web-mode-code-indent-offset 2)
+(add-to-list 'auto-mode-alist '("\\.htm\\'" . web-mode))
+(setq web-mode-engines-alist
+      '(("twig"    . "\\.htm\\'"))
+)
 
 #=========================================================================
 #=========================================================================
