@@ -1,0 +1,66 @@
+#=========================================================================
+# opt
+
+apt_opt='-yV'
+
+#=========================================================================
+## package lists
+
+lsp_psql=(
+postgresql-all
+postgresql-client
+)
+
+aptitude "$apt_opt" install "${lsp_psql[@]}"
+
+#=========================================================================
+
+su - postgres
+psql
+\q
+exit
+
+##
+
+passwd postgres
+
+##
+
+#su postgres
+#createuser –interactive test
+# n
+# n
+# n
+#createdb --owner=test test
+
+#=========================================================================
+PgAdmin 4
+
+curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+
+cat /etc/apt/sources.list.d/pgdg.list
+# deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main
+
+aptitude update
+
+aptitude install pgadmin4 pgadmin4-apache2
+# postgres@localhost
+# passwd postgres
+
+# <ip>/pgadmin4
+## Ad New Server at loclahost
+
+#=========================================================================
+
+lsp_postgis=(
+postgis
+)
+
+aptitude "$apt_opt" install "${lsp_postgis[@]}"
+
+#=========================================================================
+
+psql test
+
+exit
+

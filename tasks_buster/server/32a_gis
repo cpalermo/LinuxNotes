@@ -1,0 +1,114 @@
+#=========================================================================
+# opt
+
+apt_opt='-yV'
+
+#=========================================================================
+## package lists
+
+# pacchetti raster data
+# support graphical output capabilities:
+#
+aptitude search libopenjp2.* && echo "##" &&
+aptitude search libgeotiff.* && echo "##" &&
+aptitude search libnetcdf.*
+
+## gdal
+
+lsp_gdal_amd64=(
+gdal-bin
+libgdal-dev
+libgdal-doc
+libgdal20
+python-gdal
+python3-gdal
+libgdal-java
+libgdal-perl
+)
+
+lsp_gdal_all=(
+gdal-data
+libgdal-doc
+libgdal-perl-doc
+)
+
+lsp_gdal=(
+"${lsp_gdal_amd64[@]}"
+"${lsp_gdal_all[@]}"
+)
+
+## proj
+
+lsp_proj=(
+proj-bin
+libproj13
+proj-data
+libproj-dev
+libproj-java
+)
+## bullseye drop libproj-java
+
+## geos
+
+lsp_geos=(
+libgeos++-dev
+libgeos-3.7.1
+libgeos-c1v5
+libgeos-dev
+libgeos-doc
+ruby-geos
+)
+
+## openjp2
+
+lsp_openjp2=(
+libopenjp2-7
+libopenjp2-7-dev
+libopenjp2-tools
+libopenjp3d-tools
+libopenjp3d7
+libopenjpip-dec-server
+libopenjpip-server
+# libopenjpip-viewer
+libopenjpip7
+)
+
+## geotiff
+
+lsp_geotiff_dfsg=(
+geotiff-bin
+libgeotiff2
+libgeotiff-dev
+)
+
+lsp_geotiff_epsg=(
+libgeotiff-epsg
+)
+
+lsp_geotiff=(
+"${lsp_geotiff_dfsg[@]}"
+"${lsp_geotiff_epsg[@]}"
+)
+
+## netcdf
+
+lsp_netcdf=(
+libnetcdf-dev
+libnetcdf13
+netcdf-bin
+netcdf-doc
+)
+
+#=========================================================================
+
+aptitude "$apt_opt" install "${lsp_openjp2[@]}"
+aptitude "$apt_opt" install "${lsp_geotiff[@]}"
+aptitude "$apt_opt" install "${lsp_netcdf[@]}"
+aptitude "$apt_opt" install "${lsp_proj[@]}"
+aptitude "$apt_opt" install "${lsp_geos[@]}"
+aptitude "$apt_opt" install "${lsp_gdal[@]}"
+
+#=========================================================================
+
+exit
+

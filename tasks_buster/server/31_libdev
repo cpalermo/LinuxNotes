@@ -1,0 +1,126 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+
+## dipendenze Curl:
+# RCurl
+# git2r
+LSP_RLIB="
+libxml2-utils
+libxml2-dev
+libcurl4-openssl-dev
+libcurl-ssl-dev
+libssl-dev
+"
+
+## dipendenze:
+# units
+# udunits2
+LSP_RUNI="
+libudunits2-0
+libudunits2-dev
+udunits-bin
+"
+
+## dipendenze:
+# protolite
+LSP_RPRO="
+libprotobuf17
+libprotobuf-dev
+python-protobuf
+python3-protobuf
+protobuf-compiler
+libprotoc17
+libprotoc-dev
+"
+
+## dipendenze:
+# V8
+LSP_RV8="
+libv8-3.14.5
+libv8-3.14-dev
+"
+
+## dipendenze:
+# jqr
+LSP_RJQ="
+jq
+libjq-dev
+"
+
+## dipendenze:
+# git2r
+LSP_SSH="
+libssh2-1-dev
+"
+
+## dipendenze:
+# keyring
+LSP_KEY="
+libsecret-1-dev
+"
+
+aptitude $APT_OPT install $LSP_RLIB &&
+aptitude $APT_OPT install $LSP_RUNI &&
+aptitude $APT_OPT install $LSP_RPRO &&
+aptitude $APT_OPT install $LSP_RV8 &&
+aptitude $APT_OPT install $LSP_RJQ &&
+aptitude $APT_OPT install $LSP_SSH &&
+aptitude $APT_OPT install $LSP_KEY
+
+## dipendenze prime_server (Valhalla):
+# https://github.com/kevinkreiser/prime_server
+lsp_psdep=(
+libsodium-dev
+libpgm-dev
+libzmq3-dev
+libczmq-dev
+)
+
+aptitude $APT_OPT install "${lsp_psdep[@]}"
+
+## dipendenze Valhalla
+lsp_valdep=(
+liblz4-dev
+libboost-all-dev
+lua5.2
+liblua5.2-dev
+)
+
+aptitude $APT_OPT install "${lsp_valdep[@]}"
+
+# pacchetti raster data
+# support graphical output capabilities:
+#
+aptitude search libjpeg.*-dev && echo "##" &&
+aptitude search libpng.*-dev && echo "##" &&
+aptitude search libtiff.*-dev && echo "##" &&
+aptitude search libcairo.*-dev && echo "##" &&
+aptitude search libpango.*-dev
+# CONTROLLA bene e seleziona le versioni !
+# Debian stretch:
+#
+# R
+#libjpeg-dev*		--with-jpeglib=yes
+#libpng-dev*		--with-libpng=yes
+#libtiff5-dev		--with-libtiff=yes
+#libcairo2-dev		--with-cairo=yes
+#libpango1.0-dev	NB necessario
+
+LSP_RGRAPH="
+libjpeg-dev
+libpng-dev
+libtiff-dev
+libcairo-dev
+libpango1.0-dev
+"
+
+aptitude $APT_OPT install $LSP_RGRAPH
+
+#=========================================================================
+
+exit
+
