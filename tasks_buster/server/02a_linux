@@ -1,0 +1,112 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+## Requirements
+
+echo '
+Requires:
+01_setup
+'
+
+#=========================================================================
+# Python
+
+LSP_PY2="
+python
+python-dev
+python-pip
+python-pip-whl
+"
+
+LSP_PY3="
+python3
+python3-dev
+python3-venv
+python3-pip
+"
+
+aptitude $APT_OPT install $LSP_PY2 $LSP_PY3
+
+## NB
+ls -l $(which python)
+
+#=========================================================================
+# selezione pacchetti utili
+
+LSP_TOOLS="
+mc
+tree
+htop
+rsync
+pwgen
+locate
+atool
+rar
+unrar
+"
+
+aptitude $APT_OPT install $LSP_TOOLS
+
+update-alternatives --get-selections
+update-alternatives --list editor
+update-alternatives --display editor
+#select-editor
+
+LSP_CURL="
+curl
+libcurl4
+libcurl4-openssl-dev
+"
+
+aptitude $APT_OPT install $LSP_CURL
+
+#=========================================================================
+# build tools
+
+LSP_BUILD="
+build-essential
+swig
+cmake
+lcov
+debootstrap
+pbuilder
+fakeroot
+devscripts
+equivs
+quilt
+checkinstall
+local-apt-repository
+gdebi-core
+"
+
+aptitude $APT_OPT install $LSP_BUILD
+
+#=========================================================================
+# Network
+
+## https://wiki.linuxfoundation.org/networking/iproute2
+## https://wiki.linuxfoundation.org/networking/net-tools
+LSP_IP="
+iproute2
+iproute2-doc
+net-tools
+"
+
+LSP_NET="
+nmap
+ndiff
+vnstat
+whois
+dnsutils
+"
+
+aptitude $APT_OPT install $LSP_IP &&
+aptitude $APT_OPT install $LSP_NET
+
+#=========================================================================
+
+exit
+
