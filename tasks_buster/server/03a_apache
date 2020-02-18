@@ -1,0 +1,68 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+## Requirements
+
+echo '
+Requires:
+01_setup
+'
+
+#=========================================================================
+# web server apache2
+
+LSP_APACHE="
+apache2
+"
+
+aptitude $APT_OPT install $LSP_APACHE
+
+#=========================================================================
+## apache mods
+
+## Es. apache2 env variables
+cat /etc/apache2/envvars
+
+ls /etc/apache2/mods-available
+ls /etc/apache2/mods-enabled
+
+a2enmod headers
+## enable headers for Access-Control-Allow-Origin
+## Example:
+#<VirtualHost *:80>
+#        ServerName 127.0.0.1
+#        DocumentRoot /var/www/html/example
+#        Header set Access-Control-Allow-Origin "*"
+#</VirtualHost>
+
+a2enmod rewrite
+cat /etc/apache2/apache2.conf
+#<Directory /var/www/>
+#        Options Indexes FollowSymLinks
+#        Options -Multiviews
+#        Require all granted
+#        AllowOverride All
+#        Order allow,deny
+#        allow from all
+#</Directory>
+
+a2enmod proxy
+a2enmod proxy_http
+## Example:
+#<VirtualHost *:80>
+#        ServerName localhost
+#        ProxyPreserveHost On
+#        ProxyPass        / http://127.0.0.1:8000/
+#        ProxyPassReverse / http://127.0.0.1:8000/
+#</VirtualHost>
+
+apachectl configtest
+systemctl restart apache2.service
+
+#=========================================================================
+
+exit
+
