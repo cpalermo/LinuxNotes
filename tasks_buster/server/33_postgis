@@ -1,17 +1,26 @@
 #=========================================================================
 # opt
 
-apt_opt='-yV'
+APT_OPT='-yV'
+
+#=========================================================================
+
+curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+
+cat /etc/apt/sources.list.d/pgdg.list
+# deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main
+
+aptitude update
 
 #=========================================================================
 ## package lists
 
 lsp_psql=(
-postgresql-all
-postgresql-client
+postgresql-12
+postgresql-client-12
 )
 
-aptitude "$apt_opt" install "${lsp_psql[@]}"
+aptitude $APT_OPT install "${lsp_psql[@]}"
 
 #=========================================================================
 
@@ -27,23 +36,24 @@ passwd postgres
 ##
 
 #su postgres
-#createuser –interactive test
+#createuser --interactive test
 # n
 # n
 # n
-#createdb --owner=test test
+# createuser test --password
+# createdb --owner=test test
+# psql -l
+# psql test
 
 #=========================================================================
-PgAdmin 4
+## PgAdmin 4
 
-curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+lsp_pgadm=(
+pgadmin4
+pgadmin4-apache2
+)
 
-cat /etc/apt/sources.list.d/pgdg.list
-# deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main
-
-aptitude update
-
-aptitude install pgadmin4 pgadmin4-apache2
+aptitude $APT_OPT install "${lsp_pgadm[@]}"
 # postgres@localhost
 # passwd postgres
 
@@ -54,13 +64,29 @@ aptitude install pgadmin4 pgadmin4-apache2
 
 lsp_postgis=(
 postgis
+postgresql-12-postgis-3
 )
 
-aptitude "$apt_opt" install "${lsp_postgis[@]}"
+aptitude $APT_OPT install "${lsp_postgis[@]}"
 
 #=========================================================================
 
-psql test
+sudo -i -u postgres
+
+createuser --interactive --password postgis0
+# n
+# n
+# n
+# <passwd>
+createdb postgis0 -O postgis0
+
+psql -d postgis0
+# \c
+# CREATE EXTENSION postgis;
+# SELECT PostGIS_version();
+
+#=========================================================================
+
 
 exit
 

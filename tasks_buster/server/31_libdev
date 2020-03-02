@@ -39,10 +39,10 @@ libprotoc-dev
 
 ## dipendenze:
 # V8
-LSP_RV8="
-libv8-3.14.5
-libv8-3.14-dev
-"
+#LSP_RV8="
+#libv8-3.14.5
+#libv8-3.14-dev
+#"
 
 ## dipendenze:
 # jqr
@@ -66,7 +66,7 @@ libsecret-1-dev
 aptitude $APT_OPT install $LSP_RLIB &&
 aptitude $APT_OPT install $LSP_RUNI &&
 aptitude $APT_OPT install $LSP_RPRO &&
-aptitude $APT_OPT install $LSP_RV8 &&
+#aptitude $APT_OPT install $LSP_RV8 &&
 aptitude $APT_OPT install $LSP_RJQ &&
 aptitude $APT_OPT install $LSP_SSH &&
 aptitude $APT_OPT install $LSP_KEY

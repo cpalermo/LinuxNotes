@@ -1,7 +1,7 @@
 #=========================================================================
 # opt
 
-apt_opt='-yV'
+APT_OPT='-yV'
 
 #=========================================================================
 ## package lists
@@ -101,12 +101,12 @@ netcdf-doc
 
 #=========================================================================
 
-aptitude "$apt_opt" install "${lsp_openjp2[@]}"
-aptitude "$apt_opt" install "${lsp_geotiff[@]}"
-aptitude "$apt_opt" install "${lsp_netcdf[@]}"
-aptitude "$apt_opt" install "${lsp_proj[@]}"
-aptitude "$apt_opt" install "${lsp_geos[@]}"
-aptitude "$apt_opt" install "${lsp_gdal[@]}"
+aptitude $APT_OPT install "${lsp_openjp2[@]}" &&
+aptitude $APT_OPT install "${lsp_geotiff[@]}" &&
+aptitude $APT_OPT install "${lsp_netcdf[@]}" &&
+aptitude $APT_OPT install "${lsp_proj[@]}" &&
+aptitude $APT_OPT install "${lsp_geos[@]}" &&
+aptitude $APT_OPT install "${lsp_gdal[@]}"
 
 #=========================================================================
 
