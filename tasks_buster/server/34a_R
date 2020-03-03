@@ -8,13 +8,13 @@ APT_OPT="-yV"
 # https://cran.r-project.org/bin/linux/debian/
 
 CRAN_REP="http://cloud.r-project.org"
-CRAN_REL="stretch-cran35/"
+CRAN_REL="buster-cran35/"
 CRAN_KEY="E19F5F87128899B192B1A2C2AD5F960A256A04AF"
 
 echo "deb $CRAN_REP/bin/linux/debian " $CRAN_REL > /etc/apt/sources.list.d/cran.list
 
 cat /etc/apt/sources.list.d/cran.list | sed "s/^/# /"
-# deb http://cloud.r-project.org/bin/linux/debian  stretch-cran35/
+# deb http://cloud.r-project.org/bin/linux/debian  buster-cran35/
 
 ## fetch and import the current key using
 apt-key adv --keyserver keys.gnupg.net --recv-key $CRAN_KEY
