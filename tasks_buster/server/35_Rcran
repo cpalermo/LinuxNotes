@@ -1,0 +1,25 @@
+# R packages
+#=========================================================================
+# root@pc:~# R
+
+rr <- "http://cran.rstudio.com/"
+
+data.frame(capabilities())
+
+installed.packages()[,c("Package","Version")]
+
+update.packages(repos=rr)
+
+## tidyverse
+install.packages("tidyverse", repos=rr)
+
+install.packages("devtools", repos=rr)
+
+## epanetgis
+#install.packages("yaml", repos=rr)
+#install.packages("units", repos=rr)
+#install.packages("sf", repos=rr)
+#install.packages("lwgeom", repos=rr)
+#install.packages("epanetReader", repos=rr)
+devtools::install_github("cpalermo/epanetgis")
+

@@ -1,0 +1,45 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+
+## NB check !!
+RSURL="https://download2.rstudio.org/"
+RSREL="server/bionic/amd64/"
+RSNAME="rstudio-server-1.2.5033-amd64.deb"
+
+LOCREP="/srv/local-apt-repository"
+
+#=========================================================================
+
+# install R
+
+mkdir -p $LOCREP && cd $LOCREP
+
+echo $RSURL$RSREL$RSNAME
+
+wget -c $RSURL$RSREL$RSNAME
+
+LSP_RSTUDIO="
+rstudio-server
+"
+
+aptitude update
+
+aptitude $APT_OPT install $LSP_RSTUDIO
+
+#=========================================================================
+
+user='rstudio'
+useradd -s "/bin/bash" -mU "$user"
+passwd "$user"
+
+## Connect:
+## http://<server-ip>:8787
+
+#=========================================================================
+
+exit
+

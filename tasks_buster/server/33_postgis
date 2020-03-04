@@ -58,7 +58,7 @@ aptitude $APT_OPT install "${lsp_pgadm[@]}"
 # passwd postgres
 
 # <ip>/pgadmin4
-## Ad New Server at loclahost
+## Ad New Server at localhost
 
 #=========================================================================
 

@@ -23,6 +23,7 @@ apt-key adv --keyserver keys.gnupg.net --recv-key $CRAN_KEY
 # install R
 
 LSP_RCORE="
+r-base
 r-base-core
 "
 
@@ -31,8 +32,6 @@ r-base-dev
 r-recommended
 r-doc-html
 "
-
-aptitude update
 
 aptitude show $LSP_RCORE | grep ^Ver
 aptitude show $LSP_RDEV | grep ^Ver
