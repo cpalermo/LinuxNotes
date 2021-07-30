@@ -1,0 +1,374 @@
+sudo -i
+
+adduser student
+# student
+
+touch /etc/sudoers.d/student
+echo "student ALL=(ALL) ALL" >> /etc/sudoers.d/student 
+cat /etc/sudoers.d/student
+
+chmod 440 /etc/sudoers.d/student
+ls -lh /etc/sudoers.d/student
+
+##
+
+su student
+
+export | grep PATH
+
+# eventually add:
+#  PATH=$PATH:/usr/sbin:/sbin
+# to
+#  ~/.bashrc
+
+##
+
+## Manually start a daemon ##
+
+sudo -i
+
+sudo apt install ftp vsftpd
+systemctl stop vsftpd
+
+##
+
+whereis vsftpd
+
+/usr/sbin/vsftpd /etc/vsftpd.conf &
+ps aux | grep vsftpd
+
+ftp localhost
+# student
+# student
+# exit
+
+# ps aux | grep vsftpd
+# kill 15
+
+## Systemd
+
+systemctl start vsftpd.service
+systemctl status vsftpd.service
+systemctl stop vsftpd.service
+
+## Enable a system service
+
+systemctl enable vsftpd.service
+systemctl status vsftpd.service
+
+##
+
+apt install stress
+dpkg -L stress
+# NB 
+# The stres spackage does not include a systemd unit configuration,
+# so one must be created.
+
+dpkg -L vsftpd | grep system
+cat /lib/systemd/system/vsftpd.service
+whereis stress
+stress --help
+
+# /lib/systemd/system # system and package units
+# /etc/systemd/system # user units
+
+systemctl edit stress.service --force --full
+
+echo '=====
+[Unit]
+Description=Example service unito to run stress
+
+[Service]
+ExecStart=/usr/bin/stress --cpu 8 --io 4 --vm 2 --vm-bytes 128M
+
+[Install]
+WantedBy=multi-user.target
+====='
+
+cat /etc/systemd/system/stress.service
+
+systemctl daemon-reload
+systemctl start stress.service
+systemctl status stress.service
+
+top
+
+systemctl stop stress.service
+
+## Network Configuration
+
+# Layer 3
+
+ip address show
+ip route show
+
+systemctl status systemd-networkd
+networkctl
+
+systemctl status systemd-resolved
+cat /etc/systemd/resolved.conf
+cat /etc/resolv.conf
+
+## Boot-time configurations
+
+## interfaces vs netplan
+man interfaces
+ls -l /usr/share/doc/netplan/examples/
+
+## interfaces
+echo '=====
+auto eth0
+iface eth0 inet dhcp
+
+allow-hotplug eth1
+iface eth1 inet static
+     address 192.168.1.2/24
+     gateway 192.168.1.1
+     dns-nameservers 8.8.8.8 8.8.4.4
+====='
+
+## netplan
+echo '=====
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:
+      dhcp4: true
+    eth1:
+      addresses:
+        - 192.168.1.2/24
+      gateway4: 192.168.1.1
+      nameservers:
+          addresses: [8.8.8.8, 8.8.4.4]
+====='
+
+networkctl
+systemctl restart systemd-networkd
+
+## Modify the network configuration interactively.
+dhclient -r eth0
+ip addr add 192.168.1.3/24 dev eth0
+
+##
+
+## Network Troubleshooting and Monitoring ##
+
+telnet www.example.com 80
+# GET
+
+openssl s_client -connect www.example.com:443
+# GET
+
+## Create an intermittent network issue
+tc qdisc add dev lo root netem loss random 40
+ping localhost
+## Clean up thetccommand
+tc qdisc del dev lo root
+ping localhost
+
+## Block traffic to a service with TCP Wrappers
+
+cat /etc/hosts.allow
+cat /etc/hosts.deny
+
+# Es. vsftpd
+
+## Enable TCP Wrappers for vsftpd
+cat /etc/vsftpd.conf
+echo '=====
+tcp_wrappers=yes
+====='
+
+systemctl restart vsftpd
+
+telnet localhost ftp
+# quit
+
+cat /etc/hosts.deny
+echo '=====
+vsftpd: ALL
+====='
+
+telnet localhost ftp
+# 421 Service not available.
+
+##
+
+## Remote Access ## DA RIVEDERE
+
+# OpenSSH server configuration
+
+# /etc/ssh/sshd_config
+# Es.
+# -Disable root access, or allow only key-based root access,
+# using the PermitRootLogin token.
+#PermitRootLogin no (No root access)
+#PermitRootLogin without-password (Key-only root access)
+
+## Setup SSH key-based authentication
+
+ssh-keygen -t rsa -f ~/.ssh/id-rsa
+eval $(ssh-agent)
+ssh-add ~/.ssh/id-rsa
+
+## Temporary enable root/password login
+cat /etc/ssh/sshd_config
+echo '=====
+PermitRootLogin yes
+PasswordAuthentication yes
+'=====
+systemctl restart sshd.service 
+
+ssh-copy-id student@localhost
+
+## Disable root/password login
+cat /etc/ssh/sshd_config
+echo '=====
+PermitRootLogin prohibit-password
+PasswordAuthentication no
+'=====
+systemctl restart sshd.service 
+
+ssh student@localhost
+# id
+# exit
+
+##
+
+## OpenSSH client config
+
+cat /etc/ssh/sshd_config
+echo '=====
+PermitRootLogin without-password
+PasswordAuthentication no
+'=====
+systemctl restart sshd.service 
+
+su student
+
+touch ~/.ssh/config
+cat ~/.ssh/config
+echo '=====
+host admin
+hostname localhost
+user root
+====='
+chmod go-rw ~/.ssh/config
+
+sudo -i
+cat /home/student/.ssh/authorized_keys >> /root/.ssh/authorized_keys
+exit
+
+ssh admin
+# hostname
+# id
+# exit
+
+## PSSH
+
+## DA RIVEDERE
+
+##
+
+## HTTP Servers ##
+
+apt install apache2 apache2-utils
+
+cat sites-available/vhost.conf
+echo '=====
+<Virtualhost *:80>
+  DocumentRoot /var/www/html
+  ServerName _default_
+
+</Virtualhost>
+====='
+
+a2dissite 000-default.conf 
+a2ensite vhost.conf
+
+systemctl reload apache2.service
+
+## Password protected sub directory showing Apache Server Status
+
+mkdir /var/www/html/secure
+
+cat sites-available/secure-dir.conf
+echo '=====
+<Location /secure/>
+  AuthType Basic
+  AuthName "Restricted Area"
+  AuthUserFile /etc/apache2/secure.users
+  Require valid-user
+</Location>
+
+<Location /secure/>
+  SetHandler server-status
+</Location>
+====='
+
+a2enmod auth_basic
+
+htpasswd -c secure.users user
+# user
+
+a2ensite secure-dir.conf 
+systemctl reload apache2.service 
+
+## Create a new cgi script-enabled directory
+
+mkdir /var/www/html/cgi
+
+touch /var/www/html/cgi/foo.cgi
+
+cat /var/www/html/cgi/foo.cgi
+echo '=====
+#!/bin/bash
+echo -e "\n"
+echo -e "Content-type:text/plain\n\n"
+echo -e "Files is $1\n"
+====='
+
+chmod +x /var/www/html/cgi/foo.cgi
+
+cat sites-available/scripts.conf
+echo '=====
+ScriptAlias /scripts/ /var/www/html/cgi/
+<Directory /var/www/html/cgi/>
+    Require all granted
+</Directory>
+====='
+
+a2ensite scripts.conf 
+
+a2enmod cgi
+
+systemctl restart apache2
+
+# http://localhost/scripts/foo.cgi?bar
+
+## Rewrite rule for "pretty" CGI script URIs
+
+cat sites-available/vhost.conf
+echo '=====
+<Virtualhost *:80>
+  DocumentRoot /var/www/html
+  ServerName _default_
+
+  RewriteEngine on
+  RewriteOptions inherit
+  RewriteRule ^/foo/(.*) /scripts/foo.cgi?$1 [L,PT]
+</Virtualhost>
+====='
+
+a2enmod rewrite
+systemctl restart apache2.service 
+
+# http://localhost/foo/bar
+
+##
+
+## Email Server ##
+
+apt install postfix
+
