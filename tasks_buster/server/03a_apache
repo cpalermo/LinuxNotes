@@ -9,16 +9,17 @@ APT_OPT="-yV"
 echo '
 Requires:
 01_setup
+02a_linux
 '
 
 #=========================================================================
 # web server apache2
 
-LSP_APACHE="
+lsp_apache="
 apache2
 "
 
-aptitude $APT_OPT install $LSP_APACHE
+aptitude $APT_OPT install "${lsp_apache[@]}"
 
 #=========================================================================
 ## apache mods

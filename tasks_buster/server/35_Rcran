@@ -15,11 +15,15 @@ install.packages("tidyverse", repos=rr)
 
 install.packages("devtools", repos=rr)
 
-## epanetgis
-#install.packages("yaml", repos=rr)
-#install.packages("units", repos=rr)
-#install.packages("sf", repos=rr)
-#install.packages("lwgeom", repos=rr)
-#install.packages("epanetReader", repos=rr)
+## gis
+install.packages("raster", repos=rr)
+install.packages("yaml", repos=rr)
+install.packages("units", repos=rr)
+install.packages("sf", repos=rr)
+install.packages("lwgeom", repos=rr)
+install.packages("epanetReader", repos=rr)
 devtools::install_github("cpalermo/epanetgis")
+## 
+install.packages("sp", repos=rr)
+install.packages("rgdal", repos=rr)
 

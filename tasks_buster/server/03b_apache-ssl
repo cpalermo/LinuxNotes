@@ -1,0 +1,41 @@
+#=========================================================================
+# opt
+
+APT_OPT="-yV"
+
+#=========================================================================
+## Requirements
+
+echo '
+Requires:
+01_setup
+02a_linux
+03a-apache
+'
+
+#=========================================================================
+## SSL encryption
+
+## certbot
+## https://certbot.eff.org/lets-encrypt/debianstretch-apache
+
+lsp_cerbot=(
+certbot
+python3-certbot-apache
+)
+
+aptitude $APT_OPT install "${lsp_certbot[@]}"
+
+# Enable the SSL encryption module:
+a2enmod ssl
+
+# Enable the virtual host for HTTPS:
+a2ensite default-ssl
+
+apachectl configtest
+systemctl restart apache2.service
+
+#=========================================================================
+
+exit
+
